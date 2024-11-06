@@ -1820,6 +1820,12 @@ components:
             $ref: '#/components/schemas/export-lc-bill-payment-post-request-credit-detail'
       description: EXPORT-LC-BILL-PAYMENT-POST-REQUEST
     export-lc-bill-payment-post-request-export-lc-bill-paymen:
+      required:
+        - correspondence-mediu
+        - bill-referenc
+        - sender-reference-number-mt-two-zero-tw
+        - sender-reference-number-mt-seven-five-fou
+        - type-of-l
       type: object
       properties:
         correspondence-mediu:
@@ -1898,6 +1904,16 @@ components:
           type: string
           description: Reference Number
     export-lc-bill-payment-post-request-credit-detail:
+      required:
+        - deal-typ
+        - account-typ
+        - settlement-currenc
+        - settlement-account-numbe
+        - transaction-currenc
+        - transaction-amoun
+        - exchange-rat
+        - amount-to-be-adjuste
+        - amount-in-bill-currenc
       type: object
       properties:
         deal-typ:
