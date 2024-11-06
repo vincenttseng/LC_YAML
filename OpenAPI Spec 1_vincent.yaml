@@ -11,6 +11,7 @@ servers:
     description: Generated server url
 paths:
   /letter-of-credit/{lc-pos-type}/{lc-reference}/{event-leg-id}/draft-details:
+######## letter-of-credit-draft-details POST
     post:
       tags:
         - letter-of-credit-draft-details
@@ -198,6 +199,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
+######## letter-of-credit-draft-details GET
     get:
       tags:
         - letter-of-credit-draft-details
@@ -379,6 +381,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
+######## letter-of-credit-draft-details PUT
     put:
       tags:
         - letter-of-credit-draft-details
@@ -591,6 +594,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/api-message-error'
+######## letter-of-credit-draft-details POST
     letter-of-credit-draft-details-request:
       type: object
       properties:
@@ -823,6 +827,7 @@ components:
           type: number
           description: This field will contain EVNT_LEG_ID
       description: LETTER-OF-CREDIT-DRAFT-DETAILS-RESPONSE-DRAFT-DETAILS
+######## letter-of-credit-draft-details GET
     letter-of-credit-draft-details-get-response:
       type: object
       properties:
@@ -1123,7 +1128,7 @@ components:
         bill-stat:
           type: number
           description: 'BILL-STAT Allowed values:Partially Paid:Partially Paid,Refused:Refused,Acceptal Refusal Verified:Acceptal Refusal Verified,Acceptal Refusal Pending:Acceptal Refusal Pending,Lodged:Lodged,Accepted:Accepted,Cancelled:Cancelled,Verified:Verified,Released:Released,Waiting ForRate:Waiting ForRate,Bill Paid:Bill Paid,On Hold/Draft:On Hold/Draft,Acknowledged:Acknowledged,Return of Documents:Return of Documents,Pending Return:Pending Return,SentBack:SentBack,Rejected:Rejected,Compliance Failed:Compliance Failed,Compliance OnHold:Compliance OnHold,Compliance Approved:Compliance Approved,Compliance Rejected:Compliance Rejected;'
-######## letter-of-credit-draft-details-put-request
+######## letter-of-credit-draft-details PUT
     letter-of-credit-draft-details-put-request:
       type: object
       properties:
