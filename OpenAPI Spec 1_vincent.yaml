@@ -177,7 +177,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/letter-of-credit-draft-details-request'
+              $ref: '#/components/schemas/letter-of-credit-draft-details-post-request'
       responses:
         '200':
           description: OK
@@ -185,7 +185,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/letter-of-credit-draft-details-response'
+                  - $ref: '#/components/schemas/letter-of-credit-draft-details-post-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -2474,6 +2474,184 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
+######## export-lc-pre-post-shipment-loan-registration POST
+  /letter-of-credit/{lc-reference}/export-lc-pre-post-shipment-loan-registration:
+    post:
+      tags:
+        - export-lc-pre-post-shipment-loan-registration
+      summary: ELC Pre Post Shipment Loan Registration
+      description: ELC Pre Post Shipment Loan Registration
+      operationId: ELC Pre Post Shipment Loan Registration
+      parameters:
+        - name: auth-token
+          in: header
+          description: Authentication token to validate the caller
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: access-token
+          in: header
+          description: Authorization token to validate the caller
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: initiating-system-id
+          in: header
+          description: Identifier for the initiating system
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: external-user-ref
+          in: header
+          description: Identifier for the external system user
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: user-id
+          in: header
+          description: Identifier for the BaNCS user
+          required: false
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: channel-type
+          in: header
+          description: 'Identifier for the channel from where the transaction has originated (Internet, Mobile, ATM, Branch Channel). 1:Web, 2:Mobile,3:ATM,4:Branch-Channel '
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: uuid
+          in: header
+          description: Unique identifier for the transaction, set by the invoking system
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            
+            type: string
+        - name: uuid-seq-no
+          in: header
+          description: "Indicates the sequence in which the API is invoked under a single UUID scope, set by the invoking system\t"
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+          example: 1
+        - name: entity
+          in: header
+          description: Identifier for the entity under which the transaction is originated
+          required: true
+          schema:
+            maxLength: 15
+            minLength: 0
+            type: string
+          example: GBANKOU001
+        - name: language-code
+          in: header
+          description: Language in which the message should be returned (Error or Success) 1:English(Default)
+          required: false
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: run-mode
+          in: header
+          description: Indicates the execution context of API invocation, like Online/Batch/SI. 1:Online, 2:Batch, 4:SI-Interface
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: branch-no
+          in: header
+          description: Identifier for transacting branch
+          required: false
+          schema:
+            maxLength: 4
+            minLength: 0
+            type: string
+        - name: service-mode
+          in: header
+          description: Identifier for the mode of service to customer when initiated from TCS BaNCS branch channel
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: header
+          description: Identifier for API version
+          required: false
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: internal-transaction-ref
+          in: header
+          description: BaNCS internal reference number for the transaction. In the request, the value will be blank. This will be generated by BaNCS and will be sent as part of the response.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: trace-id
+          in: header
+          description: Unique request identifier for distributed tracing
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: span-id
+          in: header
+          description: Unique identifier for the segment under a given trace id
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: lc-reference
+          in: path
+          required: true
+          schema:
+            type: string
+          description: LC REFERENCE
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-response'
+                  - $ref: '#/components/schemas/api-messages'
+        '400':
+          description: INVALID INPUT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api-messages'
+        '500':
+          description: FAILURE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api-messages'
+
 
 components:
   schemas:
@@ -2501,25 +2679,27 @@ components:
           items:
             $ref: '#/components/schemas/api-message-error'
 ######## letter-of-credit-draft-details POST
-    letter-of-credit-draft-details-request:
+    letter-of-credit-draft-details-post-request:
       type: object
       properties:
         lc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-request-lc-draft-details'
-        ilc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-request-ilc-draft-details'
-        elc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-request-elc-draft-details'
-        lc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-request-lc-bill-lodgement-draft-details'
-        ilc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-request-ilc-bill-lodgement-draft-details'
+          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-lc-draft-details'
         elc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-request-elc-bill-lodgement-draft-details'
+          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-elc-bill-lodgement-draft-details'
+        ilc-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-ilc-draft-details'
+        ilc-bill-lodgement-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-ilc-bill-lodgement-draft-details'
+        elc-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-elc-draft-details'
+        lc-bill-lodgement-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-lc-bill-lodgement-draft-details'
         lc-deferred-payment-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-request-lc-deferred-payment-details'       
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-REQUEST
-    letter-of-credit-draft-details-request-lc-draft-details:
+          type: array
+          items:
+            $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-lc-deferred-payment-details'
+      description: LETTER-OF-CREDIT-DRAFT-DETAILS-POST-REQUEST
+    letter-of-credit-draft-details-post-request-lc-draft-details:
       type: object
       properties:
         available-by:
@@ -2540,8 +2720,55 @@ components:
         draft-at-or-tenor-type:
           type: string
           description: Draft At/Tenor Type. For ILC draft details, Applicable when Tenor Type is selected as Sight or Usance
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-REQUEST-LC-DRAFT-DETAILS
-    letter-of-credit-draft-details-request-ilc-draft-details:
+    letter-of-credit-draft-details-post-request-elc-bill-lodgement-draft-details:
+      type: object
+      properties:
+        bank-id:
+          type: string
+          description: Bank ID
+        elc-bill-lodgement-draft-drawn-on:
+          type: number
+          description: 'ELC-BILL-LODGEMENT-DRAFT-DRAWN-ON Allowed values:ANY:ANY,Specific:Specific;'
+        elc-bill-lodgement-draft-at-or-tenor-type:
+          type: number
+          description: 'ELC-BILL-LODGEMENT-DRAFT-AT-OR-TENOR-TYPE Allowed values:Sight:Sight,Usance:Usance,MixedPayment:MixedPayment,DeferredPayment:DeferredPayment;'
+        elc-bill-lodgement-tenor-days:
+          type: number
+          description: ELC Bill Lodgement Tenor Days. Applicable and Mandatory for ELC Bill Lodgement Draft Details
+        due-date:
+          type: string
+          description: Due Date. Applicable and Mandatory for ELC Bill Lodgement Draft Details
+        instructions:
+          type: string
+          description: Instructions
+        license-amount-currency:
+          type: string
+          description: License Amount Currency
+        license-amount:
+          type: number
+          description: License Amount
+        license-date:
+          type: string
+          description: License Date
+        license-number:
+          type: string
+          description: License Number
+        mixed-payment-of-sight:
+          type: string
+          description: Mixed Payment Of Sight. Applicable and Mandatory when we select Tenor Type as Mixed Payment
+        mixed-payment-of-usance:
+          type: string
+          description: Mixed Payment Of Usance. Applicable and Mandatory when we select Tenor Type as Mixed Payment
+        tenor-description:
+          type: number
+          description: 'TENOR-DESCRIPTION Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
+        tenor-start-date:
+          type: string
+          description: Tenor Start Date. Applicable and Mandatory for ELC Bill Lodgement Draft Details
+        elc-bill-lodgement-draft-amount:
+          type: number
+          description: Draft Amount.This field is Applicable and mandatory in ELC bill lodgement.
+    letter-of-credit-draft-details-post-request-ilc-draft-details:
       type: object
       properties:
         charges-flag:
@@ -2562,12 +2789,11 @@ components:
         interest-from:
           type: string
           description: Interest from
-          format: date
         interest-rate:
           type: number
           description: Interest Rate
         sight-amount:
-          type: string
+          type: number
           description: Sight Amount. Applicable and Mandatory when Tenor Type is selected as mixed payment
         tenor-or-tenor-days:
           type: number
@@ -2580,48 +2806,8 @@ components:
           description: Usance Amount. Applicable and Mandatory when Tenor Type is selected as mixed payment
         usance-from:
           type: number
-          description: 'usance-from Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-REQUEST-ILC-DRAFT-DETAILS
-    letter-of-credit-draft-details-request-elc-draft-details:
-      type: object
-      properties:
-        drawee:
-          type: string
-          description: Drawee
-        elc-draft-drawee-name:
-          type: string
-          description: Drawee Name
-        elc-draft-drawee-address:
-          type: string
-          description: Drawee Address One
-        applicant-bank-charge-amount-currency:
-          type: string
-          description: Applicant Bank Charge Amount Currency
-        applicant-bank-charge-amount:
-          type: number
-          description: Applicant Bank Charge Amount
-        requested-confirmation-party:
-          type: string
-          description: Requested Confirmation Party. Applicable and Mandatory when we select Confirmation Instructions as confirm and May add
-        confirmation-instructions:
-          type: number
-          description: 'confirmation-instructions Allowed values:Confirm:Confirm,Without:Without,MayAdd:MayAdd;'
-        mode-of-payment:
-          type: number
-          description: 'mode-of-payment Allowed values:IMMEDIATE:IMMEDIATE,BILLPAYMENT:BILLPAYMENT;'
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-REQUEST-ELC-DRAFT-DETAILS
-    letter-of-credit-draft-details-request-lc-bill-lodgement-draft-details:
-      type: object
-      properties:
-        draft-date:
-          type: string
-          description: Draft Date. Applicable and mandatory for ILC and ELC Bill Lodgement Draft Details
-          format: date
-        draft-number:
-          type: string
-          description: Draft Number. This field is Applicable and mandatory in LC bill lodgement
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-REQUEST-LC-BILL-LODGEMENT-DRAFT-DETAILS
-    letter-of-credit-draft-details-request-ilc-bill-lodgement-draft-details:
+          description: 'USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
+    letter-of-credit-draft-details-post-request-ilc-bill-lodgement-draft-details:
       type: object
       properties:
         period-of-sight-payment:
@@ -2638,142 +2824,14 @@ components:
           description: Tenor. Applicable and mandatory when tenor type is selected as Usance, Mixed Pyament and Deferred Payment
         ilc-bill-lodgement-tenor-type:
           type: number
-          description: Tenor Type. Applicable and Mandatory for ILC bill lodgement draft details
+          description: 'ILC-BILL-LODGEMENT-TENOR-TYPE Allowed values:Sight:Sight,Usance:Usance,MixedPayment:MixedPayment,DeferredPayment:DeferredPayment;'
         ilc-bill-lodgement-usance-amount:
           type: number
           description: Usance Amount. Applicable and Mandatory when Tenor Type is selected as mixed payment
         ilc-bill-lodgement-usance-from:
           type: number
           description: 'ILC-BILL-LODGEMENT-USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-REQUEST-ILC-BILL-LODGEMENT-DRAFT-DETAILS
-    letter-of-credit-draft-details-request-elc-bill-lodgement-draft-details:
-      type: object
-      properties:
-        bank-id:
-          type: string
-          description: Bank ID
-        elc-bill-lodgement-draft-drawn-on:
-          type: number
-          description: 'ELC-BILL-LODGEMENT-DRAFT-DRAWN-ON Allowed values:ANY:ANY,Specific:Specific;'
-        elc-bill-lodgement-draft-at-or-tenor-type:
-          type: number
-          description: 'ELC-BILL-LODGEMENT-DRAFT-AT-OR-TENOR-TYPE Allowed values:Sight:Sight,Usance:Usance,MixedPayment:MixedPayment,DeferredPayment:DeferredPayment;'
-        elc-bill-lodgement-tenor-days:
-          type: number
-          description: ELC Bill Lodgement Tenor Days. Applicable and Mandatory for ELC Bill Lodgement Draft Details
-        due-date:
-          type: string
-          description: Due Date. Applicable and Mandatory for ELC Bill Lodgement Draft Details
-          format: date
-        instructions:
-          type: string
-          description: Instructions
-        license-amount-currency:
-          type: string
-          description: License Amount Currency
-        license-amount:
-          type: number
-          description: License Amount
-        license-date:
-          type: string
-          description: License Date
-          format: date
-        license-number:
-          type: string
-          description: License Number          
-        mixed-payment-of-sight:
-          type: string
-          description: Mixed Payment Of Sight. Applicable and Mandatory when we select Tenor Type as Mixed Payment
-        mixed-payment-of-usance:
-          type: string
-          description: Mixed Payment Of Usance. Applicable and Mandatory when we select Tenor Type as Mixed Payment
-        tenor-description:
-          type: number
-          description: 'TENOR-DESCRIPTION Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-        tenor-start-date:
-          type: string
-          description: Tenor Description. Tenor Start Date. Applicable and Mandatory for ELC Bill Lodgement Draft Details
-          format: date
-        elc-bill-lodgement-draft-amount:
-          type: number
-          description:  Draft Amount.This field is Applicable and mandatory in ELC bill lodgement
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-REQUEST-ELC-BILL-LODGEMENT-DRAFT-DETAILS
-    letter-of-credit-draft-details-request-lc-deferred-payment-details:
-      type: object
-      properties:
-        date-of-presentation-of-bill:
-          type: string
-          description: Date of Presentation of Bill. Applicable when ILC Draft tenor-type is set as deferred payment
-          format: date
-        amount-payable:
-          type: number
-          description: Amount payable. Applicable when ILC Draft tenor-type is set as deferred payment
-        remarks:
-          type: string
-          description: Remarks. Applicable when ILC Draft tenor-type is set as deferred payment
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-REQUEST-LC-DEFERRED-PAYMENT-DETAILS
-    letter-of-credit-draft-details-response:
-      type: object
-      properties:
-        draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-response-draft-details'
-        messages:
-          $ref: '#/components/schemas/api-messages'
-      description: Bank Details Response
-    letter-of-credit-draft-details-response-draft-details:
-      type: object
-      properties:
-        lc-pos-type:
-          type: number
-          description: 'LC-POS-TYPE. Allowed values:Revaluation,Revaluation;Cash,Cash;Custody,Custody;FXForexDeal,FXForexDeal;FXOTCOptDeal,FXOTCOptDeal;FXRateRequest,FXRateRequest;FXERADeal,FXERADeal;MMDepositDeal,MMDepositDeal;MMFRADeal,MMFRADeal;MMIRSDeal,MMIRSDeal;MMIRODeal,MMIRODeal;CreditAplctn,CreditAplctn;CreditLoan,CreditLoan;NonTrade,NonTrade;CustodyForward,CustodyForward;MMOrder,MMOrder;MMDeal,MMDeal;CurrPositon,CurrPositon;Exchval,Exchval;CurrPosNotes,CurrPosNotes;ExchValNotes,ExchValNotes;Gbt,Gbt;Fatxn,Fatxn;Internal,Internal;OutPymntOrd,OutPymntOrd;OpenDelivery,OpenDelivery;Broker,Broker;Custodian,Custodian;VarMrgn,VarMrgn;InitMrgn,InitMrgn;AcntClsr,AcntClsr;SENetSett,SENetSett;DetCustody,DetCustody;TBill,TBill;RSShipOrd,RSShipOrd;RSTCShipOrd,RSTCShipOrd;RSECBOOrd,RSECBOOrd;RSTCOOrd,RSTCOOrd;RSCBOOrd,RSCBOOrd;RSBCOOrd,RSBCOOrd;RSCRDOOrd,RSCRDOOrd;RSCOWithdrawal,RSCOWithdrawal;RSCCOOrd,RSCCOOrd;RSENCOOrd,RSENCOOrd;RSEXOOrd,RSEXOOrd;RSSROOrd,RSSROOrd;RSSPOOrd,RSSPOOrd;RSVCOOrd,RSVCOOrd;RSCODeposit,RSCODeposit;Entitlement,Entitlement;FXForexOrd,FXForexOrd;FXOTCOptOrd,FXOTCOptOrd;FXERAOrd,FXERAOrd;MMGlobal,MMGlobal;IntrstAppln,IntrstAppln;MMDepositOrd,MMDepositOrd;MMIROOrd,MMIROOrd;IntrstRepoDeal,IntrstRepoDeal;CMOCashFlow,CMOCashFlow;ST_CustOrder,ST_CustOrder;PooledOrder,PooledOrder;ST_TradeOrder,ST_TradeOrder;STDeal,STDeal;ExerciseOrder,ExerciseOrder;Allocation,Allocation;OptionAlloc,OptionAlloc;SA_Order,SA_Order;CA,CA;Certificate,Certificate;RegnDetail,RegnDetail;CM_Order,CM_Order;Coupon,Coupon;ConvOrder,ConvOrder;Eligibility,Eligibility;ICN,ICN;PeriodicCharge,PeriodicCharge;CMO,CMO;TBond,TBond;Repo,Repo;Retail_Order,Retail_Order;EMTNDeal,EMTNDeal;IntrstAcrl,IntrstAcrl;IntrstStBonds,IntrstStBonds;OpenPrtfl,OpenPrtfl;DTA_LSV_Order,DTA_LSV_Order;IntTransfer,IntTransfer;InPymntOrd,InPymntOrd;RcptInstruction,RcptInstruction;StandingOrder,StandingOrder;AssignOrder,AssignOrder;MarginOrder,MarginOrder;SICMessage,SICMessage;SWIFTMessage,SWIFTMessage;PresettledDeal,PresettledDeal;LinkedSAOrder,LinkedSAOrder;TOGroup,TOGroup;DervSett,DervSett;Assignment,Assignment;DsbrmntOrdr,DsbrmntOrdr;DsbrmntPlan,DsbrmntPlan;InvstPlan,InvstPlan;SwitchOrdr,SwitchOrdr;AutoOrdr,AutoOrdr;MFSimple,MFSimple;FAP,FAP;FAPG,FAPG;MemberLoan,MemberLoan;AccountLimit,AccountLimit;Amrtz,Amrtz;ChqPaidOut,ChqPaidOut;ChqPaidIn,ChqPaidIn;DDPaidOut,DDPaidOut;DDPaidIn,DDPaidIn;StpChqPymnt,StpChqPymnt;Mandate,Mandate;OvrDrftLmt,OvrDrftLmt;GlblCA,GlblCA;ConversionOrd,ConversionOrd;CmbntnOrdr,CmbntnOrdr;TrnsfrBlnc,TrnsfrBlnc;InitialiseBlnc,InitialiseBlnc;RprcIntrst,RprcIntrst;Expired_Pos,Expired_Pos;AdhocChrgs,AdhocChrgs;DrvMrgn,DrvMrgn;IBSTxns,IBSTxns;AME,AME;AccountOpening,AccountOpening;AdditionFeeZBA,AdditionFeeZBA;ChqRecon,ChqRecon;ExternalChrg,ExternalChrg;GetTxn,GetTxn;RptChrg,RptChrg;Final102,Final102;RejRet,RejRet;CTI,CTI;Return,Return;940,940;941,941;942,942;BillPaidIn,BillPaidIn;BillPaidOut,BillPaidOut;CTIId,CTIId;ChqPnOrdr,ChqPnOrdr;InvcApplication,InvcApplication;Originator,Originator;RemovalFeeZBA,RemovalFeeZBA;RetOrder,RetOrder;N96,N96;210,210;CnclRqst,CnclRqst;N91,N91;N95,N95;N90,N90;920,920;950,950;StpDDPymnt,StpDDPymnt;ExtAdvice,ExtAdvice;SDD_PDIN,SDD_PDIN;SDD_PDOUT,SDD_PDOUT;SDD_ORIG,SDD_ORIG;SDD_MAN,SDD_MAN;SDD_RTRNPDIN,SDD_RTRNPDIN;SDD_RTRNPDOUT,SDD_RTRNPDOUT;CashConcentration,CashConcentration;InvcAcrl,InvcAcrl;GrpdBook,GrpdBook;BulkPosType,BulkPosType;RspnsReq,RspnsReq;Alctn,Alctn;Alctn_Order,Alctn_Order;BC,BC;BackOfcPstn,BackOfcPstn;BackUpTaxPrdc,BackUpTaxPrdc;Bills,Bills;C21,C21;CCODAcnt,CCODAcnt;CER,CER;CLMOrder,CLMOrder;CPAdjstmnt,CPAdjstmnt;ClrngIn,ClrngIn;ClrngOut,ClrngOut;ConversionOrdr,ConversionOrdr;Current,Current;DD,DD;DIAShadowMvmnts,DIAShadowMvmnts;Deal,Deal;Deel,Deel;DisbrsmentCash,DisbrsmentCash;TrnCrsBsCIEAcnt,TrnCrsBsCIEAcnt;DisbrsmentTrfr,DisbrsmentTrfr;DrvPosnExpry,DrvPosnExpry;ExportBill,ExportBill;ExtLadChk,ExtLadChk;FEDS,FEDS;Flexi,Flexi;FrmVaultTfr,FrmVaultTfr;FxRvltn,FxRvltn;Guarantees,Guarantees;HdTlrTlrTfr,HdTlrTlrTfr;ICAMS,ICAMS;IdvstmntRun,IdvstmntRun;Ijarah,Ijarah;IncomeExpOrder,IncomeExpOrder;IncomeExpOrderDtl,IncomeExpOrderDtl;InvApplication,InvApplication;InwdBtch,InwdBtch;Istisnaa,Istisnaa;LinkedSENetSett,LinkedSENetSett;LmtUpdate,LmtUpdate;LoanActClosure,LoanActClosure;LoyaltySaving,LoyaltySaving;LtrofCredits,LtrofCredits;MLIntAccrual,MLIntAccrual;MLIntAppln,MLIntAppln;MT,MT;MT900,MT900;MT910,MT910;NCS,NCS;Offset,Offset;OpolTrnsfrOrdr,OpolTrnsfrOrdr;OutBtch,OutBtch;PO,PO;PooledSettOrdr,PooledSettOrdr;Pooled_Order,Pooled_Order;RpymntActTrnsfr,RpymntActTrnsfr;RpymntCash,RpymntCash;SCA,SCA;SafeCustody,SafeCustody;SafekpngFee,SafekpngFee;Sbscrptn_Order,Sbscrptn_Order;TT,TT;TaxLot,TaxLot;TcBuy,TcBuy;TcSell,TcSell;TlrToHdTlrTfr,TlrToHdTlrTfr;ToVaultTfr,ToVaultTfr;Trade,Trade;ExtNotionalPool,ExtNotionalPool;ClaimLedgrCharge,ClaimLedgrCharge;Writeoff,Writeoff;SHARETRADE_BatchTxn_BUY,SHARETRADE_BatchTxn_BUY;SHARETRADE_BatchTxn_SELL,SHARETRADE_BatchTxn_SELL;ASBA_FUND_TRANSFER,ASBA_FUND_TRANSFER;FX,FX;FCNR,FCNR;Cards,Cards;CardTransaction,CardTransaction;RDInstlmnt,RDInstlmnt;CltrlAbandn,CltrlAbandn;LoanCncl,LoanCncl;CounterprtyClaim,CounterprtyClaim;TxnBasedSweep,TxnBasedSweep;InterBankClaim,InterBankClaim;ICS,ICS;ICS_INTRST_RECORD,ICS_INTRST_RECORD;Representative,Representative;JointRepresentative,JointRepresentative;CashBlk,CashBlk;OutwardClearing,OutwardClearing;InwardClearing,InwardClearing;StpChq,StpChq;ChqCancel,ChqCancel;BulkBkng,BulkBkng;BulkPosTyp,BulkPosTyp;CrncyBuy,CrncyBuy;CrncySell,CrncySell;CrprtColl,CrprtColl;CrprtPmnt,CrprtPmnt;CstmrReport,CstmrReport;DIA,DIA;FundPlan,FundPlan;GlobalInterest,GlobalInterest;KestRecomp,KestRecomp;MsgQue,MsgQue;NAV,NAV;PayOrder,PayOrder;PrtflEntitlement,PrtflEntitlement;PymtNotification,PymtNotification;RTGS,RTGS;Subscription,Subscription;Unpaid,Unpaid;NotionalPool,NotionalPool;ExtTxnTyp,ExtTxnTyp;ExternalAccount,ExternalAccount;DepositTxn,DepositTxn;DepositOrderTxn,DepositOrderTxn;BGTxn,BGTxn;LCTxn,LCTxn;PreAdvcTxn,PreAdvcTxn;TFBillTxn,TFBillTxn;TFBillPayment,TFBillPayment;TFDC,TFDC;CustNotExch,CustNotExch;FCY_NOTESIN,FCY_NOTESIN;FCY_NOTESOUT,FCY_NOTESOUT;TlrTrnsfer,TlrTrnsfer;CshMachngByEye,CshMachngByEye;TFDCPay,TFDCPay;Salary,Salary;CashConc_Prcng,CashConc_Prcng;CashConc_Prcng_TBS,CashConc_Prcng_TBS;DamagedNotes,DamagedNotes;ELIMINATION_REQUEST,ELIMINATION_REQUEST;LEAF_STAT_UPDATE,LEAF_STAT_UPDATE;AcntDesg,AcntDesg;AddInfo,AddInfo;TFBGClaim,TFBGClaim;TFBGStlmnt,TFBGStlmnt;TFBGContrct,TFBGContrct;TFBGPymnt,TFBGPymnt;FlexiDepTxn,FlexiDepTxn;CARD_FX_SETTLEMENT,CARD_FX_SETTLEMENT;Ext_Sys_Chrg,Ext_Sys_Chrg;SBBTransfer,SBBTransfer;SBBIntrstReversal,SBBIntrstReversal;SBBTaxReversal,SBBTaxReversal;CntrctTrnsfr,CntrctTrnsfr;E_MONEY_BOX_MONTHEND_TXNS,E_MONEY_BOX_MONTHEND_TXNS;LossRecovery,LossRecovery;Business,Business;BusinessBank,BusinessBank;SCNTransfer,SCNTransfer;RSChequeReOrder,RSChequeReOrder;TxnCntMtchng,TxnCntMtchng;SCNAdjustment,SCNAdjustment;BulkCshWdrwl,BulkCshWdrwl;BulkCshDpst,BulkCshDpst;MarkedNotes,MarkedNotes;CHEQUE_BOOK_SUB_ORDER,CHEQUE_BOOK_SUB_ORDER;CHEQUE_INVENTORY_REQUEST,CHEQUE_INVENTORY_REQUEST;CHEQUE_INVENTORY_REQUEST_DTLS,CHEQUE_INVENTORY_REQUEST_DTLS;SCNTxn,SCNTxn;RSFundTrf,RSFundTrf;FakeNotesTxn,FakeNotesTxn;SCNTallyTxn,SCNTallyTxn;LnkgTxn,LnkgTxn;LoanFreezing,LoanFreezing;Report,Report;LoanWriteOff,LoanWriteOff;LoanPartWriteOff,LoanPartWriteOff;LoanReschedule,LoanReschedule;LoanRollover,LoanRollover;LoanForcedIntrstCaptlzt,LoanForcedIntrstCaptlzt;AdvanceRepayment,AdvanceRepayment;CollateralPool,CollateralPool;LoanForcedIntrstCaptlztn,LoanForcedIntrstCaptlztn;AssetTxn,AssetTxn;ConstructionDisb,ConstructionDisb;RetentionPay,RetentionPay;branch_transfer,branch_transfer;LoanAdjustment,LoanAdjustment;FORBEARANCE,FORBEARANCE;Offline_Settlement,Offline_Settlement;LimitRedraw,LimitRedraw;Insurance,Insurance;NegBal,NegBal;AMEStandingOrder,AMEStandingOrder;NPATxn,NPATxn;ShreAppln,ShreAppln;Syndication,Syndication;CollateralRelease,CollateralRelease;Securitization,Securitization;PndngChrgComp,PndngChrgComp;Appraisal,Appraisal;PASSBOOK_ACCOUNT,PASSBOOK_ACCOUNT;AccStmntTxn,AccStmntTxn;KIOSK_DEP_TXN,KIOSK_DEP_TXN;IBT,IBT;Challan,Challan;IBT_Res,IBT_Res;FollowUp,FollowUp;VendorTxn,VendorTxn;FixedAssetPur,FixedAssetPur;FixedAsset,FixedAsset;RfndOfRpymntAdvnc,RfndOfRpymntAdvnc;TopUp,TopUp;DownPayment,DownPayment;RSBillsBatchOrd,RSBillsBatchOrd;RSCashOrd,RSCashOrd;RSDrftSaleOrd,RSDrftSaleOrd;RSTCSaleOrd,RSTCSaleOrd;RSBillsPrchsOrd,RSBillsPrchsOrd;LoanRecall,LoanRecall;SecDeposit,SecDeposit;IntrstSubsidy,IntrstSubsidy;CommdtyPurchase,CommdtyPurchase;CommdtySell,CommdtySell;CommdtyTransfer,CommdtyTransfer;BackValueDtRpymnt,BackValueDtRpymnt;BackValueDtPrePymnt,BackValueDtPrePymnt;DwnpymntSubsidy,DwnpymntSubsidy;LoanCancellation,LoanCancellation;CommImmSell,CommImmSell;RescheduleChrge,RescheduleChrge;DeveloperAccountingTranche,DeveloperAccountingTranche;PurchseOnCompletion,PurchseOnCompletion;Virtual,Virtual;FUNDING_TXN,FUNDING_TXN;FUNDING_BOOKING,FUNDING_BOOKING;PreNotice,PreNotice;SyndicationLoan,SyndicationLoan;LoanPostponement,LoanPostponement;Preclosure,Preclosure;Prepaymnt,Prepaymnt;WriteOffCollection,WriteOffCollection;ComdtyBlockfrRlos,ComdtyBlockfrRlos;ELCTxn,ELCTxn;ELCBillTxn,ELCBillTxn;ELCBillPayTxn,ELCBillPayTxn;EDCBillTxn,EDCBillTxn;LocCrBlncGL,LocCrBlncGL;CryptoWallet,CryptoWallet;RepaySimulExtract,RepaySimulExtract;CryptoStakingTransfer,CryptoStakingTransfer;CryptoExitOrder,CryptoExitOrder;CryptoRebalancing,CryptoRebalancing;ATMBlncInqTxnChrg,ATMBlncInqTxnChrg;ATMDecTxnChrg,ATMDecTxnChrg;Escrow,Escrow;VAM_BKNG,VAM_BKNG;BCStopPymnt,BCStopPymnt;BCRevokeStopPymnt,BCRevokeStopPymnt;CryptoStakingRewards,CryptoStakingRewards;RevOfRepayment,RevOfRepayment;DeathDisability,DeathDisability;EarlyTermDeathdisability,EarlyTermDeathdisability;EarlyTermBuyoutloan,EarlyTermBuyoutloan;EarlyTermStaffloan,EarlyTermStaffloan;EarlyTermPreremidial,EarlyTermPreremidial;SyndicationEvent,SyndicationEvent;AWBEndorsement,AWBEndorsement;IBGPosTyp,IBGPosTyp;CrncySwtch,CrncySwtch;ManualInterestAdjust,ManualInterestAdjust;ChrgSimulator,ChrgSimulator;EDCPurchaseOrder,EDCPurchaseOrder;APAROrigination,APAROrigination;APARResponding,APARResponding;TFIBGContrct,TFIBGContrct;ChngStlmntAcnt,ChngStlmntAcnt;NPDPosTyp,NPDPosTyp;AWBDCPosTyp,AWBDCPosTyp;PDC_TXN,PDC_TXN;UFT_TXN,UFT_TXN;Contingent_Txn,Contingent_Txn;Issuance_SPLetterOfComfort,Issuance_SPLetterOfComfort;Reversal_SPLetterOfComfort,Reversal_SPLetterOfComfort;Forward_FAReceiptLetterOfComfort,Forward_FAReceiptLetterOfComfort;Reversal_FAReceiptLetterOfComfort,Reversal_FAReceiptLetterOfComfort;Issuance_of_Nonfund,Issuance_of_Nonfund;Payment_of_Nonfund,Payment_of_Nonfund;Forward_SFAUtilisation,Forward_SFAUtilisation;Reversal_SFAUtilisation,Reversal_SFAUtilisation;TFCrystallizationLoan,TFCrystallizationLoan;DormancyChrg,DormancyChrg;SalePurchasePosTyp,SalePurchasePosTyp;DpstChrgs,DpstChrgs;Onlinebnkingpymntbkng,Onlinebnkingpymntbkng;Discountingorder,Discountingorder;Product,Product;Nostro,Nostro;LOC,LOC;Savings,Savings;Term Deposit,Term Deposit;'
-        lc-reference:
-          type: number
-          description: This field will contain POS_ID
-        event-leg-id:
-          type: number
-          description: This field will contain EVNT_LEG_ID
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-RESPONSE-DRAFT-DETAILS
-######## letter-of-credit-draft-details GET
-    letter-of-credit-draft-details-get-response:
-      type: object
-      properties:
-        draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-draft-detail'
-        elc-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-elc-draft-detail'
-        ilc-bill-lodgement-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-bill-lodgement-draft-detail'
-        ilc-amend-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-amend-draft-detail'
-        lc-bill-lodgement-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-bill-lodgement-draft-detail'
-        ilc-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-draft-detail'
-        elc-bill-lodgement-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-elc-bill-lodgement-draft-detail'
-        lc-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-draft-detail'
-        lc-deferred-payment-detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-deferred-payment-detail'
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-GET-RESPONSE
-    letter-of-credit-draft-details-get-response-draft-detail:
-      type: object
-      properties:
-        entity:
-          type: string
-          description: Entity
-        lc-pos-type:
-          type: number
-          description: 'LC-POS-TYPE Allowed values:Revaluation:Revaluation,Cash:Cash,Custody:Custody,FXForexDeal:FXForexDeal,FXOTCOptDeal:FXOTCOptDeal,FXRateRequest:FXRateRequest,FXERADeal:FXERADeal,MMDepositDeal:MMDepositDeal,MMFRADeal:MMFRADeal,MMIRSDeal:MMIRSDeal,MMIRODeal:MMIRODeal,CreditAplctn:CreditAplctn,CreditLoan:CreditLoan,NonTrade:NonTrade,CustodyForward:CustodyForward,MMOrder:MMOrder,MMDeal:MMDeal,CurrPositon:CurrPositon,Exchval:Exchval,CurrPosNotes:CurrPosNotes,ExchValNotes:ExchValNotes,Gbt:Gbt,Fatxn:Fatxn,Internal:Internal,OutPymntOrd:OutPymntOrd,OpenDelivery:OpenDelivery,Broker:Broker,Custodian:Custodian,VarMrgn:VarMrgn,InitMrgn:InitMrgn,AcntClsr:AcntClsr,SENetSett:SENetSett,DetCustody:DetCustody,TBill:TBill,RSShipOrd:RSShipOrd,RSTCShipOrd:RSTCShipOrd,RSECBOOrd:RSECBOOrd,RSTCOOrd:RSTCOOrd,RSCBOOrd:RSCBOOrd,RSBCOOrd:RSBCOOrd,RSCRDOOrd:RSCRDOOrd,RSCOWithdrawal:RSCOWithdrawal,RSCCOOrd:RSCCOOrd,RSENCOOrd:RSENCOOrd,RSEXOOrd:RSEXOOrd,RSSROOrd:RSSROOrd,RSSPOOrd:RSSPOOrd,RSVCOOrd:RSVCOOrd,RSCODeposit:RSCODeposit,Entitlement:Entitlement,FXForexOrd:FXForexOrd,FXOTCOptOrd:FXOTCOptOrd,FXERAOrd:FXERAOrd,MMGlobal:MMGlobal,IntrstAppln:IntrstAppln,MMDepositOrd:MMDepositOrd,MMIROOrd:MMIROOrd,IntrstRepoDeal:IntrstRepoDeal,CMOCashFlow:CMOCashFlow,ST_CustOrder:ST_CustOrder,PooledOrder:PooledOrder,ST_TradeOrder:ST_TradeOrder,STDeal:STDeal,ExerciseOrder:ExerciseOrder,Allocation:Allocation,OptionAlloc:OptionAlloc,SA_Order:SA_Order,CA:CA,Certificate:Certificate,RegnDetail:RegnDetail,CM_Order:CM_Order,Coupon:Coupon,ConvOrder:ConvOrder,Eligibility:Eligibility,ICN:ICN,PeriodicCharge:PeriodicCharge,CMO:CMO,TBond:TBond,Repo:Repo,Retail_Order:Retail_Order,EMTNDeal:EMTNDeal,IntrstAcrl:IntrstAcrl,IntrstStBonds:IntrstStBonds,OpenPrtfl:OpenPrtfl,DTA_LSV_Order:DTA_LSV_Order,IntTransfer:IntTransfer,InPymntOrd:InPymntOrd,RcptInstruction:RcptInstruction,StandingOrder:StandingOrder,AssignOrder:AssignOrder,MarginOrder:MarginOrder,SICMessage:SICMessage,SWIFTMessage:SWIFTMessage,PresettledDeal:PresettledDeal,LinkedSAOrder:LinkedSAOrder,TOGroup:TOGroup,DervSett:DervSett,Assignment:Assignment,DsbrmntOrdr:DsbrmntOrdr,DsbrmntPlan:DsbrmntPlan,InvstPlan:InvstPlan,SwitchOrdr:SwitchOrdr,AutoOrdr:AutoOrdr,MFSimple:MFSimple,FAP:FAP,FAPG:FAPG,MemberLoan:MemberLoan,AccountLimit:AccountLimit,Amrtz:Amrtz,ChqPaidOut:ChqPaidOut,ChqPaidIn:ChqPaidIn,DDPaidOut:DDPaidOut,DDPaidIn:DDPaidIn,StpChqPymnt:StpChqPymnt,Mandate:Mandate,OvrDrftLmt:OvrDrftLmt,GlblCA:GlblCA,ConversionOrd:ConversionOrd,CmbntnOrdr:CmbntnOrdr,TrnsfrBlnc:TrnsfrBlnc,InitialiseBlnc:InitialiseBlnc,RprcIntrst:RprcIntrst,Expired_Pos:Expired_Pos,AdhocChrgs:AdhocChrgs,DrvMrgn:DrvMrgn,IBSTxns:IBSTxns,AME:AME,AccountOpening:AccountOpening,AdditionFeeZBA:AdditionFeeZBA,ChqRecon:ChqRecon,ExternalChrg:ExternalChrg,GetTxn:GetTxn,RptChrg:RptChrg,Final102:Final102,RejRet:RejRet,CTI:CTI,Return:Return,940:940,941:941,942:942,BillPaidIn:BillPaidIn,BillPaidOut:BillPaidOut,CTIId:CTIId,ChqPnOrdr:ChqPnOrdr,InvcApplication:InvcApplication,Originator:Originator,RemovalFeeZBA:RemovalFeeZBA,RetOrder:RetOrder,N96:N96,210:210,CnclRqst:CnclRqst,N91:N91,N95:N95,N90:N90,920:920,950:950,StpDDPymnt:StpDDPymnt,ExtAdvice:ExtAdvice,SDD_PDIN:SDD_PDIN,SDD_PDOUT:SDD_PDOUT,SDD_ORIG:SDD_ORIG,SDD_MAN:SDD_MAN,SDD_RTRNPDIN:SDD_RTRNPDIN,SDD_RTRNPDOUT:SDD_RTRNPDOUT,CashConcentration:CashConcentration,InvcAcrl:InvcAcrl,GrpdBook:GrpdBook,BulkPosType:BulkPosType,RspnsReq:RspnsReq,Alctn:Alctn,Alctn_Order:Alctn_Order,BC:BC,BackOfcPstn:BackOfcPstn,BackUpTaxPrdc:BackUpTaxPrdc,Bills:Bills,C21:C21,CCODAcnt:CCODAcnt,CER:CER,CLMOrder:CLMOrder,CPAdjstmnt:CPAdjstmnt,ClrngIn:ClrngIn,ClrngOut:ClrngOut,ConversionOrdr:ConversionOrdr,Current:Current,DD:DD,DIAShadowMvmnts:DIAShadowMvmnts,Deal:Deal,Deel:Deel,DisbrsmentCash:DisbrsmentCash,TrnCrsBsCIEAcnt:TrnCrsBsCIEAcnt,DisbrsmentTrfr:DisbrsmentTrfr,DrvPosnExpry:DrvPosnExpry,ExportBill:ExportBill,ExtLadChk:ExtLadChk,FEDS:FEDS,Flexi:Flexi,FrmVaultTfr:FrmVaultTfr,FxRvltn:FxRvltn,Guarantees:Guarantees,HdTlrTlrTfr:HdTlrTlrTfr,ICAMS:ICAMS,IdvstmntRun:IdvstmntRun,Ijarah:Ijarah,IncomeExpOrder:IncomeExpOrder,IncomeExpOrderDtl:IncomeExpOrderDtl,InvApplication:InvApplication,InwdBtch:InwdBtch,Istisnaa:Istisnaa,LinkedSENetSett:LinkedSENetSett,LmtUpdate:LmtUpdate,LoanActClosure:LoanActClosure,LoyaltySaving:LoyaltySaving,LtrofCredits:LtrofCredits,MLIntAccrual:MLIntAccrual,MLIntAppln:MLIntAppln,MT:MT,MT900:MT900,MT910:MT910,NCS:NCS,Offset:Offset,OpolTrnsfrOrdr:OpolTrnsfrOrdr,OutBtch:OutBtch,PO:PO,PooledSettOrdr:PooledSettOrdr,Pooled_Order:Pooled_Order,RpymntActTrnsfr:RpymntActTrnsfr,RpymntCash:RpymntCash,SCA:SCA,SafeCustody:SafeCustody,SafekpngFee:SafekpngFee,Sbscrptn_Order:Sbscrptn_Order,TT:TT,TaxLot:TaxLot,TcBuy:TcBuy,TcSell:TcSell,TlrToHdTlrTfr:TlrToHdTlrTfr,ToVaultTfr:ToVaultTfr,Trade:Trade,ExtNotionalPool:ExtNotionalPool,ClaimLedgrCharge:ClaimLedgrCharge,Writeoff:Writeoff,SHARETRADE_BatchTxn_BUY:SHARETRADE_BatchTxn_BUY,SHARETRADE_BatchTxn_SELL:SHARETRADE_BatchTxn_SELL,ASBA_FUND_TRANSFER:ASBA_FUND_TRANSFER,FX:FX,FCNR:FCNR,Cards:Cards,CardTransaction:CardTransaction,RDInstlmnt:RDInstlmnt,CltrlAbandn:CltrlAbandn,LoanCncl:LoanCncl,CounterprtyClaim:CounterprtyClaim,TxnBasedSweep:TxnBasedSweep,InterBankClaim:InterBankClaim,ICS:ICS,ICS_INTRST_RECORD:ICS_INTRST_RECORD,Representative:Representative,JointRepresentative:JointRepresentative,CashBlk:CashBlk,OutwardClearing:OutwardClearing,InwardClearing:InwardClearing,StpChq:StpChq,ChqCancel:ChqCancel,BulkBkng:BulkBkng,BulkPosTyp:BulkPosTyp,CrncyBuy:CrncyBuy,CrncySell:CrncySell,CrprtColl:CrprtColl,CrprtPmnt:CrprtPmnt,CstmrReport:CstmrReport,DIA:DIA,FundPlan:FundPlan,GlobalInterest:GlobalInterest,KestRecomp:KestRecomp,MsgQue:MsgQue,NAV:NAV,PayOrder:PayOrder,PrtflEntitlement:PrtflEntitlement,PymtNotification:PymtNotification,RTGS:RTGS,Subscription:Subscription,Unpaid:Unpaid,NotionalPool:NotionalPool,ExtTxnTyp:ExtTxnTyp,ExternalAccount:ExternalAccount,DepositTxn:DepositTxn,DepositOrderTxn:DepositOrderTxn,BGTxn:BGTxn,LCTxn:LCTxn,PreAdvcTxn:PreAdvcTxn,TFBillTxn:TFBillTxn,TFBillPayment:TFBillPayment,TFDC:TFDC,CustNotExch:CustNotExch,FCY_NOTESIN:FCY_NOTESIN,FCY_NOTESOUT:FCY_NOTESOUT,TlrTrnsfer:TlrTrnsfer,CshMachngByEye:CshMachngByEye,TFDCPay:TFDCPay,Salary:Salary,CashConc_Prcng:CashConc_Prcng,CashConc_Prcng_TBS:CashConc_Prcng_TBS,DamagedNotes:DamagedNotes,ELIMINATION_REQUEST:ELIMINATION_REQUEST,LEAF_STAT_UPDATE:LEAF_STAT_UPDATE,AcntDesg:AcntDesg,AddInfo:AddInfo,TFBGClaim:TFBGClaim,TFBGStlmnt:TFBGStlmnt,TFBGContrct:TFBGContrct,TFBGPymnt:TFBGPymnt,FlexiDepTxn:FlexiDepTxn,CARD_FX_SETTLEMENT:CARD_FX_SETTLEMENT,Ext_Sys_Chrg:Ext_Sys_Chrg,SBBTransfer:SBBTransfer,SBBIntrstReversal:SBBIntrstReversal,SBBTaxReversal:SBBTaxReversal,CntrctTrnsfr:CntrctTrnsfr,E_MONEY_BOX_MONTHEND_TXNS:E_MONEY_BOX_MONTHEND_TXNS,LossRecovery:LossRecovery,Business:Business,BusinessBank:BusinessBank,SCNTransfer:SCNTransfer,RSChequeReOrder:RSChequeReOrder,TxnCntMtchng:TxnCntMtchng,SCNAdjustment:SCNAdjustment,BulkCshWdrwl:BulkCshWdrwl,BulkCshDpst:BulkCshDpst,MarkedNotes:MarkedNotes,CHEQUE_BOOK_SUB_ORDER:CHEQUE_BOOK_SUB_ORDER,CHEQUE_INVENTORY_REQUEST:CHEQUE_INVENTORY_REQUEST,CHEQUE_INVENTORY_REQUEST_DTLS:CHEQUE_INVENTORY_REQUEST_DTLS,SCNTxn:SCNTxn,RSFundTrf:RSFundTrf,FakeNotesTxn:FakeNotesTxn,SCNTallyTxn:SCNTallyTxn,LnkgTxn:LnkgTxn,LoanFreezing:LoanFreezing,Report:Report,LoanWriteOff:LoanWriteOff,LoanPartWriteOff:LoanPartWriteOff,LoanReschedule:LoanReschedule,LoanRollover:LoanRollover,LoanForcedIntrstCaptlzt:LoanForcedIntrstCaptlzt,AdvanceRepayment:AdvanceRepayment,CollateralPool:CollateralPool,LoanForcedIntrstCaptlztn:LoanForcedIntrstCaptlztn,AssetTxn:AssetTxn,ConstructionDisb:ConstructionDisb,RetentionPay:RetentionPay,branch_transfer:branch_transfer,LoanAdjustment:LoanAdjustment,FORBEARANCE:FORBEARANCE,Offline_Settlement:Offline_Settlement,LimitRedraw:LimitRedraw,Insurance:Insurance,NegBal:NegBal,AMEStandingOrder:AMEStandingOrder,NPATxn:NPATxn,ShreAppln:ShreAppln,Syndication:Syndication,CollateralRelease:CollateralRelease,Securitization:Securitization,PndngChrgComp:PndngChrgComp,Appraisal:Appraisal,PASSBOOK_ACCOUNT:PASSBOOK_ACCOUNT,AccStmntTxn:AccStmntTxn,KIOSK_DEP_TXN:KIOSK_DEP_TXN,IBT:IBT,Challan:Challan,IBT_Res:IBT_Res,FollowUp:FollowUp,VendorTxn:VendorTxn,FixedAssetPur:FixedAssetPur,FixedAsset:FixedAsset,RfndOfRpymntAdvnc:RfndOfRpymntAdvnc,TopUp:TopUp,DownPayment:DownPayment,RSBillsBatchOrd:RSBillsBatchOrd,RSCashOrd:RSCashOrd,RSDrftSaleOrd:RSDrftSaleOrd,RSTCSaleOrd:RSTCSaleOrd,RSBillsPrchsOrd:RSBillsPrchsOrd,LoanRecall:LoanRecall,SecDeposit:SecDeposit,IntrstSubsidy:IntrstSubsidy,CommdtyPurchase:CommdtyPurchase,CommdtySell:CommdtySell,CommdtyTransfer:CommdtyTransfer,BackValueDtRpymnt:BackValueDtRpymnt,BackValueDtPrePymnt:BackValueDtPrePymnt,DwnpymntSubsidy:DwnpymntSubsidy,LoanCancellation:LoanCancellation,CommImmSell:CommImmSell,RescheduleChrge:RescheduleChrge,DeveloperAccountingTranche:DeveloperAccountingTranche,PurchseOnCompletion:PurchseOnCompletion,Virtual:Virtual,FUNDING_TXN:FUNDING_TXN,FUNDING_BOOKING:FUNDING_BOOKING,PreNotice:PreNotice,SyndicationLoan:SyndicationLoan,LoanPostponement:LoanPostponement,Preclosure:Preclosure,Prepaymnt:Prepaymnt,WriteOffCollection:WriteOffCollection,ComdtyBlockfrRlos:ComdtyBlockfrRlos,ELCTxn:ELCTxn,ELCBillTxn:ELCBillTxn,ELCBillPayTxn:ELCBillPayTxn,EDCBillTxn:EDCBillTxn,LocCrBlncGL:LocCrBlncGL,CryptoWallet:CryptoWallet,RepaySimulExtract:RepaySimulExtract,CryptoStakingTransfer:CryptoStakingTransfer,CryptoExitOrder:CryptoExitOrder,CryptoRebalancing:CryptoRebalancing,ATMBlncInqTxnChrg:ATMBlncInqTxnChrg,ATMDecTxnChrg:ATMDecTxnChrg,Escrow:Escrow,VAM_BKNG:VAM_BKNG,BCStopPymnt:BCStopPymnt,BCRevokeStopPymnt:BCRevokeStopPymnt,CryptoStakingRewards:CryptoStakingRewards,RevOfRepayment:RevOfRepayment,DeathDisability:DeathDisability,EarlyTermDeathdisability:EarlyTermDeathdisability,EarlyTermBuyoutloan:EarlyTermBuyoutloan,EarlyTermStaffloan:EarlyTermStaffloan,EarlyTermPreremidial:EarlyTermPreremidial,SyndicationEvent:SyndicationEvent,AWBEndorsement:AWBEndorsement,IBGPosTyp:IBGPosTyp,CrncySwtch:CrncySwtch,ManualInterestAdjust:ManualInterestAdjust,ChrgSimulator:ChrgSimulator,EDCPurchaseOrder:EDCPurchaseOrder,APAROrigination:APAROrigination,APARResponding:APARResponding,TFIBGContrct:TFIBGContrct,ChngStlmntAcnt:ChngStlmntAcnt,NPDPosTyp:NPDPosTyp,AWBDCPosTyp:AWBDCPosTyp,PDC_TXN:PDC_TXN,UFT_TXN:UFT_TXN,Contingent_Txn:Contingent_Txn,Issuance_SPLetterOfComfort:Issuance_SPLetterOfComfort,Reversal_SPLetterOfComfort:Reversal_SPLetterOfComfort,Forward_FAReceiptLetterOfComfort:Forward_FAReceiptLetterOfComfort,Reversal_FAReceiptLetterOfComfort:Reversal_FAReceiptLetterOfComfort,Issuance_of_Nonfund:Issuance_of_Nonfund,Payment_of_Nonfund:Payment_of_Nonfund,Forward_SFAUtilisation:Forward_SFAUtilisation,Reversal_SFAUtilisation:Reversal_SFAUtilisation,TFCrystallizationLoan:TFCrystallizationLoan,DormancyChrg:DormancyChrg,SalePurchasePosTyp:SalePurchasePosTyp,DpstChrgs:DpstChrgs,Onlinebnkingpymntbkng:Onlinebnkingpymntbkng,Discountingorder:Discountingorder,Product:Product,Nostro:Nostro,LOC:LOC,Savings:Savings,Term Deposit:Term Deposit;'
-        lc-reference:
-          type: number
-          description: This field will contain POS_ID
-        event-leg-id:
-          type: number
-          description: This field will contain EVNT_LEG_ID
-    letter-of-credit-draft-details-get-response-elc-draft-detail:
+    letter-of-credit-draft-details-post-request-elc-draft-details:
       type: object
       properties:
         drawee:
@@ -2800,7 +2858,113 @@ components:
         mode-of-payment:
           type: number
           description: 'MODE-OF-PAYMENT Allowed values:IMMEDIATE:IMMEDIATE,BILLPAYMENT:BILLPAYMENT;'
-    letter-of-credit-draft-details-get-response-ilc-bill-lodgement-draft-detail:
+    letter-of-credit-draft-details-post-request-lc-bill-lodgement-draft-details:
+      type: object
+      properties:
+        draft-date:
+          type: string
+          description: Draft Date. Applicable and mandatory for ILC and ELC Bill Lodgement Draft Details
+        draft-number:
+          type: string
+          description: Draft Number. This field is Applicable and mandatory in LC bill lodgement
+    letter-of-credit-draft-details-post-request-lc-deferred-payment-details:
+      type: object
+      properties:
+        date-of-presentation-of-bill:
+          type: string
+          description: Date of Presentation of Bill. Applicable when ILC Draft tenor-type is set as deferred payment
+        amount-payable:
+          type: number
+          description: Amount payable. Applicable when ILC Draft tenor-type is set as deferred payment
+        remarks:
+          type: string
+          description: Remarks. Applicable when ILC Draft tenor-type is set as deferred payment
+    letter-of-credit-draft-details-post-response:
+      type: object
+      properties:
+        draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-post-response-draft-details'
+      description: LETTER-OF-CREDIT-DRAFT-DETAILS-POST-RESPONSE
+    letter-of-credit-draft-details-post-response-draft-details:
+      type: object
+      properties:
+        lc-pos-type:
+          type: number
+          description: 'LC-POS-TYPE Allowed values:Revaluation:Revaluation,Cash:Cash,Custody:Custody,FXForexDeal:FXForexDeal,FXOTCOptDeal:FXOTCOptDeal,FXRateRequest:FXRateRequest,FXERADeal:FXERADeal,MMDepositDeal:MMDepositDeal,MMFRADeal:MMFRADeal,MMIRSDeal:MMIRSDeal,MMIRODeal:MMIRODeal,CreditAplctn:CreditAplctn,CreditLoan:CreditLoan,NonTrade:NonTrade,CustodyForward:CustodyForward,MMOrder:MMOrder,MMDeal:MMDeal,CurrPositon:CurrPositon,Exchval:Exchval,CurrPosNotes:CurrPosNotes,ExchValNotes:ExchValNotes,Gbt:Gbt,Fatxn:Fatxn,Internal:Internal,OutPymntOrd:OutPymntOrd,OpenDelivery:OpenDelivery,Broker:Broker,Custodian:Custodian,VarMrgn:VarMrgn,InitMrgn:InitMrgn,AcntClsr:AcntClsr,SENetSett:SENetSett,DetCustody:DetCustody,TBill:TBill,RSShipOrd:RSShipOrd,RSTCShipOrd:RSTCShipOrd,RSECBOOrd:RSECBOOrd,RSTCOOrd:RSTCOOrd,RSCBOOrd:RSCBOOrd,RSBCOOrd:RSBCOOrd,RSCRDOOrd:RSCRDOOrd,RSCOWithdrawal:RSCOWithdrawal,RSCCOOrd:RSCCOOrd,RSENCOOrd:RSENCOOrd,RSEXOOrd:RSEXOOrd,RSSROOrd:RSSROOrd,RSSPOOrd:RSSPOOrd,RSVCOOrd:RSVCOOrd,RSCODeposit:RSCODeposit,Entitlement:Entitlement,FXForexOrd:FXForexOrd,FXOTCOptOrd:FXOTCOptOrd,FXERAOrd:FXERAOrd,MMGlobal:MMGlobal,IntrstAppln:IntrstAppln,MMDepositOrd:MMDepositOrd,MMIROOrd:MMIROOrd,IntrstRepoDeal:IntrstRepoDeal,CMOCashFlow:CMOCashFlow,ST_CustOrder:ST_CustOrder,PooledOrder:PooledOrder,ST_TradeOrder:ST_TradeOrder,STDeal:STDeal,ExerciseOrder:ExerciseOrder,Allocation:Allocation,OptionAlloc:OptionAlloc,SA_Order:SA_Order,CA:CA,Certificate:Certificate,RegnDetail:RegnDetail,CM_Order:CM_Order,Coupon:Coupon,ConvOrder:ConvOrder,Eligibility:Eligibility,ICN:ICN,PeriodicCharge:PeriodicCharge,CMO:CMO,TBond:TBond,Repo:Repo,Retail_Order:Retail_Order,EMTNDeal:EMTNDeal,IntrstAcrl:IntrstAcrl,IntrstStBonds:IntrstStBonds,OpenPrtfl:OpenPrtfl,DTA_LSV_Order:DTA_LSV_Order,IntTransfer:IntTransfer,InPymntOrd:InPymntOrd,RcptInstruction:RcptInstruction,StandingOrder:StandingOrder,AssignOrder:AssignOrder,MarginOrder:MarginOrder,SICMessage:SICMessage,SWIFTMessage:SWIFTMessage,PresettledDeal:PresettledDeal,LinkedSAOrder:LinkedSAOrder,TOGroup:TOGroup,DervSett:DervSett,Assignment:Assignment,DsbrmntOrdr:DsbrmntOrdr,DsbrmntPlan:DsbrmntPlan,InvstPlan:InvstPlan,SwitchOrdr:SwitchOrdr,AutoOrdr:AutoOrdr,MFSimple:MFSimple,FAP:FAP,FAPG:FAPG,MemberLoan:MemberLoan,AccountLimit:AccountLimit,Amrtz:Amrtz,ChqPaidOut:ChqPaidOut,ChqPaidIn:ChqPaidIn,DDPaidOut:DDPaidOut,DDPaidIn:DDPaidIn,StpChqPymnt:StpChqPymnt,Mandate:Mandate,OvrDrftLmt:OvrDrftLmt,GlblCA:GlblCA,ConversionOrd:ConversionOrd,CmbntnOrdr:CmbntnOrdr,TrnsfrBlnc:TrnsfrBlnc,InitialiseBlnc:InitialiseBlnc,RprcIntrst:RprcIntrst,Expired_Pos:Expired_Pos,AdhocChrgs:AdhocChrgs,DrvMrgn:DrvMrgn,IBSTxns:IBSTxns,AME:AME,AccountOpening:AccountOpening,AdditionFeeZBA:AdditionFeeZBA,ChqRecon:ChqRecon,ExternalChrg:ExternalChrg,GetTxn:GetTxn,RptChrg:RptChrg,Final102:Final102,RejRet:RejRet,CTI:CTI,Return:Return,940:940,941:941,942:942,BillPaidIn:BillPaidIn,BillPaidOut:BillPaidOut,CTIId:CTIId,ChqPnOrdr:ChqPnOrdr,InvcApplication:InvcApplication,Originator:Originator,RemovalFeeZBA:RemovalFeeZBA,RetOrder:RetOrder,N96:N96,210:210,CnclRqst:CnclRqst,N91:N91,N95:N95,N90:N90,920:920,950:950,StpDDPymnt:StpDDPymnt,ExtAdvice:ExtAdvice,SDD_PDIN:SDD_PDIN,SDD_PDOUT:SDD_PDOUT,SDD_ORIG:SDD_ORIG,SDD_MAN:SDD_MAN,SDD_RTRNPDIN:SDD_RTRNPDIN,SDD_RTRNPDOUT:SDD_RTRNPDOUT,CashConcentration:CashConcentration,InvcAcrl:InvcAcrl,GrpdBook:GrpdBook,BulkPosType:BulkPosType,RspnsReq:RspnsReq,Alctn:Alctn,Alctn_Order:Alctn_Order,BC:BC,BackOfcPstn:BackOfcPstn,BackUpTaxPrdc:BackUpTaxPrdc,Bills:Bills,C21:C21,CCODAcnt:CCODAcnt,CER:CER,CLMOrder:CLMOrder,CPAdjstmnt:CPAdjstmnt,ClrngIn:ClrngIn,ClrngOut:ClrngOut,ConversionOrdr:ConversionOrdr,Current:Current,DD:DD,DIAShadowMvmnts:DIAShadowMvmnts,Deal:Deal,Deel:Deel,DisbrsmentCash:DisbrsmentCash,TrnCrsBsCIEAcnt:TrnCrsBsCIEAcnt,DisbrsmentTrfr:DisbrsmentTrfr,DrvPosnExpry:DrvPosnExpry,ExportBill:ExportBill,ExtLadChk:ExtLadChk,FEDS:FEDS,Flexi:Flexi,FrmVaultTfr:FrmVaultTfr,FxRvltn:FxRvltn,Guarantees:Guarantees,HdTlrTlrTfr:HdTlrTlrTfr,ICAMS:ICAMS,IdvstmntRun:IdvstmntRun,Ijarah:Ijarah,IncomeExpOrder:IncomeExpOrder,IncomeExpOrderDtl:IncomeExpOrderDtl,InvApplication:InvApplication,InwdBtch:InwdBtch,Istisnaa:Istisnaa,LinkedSENetSett:LinkedSENetSett,LmtUpdate:LmtUpdate,LoanActClosure:LoanActClosure,LoyaltySaving:LoyaltySaving,LtrofCredits:LtrofCredits,MLIntAccrual:MLIntAccrual,MLIntAppln:MLIntAppln,MT:MT,MT900:MT900,MT910:MT910,NCS:NCS,Offset:Offset,OpolTrnsfrOrdr:OpolTrnsfrOrdr,OutBtch:OutBtch,PO:PO,PooledSettOrdr:PooledSettOrdr,Pooled_Order:Pooled_Order,RpymntActTrnsfr:RpymntActTrnsfr,RpymntCash:RpymntCash,SCA:SCA,SafeCustody:SafeCustody,SafekpngFee:SafekpngFee,Sbscrptn_Order:Sbscrptn_Order,TT:TT,TaxLot:TaxLot,TcBuy:TcBuy,TcSell:TcSell,TlrToHdTlrTfr:TlrToHdTlrTfr,ToVaultTfr:ToVaultTfr,Trade:Trade,ExtNotionalPool:ExtNotionalPool,ClaimLedgrCharge:ClaimLedgrCharge,Writeoff:Writeoff,SHARETRADE_BatchTxn_BUY:SHARETRADE_BatchTxn_BUY,SHARETRADE_BatchTxn_SELL:SHARETRADE_BatchTxn_SELL,ASBA_FUND_TRANSFER:ASBA_FUND_TRANSFER,FX:FX,FCNR:FCNR,Cards:Cards,CardTransaction:CardTransaction,RDInstlmnt:RDInstlmnt,CltrlAbandn:CltrlAbandn,LoanCncl:LoanCncl,CounterprtyClaim:CounterprtyClaim,TxnBasedSweep:TxnBasedSweep,InterBankClaim:InterBankClaim,ICS:ICS,ICS_INTRST_RECORD:ICS_INTRST_RECORD,Representative:Representative,JointRepresentative:JointRepresentative,CashBlk:CashBlk,OutwardClearing:OutwardClearing,InwardClearing:InwardClearing,StpChq:StpChq,ChqCancel:ChqCancel,BulkBkng:BulkBkng,BulkPosTyp:BulkPosTyp,CrncyBuy:CrncyBuy,CrncySell:CrncySell,CrprtColl:CrprtColl,CrprtPmnt:CrprtPmnt,CstmrReport:CstmrReport,DIA:DIA,FundPlan:FundPlan,GlobalInterest:GlobalInterest,KestRecomp:KestRecomp,MsgQue:MsgQue,NAV:NAV,PayOrder:PayOrder,PrtflEntitlement:PrtflEntitlement,PymtNotification:PymtNotification,RTGS:RTGS,Subscription:Subscription,Unpaid:Unpaid,NotionalPool:NotionalPool,ExtTxnTyp:ExtTxnTyp,ExternalAccount:ExternalAccount,DepositTxn:DepositTxn,DepositOrderTxn:DepositOrderTxn,BGTxn:BGTxn,LCTxn:LCTxn,PreAdvcTxn:PreAdvcTxn,TFBillTxn:TFBillTxn,TFBillPayment:TFBillPayment,TFDC:TFDC,CustNotExch:CustNotExch,FCY_NOTESIN:FCY_NOTESIN,FCY_NOTESOUT:FCY_NOTESOUT,TlrTrnsfer:TlrTrnsfer,CshMachngByEye:CshMachngByEye,TFDCPay:TFDCPay,Salary:Salary,CashConc_Prcng:CashConc_Prcng,CashConc_Prcng_TBS:CashConc_Prcng_TBS,DamagedNotes:DamagedNotes,ELIMINATION_REQUEST:ELIMINATION_REQUEST,LEAF_STAT_UPDATE:LEAF_STAT_UPDATE,AcntDesg:AcntDesg,AddInfo:AddInfo,TFBGClaim:TFBGClaim,TFBGStlmnt:TFBGStlmnt,TFBGContrct:TFBGContrct,TFBGPymnt:TFBGPymnt,FlexiDepTxn:FlexiDepTxn,CARD_FX_SETTLEMENT:CARD_FX_SETTLEMENT,Ext_Sys_Chrg:Ext_Sys_Chrg,SBBTransfer:SBBTransfer,SBBIntrstReversal:SBBIntrstReversal,SBBTaxReversal:SBBTaxReversal,CntrctTrnsfr:CntrctTrnsfr,E_MONEY_BOX_MONTHEND_TXNS:E_MONEY_BOX_MONTHEND_TXNS,LossRecovery:LossRecovery,Business:Business,BusinessBank:BusinessBank,SCNTransfer:SCNTransfer,RSChequeReOrder:RSChequeReOrder,TxnCntMtchng:TxnCntMtchng,SCNAdjustment:SCNAdjustment,BulkCshWdrwl:BulkCshWdrwl,BulkCshDpst:BulkCshDpst,MarkedNotes:MarkedNotes,CHEQUE_BOOK_SUB_ORDER:CHEQUE_BOOK_SUB_ORDER,CHEQUE_INVENTORY_REQUEST:CHEQUE_INVENTORY_REQUEST,CHEQUE_INVENTORY_REQUEST_DTLS:CHEQUE_INVENTORY_REQUEST_DTLS,SCNTxn:SCNTxn,RSFundTrf:RSFundTrf,FakeNotesTxn:FakeNotesTxn,SCNTallyTxn:SCNTallyTxn,LnkgTxn:LnkgTxn,LoanFreezing:LoanFreezing,Report:Report,LoanWriteOff:LoanWriteOff,LoanPartWriteOff:LoanPartWriteOff,LoanReschedule:LoanReschedule,LoanRollover:LoanRollover,LoanForcedIntrstCaptlzt:LoanForcedIntrstCaptlzt,AdvanceRepayment:AdvanceRepayment,CollateralPool:CollateralPool,LoanForcedIntrstCaptlztn:LoanForcedIntrstCaptlztn,AssetTxn:AssetTxn,ConstructionDisb:ConstructionDisb,RetentionPay:RetentionPay,branch_transfer:branch_transfer,LoanAdjustment:LoanAdjustment,FORBEARANCE:FORBEARANCE,Offline_Settlement:Offline_Settlement,LimitRedraw:LimitRedraw,Insurance:Insurance,NegBal:NegBal,AMEStandingOrder:AMEStandingOrder,NPATxn:NPATxn,ShreAppln:ShreAppln,Syndication:Syndication,CollateralRelease:CollateralRelease,Securitization:Securitization,PndngChrgComp:PndngChrgComp,Appraisal:Appraisal,PASSBOOK_ACCOUNT:PASSBOOK_ACCOUNT,AccStmntTxn:AccStmntTxn,KIOSK_DEP_TXN:KIOSK_DEP_TXN,IBT:IBT,Challan:Challan,IBT_Res:IBT_Res,FollowUp:FollowUp,VendorTxn:VendorTxn,FixedAssetPur:FixedAssetPur,FixedAsset:FixedAsset,RfndOfRpymntAdvnc:RfndOfRpymntAdvnc,TopUp:TopUp,DownPayment:DownPayment,RSBillsBatchOrd:RSBillsBatchOrd,RSCashOrd:RSCashOrd,RSDrftSaleOrd:RSDrftSaleOrd,RSTCSaleOrd:RSTCSaleOrd,RSBillsPrchsOrd:RSBillsPrchsOrd,LoanRecall:LoanRecall,SecDeposit:SecDeposit,IntrstSubsidy:IntrstSubsidy,CommdtyPurchase:CommdtyPurchase,CommdtySell:CommdtySell,CommdtyTransfer:CommdtyTransfer,BackValueDtRpymnt:BackValueDtRpymnt,BackValueDtPrePymnt:BackValueDtPrePymnt,DwnpymntSubsidy:DwnpymntSubsidy,LoanCancellation:LoanCancellation,CommImmSell:CommImmSell,RescheduleChrge:RescheduleChrge,DeveloperAccountingTranche:DeveloperAccountingTranche,PurchseOnCompletion:PurchseOnCompletion,Virtual:Virtual,FUNDING_TXN:FUNDING_TXN,FUNDING_BOOKING:FUNDING_BOOKING,PreNotice:PreNotice,SyndicationLoan:SyndicationLoan,LoanPostponement:LoanPostponement,Preclosure:Preclosure,Prepaymnt:Prepaymnt,WriteOffCollection:WriteOffCollection,ComdtyBlockfrRlos:ComdtyBlockfrRlos,ELCTxn:ELCTxn,ELCBillTxn:ELCBillTxn,ELCBillPayTxn:ELCBillPayTxn,EDCBillTxn:EDCBillTxn,LocCrBlncGL:LocCrBlncGL,CryptoWallet:CryptoWallet,RepaySimulExtract:RepaySimulExtract,CryptoStakingTransfer:CryptoStakingTransfer,CryptoExitOrder:CryptoExitOrder,CryptoRebalancing:CryptoRebalancing,ATMBlncInqTxnChrg:ATMBlncInqTxnChrg,ATMDecTxnChrg:ATMDecTxnChrg,Escrow:Escrow,VAM_BKNG:VAM_BKNG,BCStopPymnt:BCStopPymnt,BCRevokeStopPymnt:BCRevokeStopPymnt,CryptoStakingRewards:CryptoStakingRewards,RevOfRepayment:RevOfRepayment,DeathDisability:DeathDisability,EarlyTermDeathdisability:EarlyTermDeathdisability,EarlyTermBuyoutloan:EarlyTermBuyoutloan,EarlyTermStaffloan:EarlyTermStaffloan,EarlyTermPreremidial:EarlyTermPreremidial,SyndicationEvent:SyndicationEvent,AWBEndorsement:AWBEndorsement,IBGPosTyp:IBGPosTyp,CrncySwtch:CrncySwtch,ManualInterestAdjust:ManualInterestAdjust,ChrgSimulator:ChrgSimulator,EDCPurchaseOrder:EDCPurchaseOrder,APAROrigination:APAROrigination,APARResponding:APARResponding,TFIBGContrct:TFIBGContrct,ChngStlmntAcnt:ChngStlmntAcnt,NPDPosTyp:NPDPosTyp,AWBDCPosTyp:AWBDCPosTyp,PDC_TXN:PDC_TXN,UFT_TXN:UFT_TXN,Contingent_Txn:Contingent_Txn,Issuance_SPLetterOfComfort:Issuance_SPLetterOfComfort,Reversal_SPLetterOfComfort:Reversal_SPLetterOfComfort,Forward_FAReceiptLetterOfComfort:Forward_FAReceiptLetterOfComfort,Reversal_FAReceiptLetterOfComfort:Reversal_FAReceiptLetterOfComfort,Issuance_of_Nonfund:Issuance_of_Nonfund,Payment_of_Nonfund:Payment_of_Nonfund,Forward_SFAUtilisation:Forward_SFAUtilisation,Reversal_SFAUtilisation:Reversal_SFAUtilisation,TFCrystallizationLoan:TFCrystallizationLoan,DormancyChrg:DormancyChrg,SalePurchasePosTyp:SalePurchasePosTyp,DpstChrgs:DpstChrgs,Onlinebnkingpymntbkng:Onlinebnkingpymntbkng,Discountingorder:Discountingorder,Product:Product,Nostro:Nostro,LOC:LOC,Savings:Savings,Term Deposit:Term Deposit;'
+        lc-reference:
+          type: number
+          description: This field will contain POS_ID
+        event-leg-id:
+          type: number
+          description: This field will contain EVNT_LEG_ID
+######## letter-of-credit-draft-details GET
+    letter-of-credit-draft-details-get-response:
+      type: object
+      properties:
+        draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-draft-details'
+        elc-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-elc-draft-details'
+        ilc-bill-lodgement-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-bill-lodgement-draft-details'
+        ilc-amend-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-amend-draft-details'
+        lc-bill-lodgement-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-bill-lodgement-draft-details'
+        ilc-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-draft-details'
+        elc-bill-lodgement-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-elc-bill-lodgement-draft-details'
+        lc-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-draft-details'
+        lc-deferred-payment-details:
+          type: array
+          items:
+            $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-deferred-payment-details'
+      description: LETTER-OF-CREDIT-DRAFT-DETAILS-GET-RESPONSE
+    letter-of-credit-draft-details-get-response-draft-details:
+      type: object
+      properties:
+        entity:
+          type: string
+          description: Entity
+        lc-pos-type:
+          type: number
+          description: 'LC-POS-TYPE Allowed values:Revaluation:Revaluation,Cash:Cash,Custody:Custody,FXForexDeal:FXForexDeal,FXOTCOptDeal:FXOTCOptDeal,FXRateRequest:FXRateRequest,FXERADeal:FXERADeal,MMDepositDeal:MMDepositDeal,MMFRADeal:MMFRADeal,MMIRSDeal:MMIRSDeal,MMIRODeal:MMIRODeal,CreditAplctn:CreditAplctn,CreditLoan:CreditLoan,NonTrade:NonTrade,CustodyForward:CustodyForward,MMOrder:MMOrder,MMDeal:MMDeal,CurrPositon:CurrPositon,Exchval:Exchval,CurrPosNotes:CurrPosNotes,ExchValNotes:ExchValNotes,Gbt:Gbt,Fatxn:Fatxn,Internal:Internal,OutPymntOrd:OutPymntOrd,OpenDelivery:OpenDelivery,Broker:Broker,Custodian:Custodian,VarMrgn:VarMrgn,InitMrgn:InitMrgn,AcntClsr:AcntClsr,SENetSett:SENetSett,DetCustody:DetCustody,TBill:TBill,RSShipOrd:RSShipOrd,RSTCShipOrd:RSTCShipOrd,RSECBOOrd:RSECBOOrd,RSTCOOrd:RSTCOOrd,RSCBOOrd:RSCBOOrd,RSBCOOrd:RSBCOOrd,RSCRDOOrd:RSCRDOOrd,RSCOWithdrawal:RSCOWithdrawal,RSCCOOrd:RSCCOOrd,RSENCOOrd:RSENCOOrd,RSEXOOrd:RSEXOOrd,RSSROOrd:RSSROOrd,RSSPOOrd:RSSPOOrd,RSVCOOrd:RSVCOOrd,RSCODeposit:RSCODeposit,Entitlement:Entitlement,FXForexOrd:FXForexOrd,FXOTCOptOrd:FXOTCOptOrd,FXERAOrd:FXERAOrd,MMGlobal:MMGlobal,IntrstAppln:IntrstAppln,MMDepositOrd:MMDepositOrd,MMIROOrd:MMIROOrd,IntrstRepoDeal:IntrstRepoDeal,CMOCashFlow:CMOCashFlow,ST_CustOrder:ST_CustOrder,PooledOrder:PooledOrder,ST_TradeOrder:ST_TradeOrder,STDeal:STDeal,ExerciseOrder:ExerciseOrder,Allocation:Allocation,OptionAlloc:OptionAlloc,SA_Order:SA_Order,CA:CA,Certificate:Certificate,RegnDetail:RegnDetail,CM_Order:CM_Order,Coupon:Coupon,ConvOrder:ConvOrder,Eligibility:Eligibility,ICN:ICN,PeriodicCharge:PeriodicCharge,CMO:CMO,TBond:TBond,Repo:Repo,Retail_Order:Retail_Order,EMTNDeal:EMTNDeal,IntrstAcrl:IntrstAcrl,IntrstStBonds:IntrstStBonds,OpenPrtfl:OpenPrtfl,DTA_LSV_Order:DTA_LSV_Order,IntTransfer:IntTransfer,InPymntOrd:InPymntOrd,RcptInstruction:RcptInstruction,StandingOrder:StandingOrder,AssignOrder:AssignOrder,MarginOrder:MarginOrder,SICMessage:SICMessage,SWIFTMessage:SWIFTMessage,PresettledDeal:PresettledDeal,LinkedSAOrder:LinkedSAOrder,TOGroup:TOGroup,DervSett:DervSett,Assignment:Assignment,DsbrmntOrdr:DsbrmntOrdr,DsbrmntPlan:DsbrmntPlan,InvstPlan:InvstPlan,SwitchOrdr:SwitchOrdr,AutoOrdr:AutoOrdr,MFSimple:MFSimple,FAP:FAP,FAPG:FAPG,MemberLoan:MemberLoan,AccountLimit:AccountLimit,Amrtz:Amrtz,ChqPaidOut:ChqPaidOut,ChqPaidIn:ChqPaidIn,DDPaidOut:DDPaidOut,DDPaidIn:DDPaidIn,StpChqPymnt:StpChqPymnt,Mandate:Mandate,OvrDrftLmt:OvrDrftLmt,GlblCA:GlblCA,ConversionOrd:ConversionOrd,CmbntnOrdr:CmbntnOrdr,TrnsfrBlnc:TrnsfrBlnc,InitialiseBlnc:InitialiseBlnc,RprcIntrst:RprcIntrst,Expired_Pos:Expired_Pos,AdhocChrgs:AdhocChrgs,DrvMrgn:DrvMrgn,IBSTxns:IBSTxns,AME:AME,AccountOpening:AccountOpening,AdditionFeeZBA:AdditionFeeZBA,ChqRecon:ChqRecon,ExternalChrg:ExternalChrg,GetTxn:GetTxn,RptChrg:RptChrg,Final102:Final102,RejRet:RejRet,CTI:CTI,Return:Return,940:940,941:941,942:942,BillPaidIn:BillPaidIn,BillPaidOut:BillPaidOut,CTIId:CTIId,ChqPnOrdr:ChqPnOrdr,InvcApplication:InvcApplication,Originator:Originator,RemovalFeeZBA:RemovalFeeZBA,RetOrder:RetOrder,N96:N96,210:210,CnclRqst:CnclRqst,N91:N91,N95:N95,N90:N90,920:920,950:950,StpDDPymnt:StpDDPymnt,ExtAdvice:ExtAdvice,SDD_PDIN:SDD_PDIN,SDD_PDOUT:SDD_PDOUT,SDD_ORIG:SDD_ORIG,SDD_MAN:SDD_MAN,SDD_RTRNPDIN:SDD_RTRNPDIN,SDD_RTRNPDOUT:SDD_RTRNPDOUT,CashConcentration:CashConcentration,InvcAcrl:InvcAcrl,GrpdBook:GrpdBook,BulkPosType:BulkPosType,RspnsReq:RspnsReq,Alctn:Alctn,Alctn_Order:Alctn_Order,BC:BC,BackOfcPstn:BackOfcPstn,BackUpTaxPrdc:BackUpTaxPrdc,Bills:Bills,C21:C21,CCODAcnt:CCODAcnt,CER:CER,CLMOrder:CLMOrder,CPAdjstmnt:CPAdjstmnt,ClrngIn:ClrngIn,ClrngOut:ClrngOut,ConversionOrdr:ConversionOrdr,Current:Current,DD:DD,DIAShadowMvmnts:DIAShadowMvmnts,Deal:Deal,Deel:Deel,DisbrsmentCash:DisbrsmentCash,TrnCrsBsCIEAcnt:TrnCrsBsCIEAcnt,DisbrsmentTrfr:DisbrsmentTrfr,DrvPosnExpry:DrvPosnExpry,ExportBill:ExportBill,ExtLadChk:ExtLadChk,FEDS:FEDS,Flexi:Flexi,FrmVaultTfr:FrmVaultTfr,FxRvltn:FxRvltn,Guarantees:Guarantees,HdTlrTlrTfr:HdTlrTlrTfr,ICAMS:ICAMS,IdvstmntRun:IdvstmntRun,Ijarah:Ijarah,IncomeExpOrder:IncomeExpOrder,IncomeExpOrderDtl:IncomeExpOrderDtl,InvApplication:InvApplication,InwdBtch:InwdBtch,Istisnaa:Istisnaa,LinkedSENetSett:LinkedSENetSett,LmtUpdate:LmtUpdate,LoanActClosure:LoanActClosure,LoyaltySaving:LoyaltySaving,LtrofCredits:LtrofCredits,MLIntAccrual:MLIntAccrual,MLIntAppln:MLIntAppln,MT:MT,MT900:MT900,MT910:MT910,NCS:NCS,Offset:Offset,OpolTrnsfrOrdr:OpolTrnsfrOrdr,OutBtch:OutBtch,PO:PO,PooledSettOrdr:PooledSettOrdr,Pooled_Order:Pooled_Order,RpymntActTrnsfr:RpymntActTrnsfr,RpymntCash:RpymntCash,SCA:SCA,SafeCustody:SafeCustody,SafekpngFee:SafekpngFee,Sbscrptn_Order:Sbscrptn_Order,TT:TT,TaxLot:TaxLot,TcBuy:TcBuy,TcSell:TcSell,TlrToHdTlrTfr:TlrToHdTlrTfr,ToVaultTfr:ToVaultTfr,Trade:Trade,ExtNotionalPool:ExtNotionalPool,ClaimLedgrCharge:ClaimLedgrCharge,Writeoff:Writeoff,SHARETRADE_BatchTxn_BUY:SHARETRADE_BatchTxn_BUY,SHARETRADE_BatchTxn_SELL:SHARETRADE_BatchTxn_SELL,ASBA_FUND_TRANSFER:ASBA_FUND_TRANSFER,FX:FX,FCNR:FCNR,Cards:Cards,CardTransaction:CardTransaction,RDInstlmnt:RDInstlmnt,CltrlAbandn:CltrlAbandn,LoanCncl:LoanCncl,CounterprtyClaim:CounterprtyClaim,TxnBasedSweep:TxnBasedSweep,InterBankClaim:InterBankClaim,ICS:ICS,ICS_INTRST_RECORD:ICS_INTRST_RECORD,Representative:Representative,JointRepresentative:JointRepresentative,CashBlk:CashBlk,OutwardClearing:OutwardClearing,InwardClearing:InwardClearing,StpChq:StpChq,ChqCancel:ChqCancel,BulkBkng:BulkBkng,BulkPosTyp:BulkPosTyp,CrncyBuy:CrncyBuy,CrncySell:CrncySell,CrprtColl:CrprtColl,CrprtPmnt:CrprtPmnt,CstmrReport:CstmrReport,DIA:DIA,FundPlan:FundPlan,GlobalInterest:GlobalInterest,KestRecomp:KestRecomp,MsgQue:MsgQue,NAV:NAV,PayOrder:PayOrder,PrtflEntitlement:PrtflEntitlement,PymtNotification:PymtNotification,RTGS:RTGS,Subscription:Subscription,Unpaid:Unpaid,NotionalPool:NotionalPool,ExtTxnTyp:ExtTxnTyp,ExternalAccount:ExternalAccount,DepositTxn:DepositTxn,DepositOrderTxn:DepositOrderTxn,BGTxn:BGTxn,LCTxn:LCTxn,PreAdvcTxn:PreAdvcTxn,TFBillTxn:TFBillTxn,TFBillPayment:TFBillPayment,TFDC:TFDC,CustNotExch:CustNotExch,FCY_NOTESIN:FCY_NOTESIN,FCY_NOTESOUT:FCY_NOTESOUT,TlrTrnsfer:TlrTrnsfer,CshMachngByEye:CshMachngByEye,TFDCPay:TFDCPay,Salary:Salary,CashConc_Prcng:CashConc_Prcng,CashConc_Prcng_TBS:CashConc_Prcng_TBS,DamagedNotes:DamagedNotes,ELIMINATION_REQUEST:ELIMINATION_REQUEST,LEAF_STAT_UPDATE:LEAF_STAT_UPDATE,AcntDesg:AcntDesg,AddInfo:AddInfo,TFBGClaim:TFBGClaim,TFBGStlmnt:TFBGStlmnt,TFBGContrct:TFBGContrct,TFBGPymnt:TFBGPymnt,FlexiDepTxn:FlexiDepTxn,CARD_FX_SETTLEMENT:CARD_FX_SETTLEMENT,Ext_Sys_Chrg:Ext_Sys_Chrg,SBBTransfer:SBBTransfer,SBBIntrstReversal:SBBIntrstReversal,SBBTaxReversal:SBBTaxReversal,CntrctTrnsfr:CntrctTrnsfr,E_MONEY_BOX_MONTHEND_TXNS:E_MONEY_BOX_MONTHEND_TXNS,LossRecovery:LossRecovery,Business:Business,BusinessBank:BusinessBank,SCNTransfer:SCNTransfer,RSChequeReOrder:RSChequeReOrder,TxnCntMtchng:TxnCntMtchng,SCNAdjustment:SCNAdjustment,BulkCshWdrwl:BulkCshWdrwl,BulkCshDpst:BulkCshDpst,MarkedNotes:MarkedNotes,CHEQUE_BOOK_SUB_ORDER:CHEQUE_BOOK_SUB_ORDER,CHEQUE_INVENTORY_REQUEST:CHEQUE_INVENTORY_REQUEST,CHEQUE_INVENTORY_REQUEST_DTLS:CHEQUE_INVENTORY_REQUEST_DTLS,SCNTxn:SCNTxn,RSFundTrf:RSFundTrf,FakeNotesTxn:FakeNotesTxn,SCNTallyTxn:SCNTallyTxn,LnkgTxn:LnkgTxn,LoanFreezing:LoanFreezing,Report:Report,LoanWriteOff:LoanWriteOff,LoanPartWriteOff:LoanPartWriteOff,LoanReschedule:LoanReschedule,LoanRollover:LoanRollover,LoanForcedIntrstCaptlzt:LoanForcedIntrstCaptlzt,AdvanceRepayment:AdvanceRepayment,CollateralPool:CollateralPool,LoanForcedIntrstCaptlztn:LoanForcedIntrstCaptlztn,AssetTxn:AssetTxn,ConstructionDisb:ConstructionDisb,RetentionPay:RetentionPay,branch_transfer:branch_transfer,LoanAdjustment:LoanAdjustment,FORBEARANCE:FORBEARANCE,Offline_Settlement:Offline_Settlement,LimitRedraw:LimitRedraw,Insurance:Insurance,NegBal:NegBal,AMEStandingOrder:AMEStandingOrder,NPATxn:NPATxn,ShreAppln:ShreAppln,Syndication:Syndication,CollateralRelease:CollateralRelease,Securitization:Securitization,PndngChrgComp:PndngChrgComp,Appraisal:Appraisal,PASSBOOK_ACCOUNT:PASSBOOK_ACCOUNT,AccStmntTxn:AccStmntTxn,KIOSK_DEP_TXN:KIOSK_DEP_TXN,IBT:IBT,Challan:Challan,IBT_Res:IBT_Res,FollowUp:FollowUp,VendorTxn:VendorTxn,FixedAssetPur:FixedAssetPur,FixedAsset:FixedAsset,RfndOfRpymntAdvnc:RfndOfRpymntAdvnc,TopUp:TopUp,DownPayment:DownPayment,RSBillsBatchOrd:RSBillsBatchOrd,RSCashOrd:RSCashOrd,RSDrftSaleOrd:RSDrftSaleOrd,RSTCSaleOrd:RSTCSaleOrd,RSBillsPrchsOrd:RSBillsPrchsOrd,LoanRecall:LoanRecall,SecDeposit:SecDeposit,IntrstSubsidy:IntrstSubsidy,CommdtyPurchase:CommdtyPurchase,CommdtySell:CommdtySell,CommdtyTransfer:CommdtyTransfer,BackValueDtRpymnt:BackValueDtRpymnt,BackValueDtPrePymnt:BackValueDtPrePymnt,DwnpymntSubsidy:DwnpymntSubsidy,LoanCancellation:LoanCancellation,CommImmSell:CommImmSell,RescheduleChrge:RescheduleChrge,DeveloperAccountingTranche:DeveloperAccountingTranche,PurchseOnCompletion:PurchseOnCompletion,Virtual:Virtual,FUNDING_TXN:FUNDING_TXN,FUNDING_BOOKING:FUNDING_BOOKING,PreNotice:PreNotice,SyndicationLoan:SyndicationLoan,LoanPostponement:LoanPostponement,Preclosure:Preclosure,Prepaymnt:Prepaymnt,WriteOffCollection:WriteOffCollection,ComdtyBlockfrRlos:ComdtyBlockfrRlos,ELCTxn:ELCTxn,ELCBillTxn:ELCBillTxn,ELCBillPayTxn:ELCBillPayTxn,EDCBillTxn:EDCBillTxn,LocCrBlncGL:LocCrBlncGL,CryptoWallet:CryptoWallet,RepaySimulExtract:RepaySimulExtract,CryptoStakingTransfer:CryptoStakingTransfer,CryptoExitOrder:CryptoExitOrder,CryptoRebalancing:CryptoRebalancing,ATMBlncInqTxnChrg:ATMBlncInqTxnChrg,ATMDecTxnChrg:ATMDecTxnChrg,Escrow:Escrow,VAM_BKNG:VAM_BKNG,BCStopPymnt:BCStopPymnt,BCRevokeStopPymnt:BCRevokeStopPymnt,CryptoStakingRewards:CryptoStakingRewards,RevOfRepayment:RevOfRepayment,DeathDisability:DeathDisability,EarlyTermDeathdisability:EarlyTermDeathdisability,EarlyTermBuyoutloan:EarlyTermBuyoutloan,EarlyTermStaffloan:EarlyTermStaffloan,EarlyTermPreremidial:EarlyTermPreremidial,SyndicationEvent:SyndicationEvent,AWBEndorsement:AWBEndorsement,IBGPosTyp:IBGPosTyp,CrncySwtch:CrncySwtch,ManualInterestAdjust:ManualInterestAdjust,ChrgSimulator:ChrgSimulator,EDCPurchaseOrder:EDCPurchaseOrder,APAROrigination:APAROrigination,APARResponding:APARResponding,TFIBGContrct:TFIBGContrct,ChngStlmntAcnt:ChngStlmntAcnt,NPDPosTyp:NPDPosTyp,AWBDCPosTyp:AWBDCPosTyp,PDC_TXN:PDC_TXN,UFT_TXN:UFT_TXN,Contingent_Txn:Contingent_Txn,Issuance_SPLetterOfComfort:Issuance_SPLetterOfComfort,Reversal_SPLetterOfComfort:Reversal_SPLetterOfComfort,Forward_FAReceiptLetterOfComfort:Forward_FAReceiptLetterOfComfort,Reversal_FAReceiptLetterOfComfort:Reversal_FAReceiptLetterOfComfort,Issuance_of_Nonfund:Issuance_of_Nonfund,Payment_of_Nonfund:Payment_of_Nonfund,Forward_SFAUtilisation:Forward_SFAUtilisation,Reversal_SFAUtilisation:Reversal_SFAUtilisation,TFCrystallizationLoan:TFCrystallizationLoan,DormancyChrg:DormancyChrg,SalePurchasePosTyp:SalePurchasePosTyp,DpstChrgs:DpstChrgs,Onlinebnkingpymntbkng:Onlinebnkingpymntbkng,Discountingorder:Discountingorder,Product:Product,Nostro:Nostro,LOC:LOC,Savings:Savings,Term Deposit:Term Deposit;'
+        lc-reference:
+          type: number
+          description: This field will contain POS_ID
+        event-leg-id:
+          type: number
+          description: This field will contain EVNT_LEG_ID
+    letter-of-credit-draft-details-get-response-elc-draft-details:
+      type: object
+      properties:
+        drawee:
+          type: string
+          description: Drawee
+        elc-draft-drawee-name:
+          type: string
+          description: Drawee Name
+        elc-draft-drawee-address:
+          type: string
+          description: Drawee Address One
+        applicant-bank-charge-amount-currency:
+          type: string
+          description: Applicant Bank Charge Amount Currency
+        applicant-bank-charge-amount:
+          type: number
+          description: Applicant Bank Charge Amount
+        requested-confirmation-party:
+          type: string
+          description: Requested Confirmation Party. Applicable and Mandatory when we select Confirmation Instructions as confirm and May add
+        confirmation-instructions:
+          type: number
+          description: 'CONFIRMATION-INSTRUCTIONS Allowed values:Confirm:Confirm,Without:Without,MayAdd:MayAdd;'
+        mode-of-payment:
+          type: number
+          description: 'MODE-OF-PAYMENT Allowed values:IMMEDIATE:IMMEDIATE,BILLPAYMENT:BILLPAYMENT;'
+    letter-of-credit-draft-details-get-response-ilc-bill-lodgement-draft-details:
       type: object
       properties:
         due-date-for-sight:
@@ -2830,7 +2994,7 @@ components:
         ilc-bill-lodgement-usance-from:
           type: number
           description: 'ILC-BILL-LODGEMENT-USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-    letter-of-credit-draft-details-get-response-ilc-amend-draft-detail:
+    letter-of-credit-draft-details-get-response-ilc-amend-draft-details:
       type: object
       properties:
         amendment-charge-payable-by:
@@ -2863,7 +3027,7 @@ components:
         revised-interest-from:
           type: string
           description: Revised Interest From
-    letter-of-credit-draft-details-get-response-lc-bill-lodgement-draft-detail:
+    letter-of-credit-draft-details-get-response-lc-bill-lodgement-draft-details:
       type: object
       properties:
         draft-amount-currency:
@@ -2878,7 +3042,7 @@ components:
         draft-number:
           type: string
           description: Draft Number. This field is Applicable and mandatory in LC bill lodgement
-    letter-of-credit-draft-details-get-response-ilc-draft-detail:
+    letter-of-credit-draft-details-get-response-ilc-draft-details:
       type: object
       properties:
         charges-flag:
@@ -2932,7 +3096,7 @@ components:
         upas:
           type: number
           description: 'UPAS Allowed values:Yes:Yes,No:No;'
-    letter-of-credit-draft-details-get-response-elc-bill-lodgement-draft-detail:
+    letter-of-credit-draft-details-get-response-elc-bill-lodgement-draft-details:
       type: object
       properties:
         bank-id:
@@ -2986,7 +3150,7 @@ components:
         elc-bill-lodgement-draft-amount:
           type: number
           description: Draft Amount.
-    letter-of-credit-draft-details-get-response-lc-draft-detail:
+    letter-of-credit-draft-details-get-response-lc-draft-details:
       type: object
       properties:
         available-by:
@@ -3019,7 +3183,7 @@ components:
         draft-at-or-tenor-type:
           type: string
           description: Draft At/Tenor Type. For ILC draft details, Applicable when Tenor Type is selected as Sight or Usance
-    letter-of-credit-draft-details-get-response-lc-deferred-payment-detail:
+    letter-of-credit-draft-details-get-response-lc-deferred-payment-details:
       type: object
       properties:
         date-of-presentation-of-bill:
@@ -3038,26 +3202,26 @@ components:
     letter-of-credit-draft-details-put-request:
       type: object
       properties:
-        elc-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-elc-draft-detail'
-        ilc-bill-lodgement-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-ilc-bill-lodgement-draft-detail'
-        ilc-amend-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-ilc-amend-draft-detail'
-        lc-bill-lodgement-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-lc-bill-lodgement-draft-detail'
-        ilc-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-ilc-draft-detail'
-        elc-bill-lodgement-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-elc-bill-lodgement-draft-detail'
-        lc-draft-detail:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-lc-draft-detail'
-        lc-deferred-payment-detail:
+        elc-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-elc-draft-details'
+        ilc-bill-lodgement-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-ilc-bill-lodgement-draft-details'
+        ilc-amend-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-ilc-amend-draft-details'
+        lc-bill-lodgement-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-lc-bill-lodgement-draft-details'
+        ilc-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-ilc-draft-details'
+        elc-bill-lodgement-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-elc-bill-lodgement-draft-details'
+        lc-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-lc-draft-details'
+        lc-deferred-payment-details:
           type: array
           items:
-            $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-lc-deferred-payment-detail'
+            $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-lc-deferred-payment-details'
       description: LETTER-OF-CREDIT-DRAFT-DETAILS-PUT-REQUEST
-    letter-of-credit-draft-details-put-request-elc-draft-detail:
+    letter-of-credit-draft-details-put-request-elc-draft-details:
       type: object
       properties:
         drawee:
@@ -3084,7 +3248,7 @@ components:
         mode-of-payment:
           type: number
           description: 'MODE-OF-PAYMENT Allowed values:IMMEDIATE:IMMEDIATE,BILLPAYMENT:BILLPAYMENT;'
-    letter-of-credit-draft-details-put-request-ilc-bill-lodgement-draft-detail:
+    letter-of-credit-draft-details-put-request-ilc-bill-lodgement-draft-details:
       type: object
       properties:
         period-of-sight-payment:
@@ -3108,7 +3272,7 @@ components:
         ilc-bill-lodgement-usance-from:
           type: number
           description: 'ILC-BILL-LODGEMENT-USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-    letter-of-credit-draft-details-put-request-ilc-amend-draft-detail:
+    letter-of-credit-draft-details-put-request-ilc-amend-draft-details:
       type: object
       properties:
         amendment-charge-payable-by:
@@ -3129,7 +3293,7 @@ components:
         revised-interest-from:
           type: string
           description: Revised Interest From
-    letter-of-credit-draft-details-put-request-lc-bill-lodgement-draft-detail:
+    letter-of-credit-draft-details-put-request-lc-bill-lodgement-draft-details:
       type: object
       properties:
         draft-date:
@@ -3138,7 +3302,7 @@ components:
         draft-number:
           type: string
           description: Draft Number. This field is Applicable and mandatory in LC bill lodgement
-    letter-of-credit-draft-details-put-request-ilc-draft-detail:
+    letter-of-credit-draft-details-put-request-ilc-draft-details:
       type: object
       properties:
         charges-flag:
@@ -3177,7 +3341,7 @@ components:
         usance-from:
           type: number
           description: 'USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-    letter-of-credit-draft-details-put-request-elc-bill-lodgement-draft-detail:
+    letter-of-credit-draft-details-put-request-elc-bill-lodgement-draft-details:
       type: object
       properties:
         bank-id:
@@ -3225,7 +3389,7 @@ components:
         elc-bill-lodgement-draft-amount:
           type: number
           description: Draft Amount.This field is Applicable and mandatory in ELC bill lodgement.
-    letter-of-credit-draft-details-put-request-lc-draft-detail:
+    letter-of-credit-draft-details-put-request-lc-draft-details:
       type: object
       properties:
         available-by:
@@ -3246,7 +3410,7 @@ components:
         draft-at-or-tenor-type:
           type: string
           description: Draft At/Tenor Type. For ILC draft details, Applicable when Tenor Type is selected as Sight or Usance
-    letter-of-credit-draft-details-put-request-lc-deferred-payment-detail:
+    letter-of-credit-draft-details-put-request-lc-deferred-payment-details:
       type: object
       properties:
         date-of-presentation-of-bill:
@@ -3258,16 +3422,37 @@ components:
         remarks:
           type: string
           description: Remarks. Applicable when ILC Draft tenor-type is set as deferred payment
+    letter-of-credit-draft-details-response:
+      type: object
+      properties:
+        draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-response-draft-details'
+        messages:
+          $ref: '#/components/schemas/api-messages'
+      description: Bank Details Response
+    letter-of-credit-draft-details-response-draft-details:
+      type: object
+      properties:
+        lc-pos-type:
+          type: number
+          description: 'LC-POS-TYPE. Allowed values:Revaluation,Revaluation;Cash,Cash;Custody,Custody;FXForexDeal,FXForexDeal;FXOTCOptDeal,FXOTCOptDeal;FXRateRequest,FXRateRequest;FXERADeal,FXERADeal;MMDepositDeal,MMDepositDeal;MMFRADeal,MMFRADeal;MMIRSDeal,MMIRSDeal;MMIRODeal,MMIRODeal;CreditAplctn,CreditAplctn;CreditLoan,CreditLoan;NonTrade,NonTrade;CustodyForward,CustodyForward;MMOrder,MMOrder;MMDeal,MMDeal;CurrPositon,CurrPositon;Exchval,Exchval;CurrPosNotes,CurrPosNotes;ExchValNotes,ExchValNotes;Gbt,Gbt;Fatxn,Fatxn;Internal,Internal;OutPymntOrd,OutPymntOrd;OpenDelivery,OpenDelivery;Broker,Broker;Custodian,Custodian;VarMrgn,VarMrgn;InitMrgn,InitMrgn;AcntClsr,AcntClsr;SENetSett,SENetSett;DetCustody,DetCustody;TBill,TBill;RSShipOrd,RSShipOrd;RSTCShipOrd,RSTCShipOrd;RSECBOOrd,RSECBOOrd;RSTCOOrd,RSTCOOrd;RSCBOOrd,RSCBOOrd;RSBCOOrd,RSBCOOrd;RSCRDOOrd,RSCRDOOrd;RSCOWithdrawal,RSCOWithdrawal;RSCCOOrd,RSCCOOrd;RSENCOOrd,RSENCOOrd;RSEXOOrd,RSEXOOrd;RSSROOrd,RSSROOrd;RSSPOOrd,RSSPOOrd;RSVCOOrd,RSVCOOrd;RSCODeposit,RSCODeposit;Entitlement,Entitlement;FXForexOrd,FXForexOrd;FXOTCOptOrd,FXOTCOptOrd;FXERAOrd,FXERAOrd;MMGlobal,MMGlobal;IntrstAppln,IntrstAppln;MMDepositOrd,MMDepositOrd;MMIROOrd,MMIROOrd;IntrstRepoDeal,IntrstRepoDeal;CMOCashFlow,CMOCashFlow;ST_CustOrder,ST_CustOrder;PooledOrder,PooledOrder;ST_TradeOrder,ST_TradeOrder;STDeal,STDeal;ExerciseOrder,ExerciseOrder;Allocation,Allocation;OptionAlloc,OptionAlloc;SA_Order,SA_Order;CA,CA;Certificate,Certificate;RegnDetail,RegnDetail;CM_Order,CM_Order;Coupon,Coupon;ConvOrder,ConvOrder;Eligibility,Eligibility;ICN,ICN;PeriodicCharge,PeriodicCharge;CMO,CMO;TBond,TBond;Repo,Repo;Retail_Order,Retail_Order;EMTNDeal,EMTNDeal;IntrstAcrl,IntrstAcrl;IntrstStBonds,IntrstStBonds;OpenPrtfl,OpenPrtfl;DTA_LSV_Order,DTA_LSV_Order;IntTransfer,IntTransfer;InPymntOrd,InPymntOrd;RcptInstruction,RcptInstruction;StandingOrder,StandingOrder;AssignOrder,AssignOrder;MarginOrder,MarginOrder;SICMessage,SICMessage;SWIFTMessage,SWIFTMessage;PresettledDeal,PresettledDeal;LinkedSAOrder,LinkedSAOrder;TOGroup,TOGroup;DervSett,DervSett;Assignment,Assignment;DsbrmntOrdr,DsbrmntOrdr;DsbrmntPlan,DsbrmntPlan;InvstPlan,InvstPlan;SwitchOrdr,SwitchOrdr;AutoOrdr,AutoOrdr;MFSimple,MFSimple;FAP,FAP;FAPG,FAPG;MemberLoan,MemberLoan;AccountLimit,AccountLimit;Amrtz,Amrtz;ChqPaidOut,ChqPaidOut;ChqPaidIn,ChqPaidIn;DDPaidOut,DDPaidOut;DDPaidIn,DDPaidIn;StpChqPymnt,StpChqPymnt;Mandate,Mandate;OvrDrftLmt,OvrDrftLmt;GlblCA,GlblCA;ConversionOrd,ConversionOrd;CmbntnOrdr,CmbntnOrdr;TrnsfrBlnc,TrnsfrBlnc;InitialiseBlnc,InitialiseBlnc;RprcIntrst,RprcIntrst;Expired_Pos,Expired_Pos;AdhocChrgs,AdhocChrgs;DrvMrgn,DrvMrgn;IBSTxns,IBSTxns;AME,AME;AccountOpening,AccountOpening;AdditionFeeZBA,AdditionFeeZBA;ChqRecon,ChqRecon;ExternalChrg,ExternalChrg;GetTxn,GetTxn;RptChrg,RptChrg;Final102,Final102;RejRet,RejRet;CTI,CTI;Return,Return;940,940;941,941;942,942;BillPaidIn,BillPaidIn;BillPaidOut,BillPaidOut;CTIId,CTIId;ChqPnOrdr,ChqPnOrdr;InvcApplication,InvcApplication;Originator,Originator;RemovalFeeZBA,RemovalFeeZBA;RetOrder,RetOrder;N96,N96;210,210;CnclRqst,CnclRqst;N91,N91;N95,N95;N90,N90;920,920;950,950;StpDDPymnt,StpDDPymnt;ExtAdvice,ExtAdvice;SDD_PDIN,SDD_PDIN;SDD_PDOUT,SDD_PDOUT;SDD_ORIG,SDD_ORIG;SDD_MAN,SDD_MAN;SDD_RTRNPDIN,SDD_RTRNPDIN;SDD_RTRNPDOUT,SDD_RTRNPDOUT;CashConcentration,CashConcentration;InvcAcrl,InvcAcrl;GrpdBook,GrpdBook;BulkPosType,BulkPosType;RspnsReq,RspnsReq;Alctn,Alctn;Alctn_Order,Alctn_Order;BC,BC;BackOfcPstn,BackOfcPstn;BackUpTaxPrdc,BackUpTaxPrdc;Bills,Bills;C21,C21;CCODAcnt,CCODAcnt;CER,CER;CLMOrder,CLMOrder;CPAdjstmnt,CPAdjstmnt;ClrngIn,ClrngIn;ClrngOut,ClrngOut;ConversionOrdr,ConversionOrdr;Current,Current;DD,DD;DIAShadowMvmnts,DIAShadowMvmnts;Deal,Deal;Deel,Deel;DisbrsmentCash,DisbrsmentCash;TrnCrsBsCIEAcnt,TrnCrsBsCIEAcnt;DisbrsmentTrfr,DisbrsmentTrfr;DrvPosnExpry,DrvPosnExpry;ExportBill,ExportBill;ExtLadChk,ExtLadChk;FEDS,FEDS;Flexi,Flexi;FrmVaultTfr,FrmVaultTfr;FxRvltn,FxRvltn;Guarantees,Guarantees;HdTlrTlrTfr,HdTlrTlrTfr;ICAMS,ICAMS;IdvstmntRun,IdvstmntRun;Ijarah,Ijarah;IncomeExpOrder,IncomeExpOrder;IncomeExpOrderDtl,IncomeExpOrderDtl;InvApplication,InvApplication;InwdBtch,InwdBtch;Istisnaa,Istisnaa;LinkedSENetSett,LinkedSENetSett;LmtUpdate,LmtUpdate;LoanActClosure,LoanActClosure;LoyaltySaving,LoyaltySaving;LtrofCredits,LtrofCredits;MLIntAccrual,MLIntAccrual;MLIntAppln,MLIntAppln;MT,MT;MT900,MT900;MT910,MT910;NCS,NCS;Offset,Offset;OpolTrnsfrOrdr,OpolTrnsfrOrdr;OutBtch,OutBtch;PO,PO;PooledSettOrdr,PooledSettOrdr;Pooled_Order,Pooled_Order;RpymntActTrnsfr,RpymntActTrnsfr;RpymntCash,RpymntCash;SCA,SCA;SafeCustody,SafeCustody;SafekpngFee,SafekpngFee;Sbscrptn_Order,Sbscrptn_Order;TT,TT;TaxLot,TaxLot;TcBuy,TcBuy;TcSell,TcSell;TlrToHdTlrTfr,TlrToHdTlrTfr;ToVaultTfr,ToVaultTfr;Trade,Trade;ExtNotionalPool,ExtNotionalPool;ClaimLedgrCharge,ClaimLedgrCharge;Writeoff,Writeoff;SHARETRADE_BatchTxn_BUY,SHARETRADE_BatchTxn_BUY;SHARETRADE_BatchTxn_SELL,SHARETRADE_BatchTxn_SELL;ASBA_FUND_TRANSFER,ASBA_FUND_TRANSFER;FX,FX;FCNR,FCNR;Cards,Cards;CardTransaction,CardTransaction;RDInstlmnt,RDInstlmnt;CltrlAbandn,CltrlAbandn;LoanCncl,LoanCncl;CounterprtyClaim,CounterprtyClaim;TxnBasedSweep,TxnBasedSweep;InterBankClaim,InterBankClaim;ICS,ICS;ICS_INTRST_RECORD,ICS_INTRST_RECORD;Representative,Representative;JointRepresentative,JointRepresentative;CashBlk,CashBlk;OutwardClearing,OutwardClearing;InwardClearing,InwardClearing;StpChq,StpChq;ChqCancel,ChqCancel;BulkBkng,BulkBkng;BulkPosTyp,BulkPosTyp;CrncyBuy,CrncyBuy;CrncySell,CrncySell;CrprtColl,CrprtColl;CrprtPmnt,CrprtPmnt;CstmrReport,CstmrReport;DIA,DIA;FundPlan,FundPlan;GlobalInterest,GlobalInterest;KestRecomp,KestRecomp;MsgQue,MsgQue;NAV,NAV;PayOrder,PayOrder;PrtflEntitlement,PrtflEntitlement;PymtNotification,PymtNotification;RTGS,RTGS;Subscription,Subscription;Unpaid,Unpaid;NotionalPool,NotionalPool;ExtTxnTyp,ExtTxnTyp;ExternalAccount,ExternalAccount;DepositTxn,DepositTxn;DepositOrderTxn,DepositOrderTxn;BGTxn,BGTxn;LCTxn,LCTxn;PreAdvcTxn,PreAdvcTxn;TFBillTxn,TFBillTxn;TFBillPayment,TFBillPayment;TFDC,TFDC;CustNotExch,CustNotExch;FCY_NOTESIN,FCY_NOTESIN;FCY_NOTESOUT,FCY_NOTESOUT;TlrTrnsfer,TlrTrnsfer;CshMachngByEye,CshMachngByEye;TFDCPay,TFDCPay;Salary,Salary;CashConc_Prcng,CashConc_Prcng;CashConc_Prcng_TBS,CashConc_Prcng_TBS;DamagedNotes,DamagedNotes;ELIMINATION_REQUEST,ELIMINATION_REQUEST;LEAF_STAT_UPDATE,LEAF_STAT_UPDATE;AcntDesg,AcntDesg;AddInfo,AddInfo;TFBGClaim,TFBGClaim;TFBGStlmnt,TFBGStlmnt;TFBGContrct,TFBGContrct;TFBGPymnt,TFBGPymnt;FlexiDepTxn,FlexiDepTxn;CARD_FX_SETTLEMENT,CARD_FX_SETTLEMENT;Ext_Sys_Chrg,Ext_Sys_Chrg;SBBTransfer,SBBTransfer;SBBIntrstReversal,SBBIntrstReversal;SBBTaxReversal,SBBTaxReversal;CntrctTrnsfr,CntrctTrnsfr;E_MONEY_BOX_MONTHEND_TXNS,E_MONEY_BOX_MONTHEND_TXNS;LossRecovery,LossRecovery;Business,Business;BusinessBank,BusinessBank;SCNTransfer,SCNTransfer;RSChequeReOrder,RSChequeReOrder;TxnCntMtchng,TxnCntMtchng;SCNAdjustment,SCNAdjustment;BulkCshWdrwl,BulkCshWdrwl;BulkCshDpst,BulkCshDpst;MarkedNotes,MarkedNotes;CHEQUE_BOOK_SUB_ORDER,CHEQUE_BOOK_SUB_ORDER;CHEQUE_INVENTORY_REQUEST,CHEQUE_INVENTORY_REQUEST;CHEQUE_INVENTORY_REQUEST_DTLS,CHEQUE_INVENTORY_REQUEST_DTLS;SCNTxn,SCNTxn;RSFundTrf,RSFundTrf;FakeNotesTxn,FakeNotesTxn;SCNTallyTxn,SCNTallyTxn;LnkgTxn,LnkgTxn;LoanFreezing,LoanFreezing;Report,Report;LoanWriteOff,LoanWriteOff;LoanPartWriteOff,LoanPartWriteOff;LoanReschedule,LoanReschedule;LoanRollover,LoanRollover;LoanForcedIntrstCaptlzt,LoanForcedIntrstCaptlzt;AdvanceRepayment,AdvanceRepayment;CollateralPool,CollateralPool;LoanForcedIntrstCaptlztn,LoanForcedIntrstCaptlztn;AssetTxn,AssetTxn;ConstructionDisb,ConstructionDisb;RetentionPay,RetentionPay;branch_transfer,branch_transfer;LoanAdjustment,LoanAdjustment;FORBEARANCE,FORBEARANCE;Offline_Settlement,Offline_Settlement;LimitRedraw,LimitRedraw;Insurance,Insurance;NegBal,NegBal;AMEStandingOrder,AMEStandingOrder;NPATxn,NPATxn;ShreAppln,ShreAppln;Syndication,Syndication;CollateralRelease,CollateralRelease;Securitization,Securitization;PndngChrgComp,PndngChrgComp;Appraisal,Appraisal;PASSBOOK_ACCOUNT,PASSBOOK_ACCOUNT;AccStmntTxn,AccStmntTxn;KIOSK_DEP_TXN,KIOSK_DEP_TXN;IBT,IBT;Challan,Challan;IBT_Res,IBT_Res;FollowUp,FollowUp;VendorTxn,VendorTxn;FixedAssetPur,FixedAssetPur;FixedAsset,FixedAsset;RfndOfRpymntAdvnc,RfndOfRpymntAdvnc;TopUp,TopUp;DownPayment,DownPayment;RSBillsBatchOrd,RSBillsBatchOrd;RSCashOrd,RSCashOrd;RSDrftSaleOrd,RSDrftSaleOrd;RSTCSaleOrd,RSTCSaleOrd;RSBillsPrchsOrd,RSBillsPrchsOrd;LoanRecall,LoanRecall;SecDeposit,SecDeposit;IntrstSubsidy,IntrstSubsidy;CommdtyPurchase,CommdtyPurchase;CommdtySell,CommdtySell;CommdtyTransfer,CommdtyTransfer;BackValueDtRpymnt,BackValueDtRpymnt;BackValueDtPrePymnt,BackValueDtPrePymnt;DwnpymntSubsidy,DwnpymntSubsidy;LoanCancellation,LoanCancellation;CommImmSell,CommImmSell;RescheduleChrge,RescheduleChrge;DeveloperAccountingTranche,DeveloperAccountingTranche;PurchseOnCompletion,PurchseOnCompletion;Virtual,Virtual;FUNDING_TXN,FUNDING_TXN;FUNDING_BOOKING,FUNDING_BOOKING;PreNotice,PreNotice;SyndicationLoan,SyndicationLoan;LoanPostponement,LoanPostponement;Preclosure,Preclosure;Prepaymnt,Prepaymnt;WriteOffCollection,WriteOffCollection;ComdtyBlockfrRlos,ComdtyBlockfrRlos;ELCTxn,ELCTxn;ELCBillTxn,ELCBillTxn;ELCBillPayTxn,ELCBillPayTxn;EDCBillTxn,EDCBillTxn;LocCrBlncGL,LocCrBlncGL;CryptoWallet,CryptoWallet;RepaySimulExtract,RepaySimulExtract;CryptoStakingTransfer,CryptoStakingTransfer;CryptoExitOrder,CryptoExitOrder;CryptoRebalancing,CryptoRebalancing;ATMBlncInqTxnChrg,ATMBlncInqTxnChrg;ATMDecTxnChrg,ATMDecTxnChrg;Escrow,Escrow;VAM_BKNG,VAM_BKNG;BCStopPymnt,BCStopPymnt;BCRevokeStopPymnt,BCRevokeStopPymnt;CryptoStakingRewards,CryptoStakingRewards;RevOfRepayment,RevOfRepayment;DeathDisability,DeathDisability;EarlyTermDeathdisability,EarlyTermDeathdisability;EarlyTermBuyoutloan,EarlyTermBuyoutloan;EarlyTermStaffloan,EarlyTermStaffloan;EarlyTermPreremidial,EarlyTermPreremidial;SyndicationEvent,SyndicationEvent;AWBEndorsement,AWBEndorsement;IBGPosTyp,IBGPosTyp;CrncySwtch,CrncySwtch;ManualInterestAdjust,ManualInterestAdjust;ChrgSimulator,ChrgSimulator;EDCPurchaseOrder,EDCPurchaseOrder;APAROrigination,APAROrigination;APARResponding,APARResponding;TFIBGContrct,TFIBGContrct;ChngStlmntAcnt,ChngStlmntAcnt;NPDPosTyp,NPDPosTyp;AWBDCPosTyp,AWBDCPosTyp;PDC_TXN,PDC_TXN;UFT_TXN,UFT_TXN;Contingent_Txn,Contingent_Txn;Issuance_SPLetterOfComfort,Issuance_SPLetterOfComfort;Reversal_SPLetterOfComfort,Reversal_SPLetterOfComfort;Forward_FAReceiptLetterOfComfort,Forward_FAReceiptLetterOfComfort;Reversal_FAReceiptLetterOfComfort,Reversal_FAReceiptLetterOfComfort;Issuance_of_Nonfund,Issuance_of_Nonfund;Payment_of_Nonfund,Payment_of_Nonfund;Forward_SFAUtilisation,Forward_SFAUtilisation;Reversal_SFAUtilisation,Reversal_SFAUtilisation;TFCrystallizationLoan,TFCrystallizationLoan;DormancyChrg,DormancyChrg;SalePurchasePosTyp,SalePurchasePosTyp;DpstChrgs,DpstChrgs;Onlinebnkingpymntbkng,Onlinebnkingpymntbkng;Discountingorder,Discountingorder;Product,Product;Nostro,Nostro;LOC,LOC;Savings,Savings;Term Deposit,Term Deposit;'
+        lc-reference:
+          type: number
+          description: This field will contain POS_ID
+        event-leg-id:
+          type: number
+          description: This field will contain EVNT_LEG_ID
+      description: LETTER-OF-CREDIT-DRAFT-DETAILS-RESPONSE-DRAFT-DETAILS
 ######## export-lc-bill-payment GET
     export-lc-bill-payment-get-response:
       type: object
       properties:
-        export-lc-bill-paymen:
+        export-lc-bill-payment:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-bill-payment-get-response-export-lc-bill-paymen'
+            $ref: '#/components/schemas/export-lc-bill-payment-get-response-export-lc-bill-payment'
       description: EXPORT-LC-BILL-PAYMENT-GET-RESPONSE
-    export-lc-bill-payment-get-response-export-lc-bill-paymen:
+    export-lc-bill-payment-get-response-export-lc-bill-payment:
       type: object
       properties:
         entity:
@@ -3307,16 +3492,16 @@ components:
     export-lc-bill-payment-post-request:
       type: object
       properties:
-        export-lc-bill-paymen:
-          $ref: '#/components/schemas/export-lc-bill-payment-post-request-export-lc-bill-paymen'
-        payment-detail:
-          $ref: '#/components/schemas/export-lc-bill-payment-post-request-payment-detail'
-        credit-detail:
+        export-lc-bill-payment:
+          $ref: '#/components/schemas/export-lc-bill-payment-post-request-export-lc-bill-payment'
+        payment-details:
+          $ref: '#/components/schemas/export-lc-bill-payment-post-request-payment-details'
+        credit-details:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-bill-payment-post-request-credit-detail'
+            $ref: '#/components/schemas/export-lc-bill-payment-post-request-credit-details'
       description: EXPORT-LC-BILL-PAYMENT-POST-REQUEST
-    export-lc-bill-payment-post-request-export-lc-bill-paymen:
+    export-lc-bill-payment-post-request-export-lc-bill-payment:
       required:
         - correspondence-medium
         - bill-reference
@@ -3340,7 +3525,7 @@ components:
         type-of-lc:
           type: number
           description: Type of LC
-    export-lc-bill-payment-post-request-payment-detail:
+    export-lc-bill-payment-post-request-payment-details:
       type: object
       properties:
         amount:
@@ -3400,7 +3585,7 @@ components:
         reference-number:
           type: string
           description: Reference Number
-    export-lc-bill-payment-post-request-credit-detail:
+    export-lc-bill-payment-post-request-credit-details:
       required:
         - deal-type
         - account-type
@@ -3443,10 +3628,10 @@ components:
     export-lc-bill-payment-post-response:
       type: object
       properties:
-        export-lc-bill-paymen:
-          $ref: '#/components/schemas/export-lc-bill-payment-post-response-export-lc-bill-paymen'
+        export-lc-bill-payment:
+          $ref: '#/components/schemas/export-lc-bill-payment-post-response-export-lc-bill-payment'
       description: EXPORT-LC-BILL-PAYMENT-POST-RESPONSE
-    export-lc-bill-payment-post-response-export-lc-bill-paymen:
+    export-lc-bill-payment-post-response-export-lc-bill-payment:
       type: object
       properties:
         bill-payment-pos-type:
@@ -3465,14 +3650,14 @@ components:
     export-lc-bill-payment-get-bill-payment-reference-response:
       type: object
       properties:
-        export-lc-bill-paymen:
-          $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-export-lc-bill-paymen'
-        payment-detail:
-          $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-payment-detail'
-        credit-detail:
-          $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-credit-detail'
+        export-lc-bill-payment:
+          $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-export-lc-bill-payment'
+        payment-details:
+          $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-payment-details'
+        credit-details:
+          $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-credit-details'
       description: EXPORT-LC-BILL-PAYMENT-GET-BILL-PAYMENT-REFERENCE-RESPONSE
-    export-lc-bill-payment-get-bill-payment-reference-response-export-lc-bill-paymen:
+    export-lc-bill-payment-get-bill-payment-reference-response-export-lc-bill-payment:
       type: object
       properties:
         entity:
@@ -3550,7 +3735,7 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,Released:Released,Verified:Verified,Executed:Executed,Rejected:Rejected,AmndmntInit:AmndmntInit,WaitingForRate:WaitingForRate,Expired:Expired,CnclClosePndng:CnclClosePndng,CnclCloseVerify:CnclCloseVerify,Cancelled:Cancelled,Closed:Closed,ModifyOnHold:ModifyOnHold,ModifyReleased:ModifyReleased,RevivedLCOnHold:RevivedLCOnHold,RevivedLCReleased:RevivedLCReleased,Revived:Revived,SentBack:SentBack,SGPending:SGPending,ComplianceFailed:ComplianceFailed,ComplianceOnHold:ComplianceOnHold,Reject:Reject;'
-    export-lc-bill-payment-get-bill-payment-reference-response-payment-detail:
+    export-lc-bill-payment-get-bill-payment-reference-response-payment-details:
       type: object
       properties:
         bill-amount-currency:
@@ -3643,7 +3828,7 @@ components:
         shortfall-recovery-acct-ref:
           type: string
           description: Shortfall Recovery Acct Ref
-    export-lc-bill-payment-get-bill-payment-reference-response-credit-detail:
+    export-lc-bill-payment-get-bill-payment-reference-response-credit-details:
       type: object
       properties:
         deal-type:
@@ -3698,16 +3883,16 @@ components:
     export-lc-bill-payment-put-request:
       type: object
       properties:
-        export-lc-bill-paymen:
-          $ref: '#/components/schemas/export-lc-bill-payment-put-request-export-lc-bill-paymen'
-        payment-detail:
-          $ref: '#/components/schemas/export-lc-bill-payment-put-request-payment-detail'
-        credit-detail:
+        export-lc-bill-payment:
+          $ref: '#/components/schemas/export-lc-bill-payment-put-request-export-lc-bill-payment'
+        payment-details:
+          $ref: '#/components/schemas/export-lc-bill-payment-put-request-payment-details'
+        credit-details:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-bill-payment-put-request-credit-detail'
+            $ref: '#/components/schemas/export-lc-bill-payment-put-request-credit-details'
       description: EXPORT-LC-BILL-PAYMENT-PUT-REQUEST
-    export-lc-bill-payment-put-request-export-lc-bill-paymen:
+    export-lc-bill-payment-put-request-export-lc-bill-payment:
       required:
         - type-of-lc
         - requested-status
@@ -3728,7 +3913,7 @@ components:
         requested-status:
           type: number
           description: 'REQUESTED-STATUS Allowed values:OnHold:OnHold,Released:Released,Verified:Verified,Executed:Executed,Rejected:Rejected,AmndmntInit:AmndmntInit,WaitingForRate:WaitingForRate,Expired:Expired,CnclClosePndng:CnclClosePndng,CnclCloseVerify:CnclCloseVerify,Cancelled:Cancelled,Closed:Closed,ModifyOnHold:ModifyOnHold,ModifyReleased:ModifyReleased,RevivedLCOnHold:RevivedLCOnHold,RevivedLCReleased:RevivedLCReleased,Revived:Revived,SentBack:SentBack,SGPending:SGPending,ComplianceFailed:ComplianceFailed,ComplianceOnHold:ComplianceOnHold,Reject:Reject;'
-    export-lc-bill-payment-put-request-payment-detail:
+    export-lc-bill-payment-put-request-payment-details:
       type: object
       properties:
         amount:
@@ -3788,7 +3973,7 @@ components:
         reference-number:
           type: string
           description: Reference Number
-    export-lc-bill-payment-put-request-credit-detail:
+    export-lc-bill-payment-put-request-credit-details:
       required:
         - deal-type
         - account-type
@@ -3832,10 +4017,10 @@ components:
     export-lc-bill-payment-put-response:
       type: object
       properties:
-        export-lc-bill-paymen:
-          $ref: '#/components/schemas/export-lc-bill-payment-put-response-export-lc-bill-paymen'
+        export-lc-bill-payment:
+          $ref: '#/components/schemas/export-lc-bill-payment-put-response-export-lc-bill-payment'
       description: EXPORT-LC-BILL-PAYMENT-PUT-RESPONSE
-    export-lc-bill-payment-put-response-export-lc-bill-paymen:
+    export-lc-bill-payment-put-response-export-lc-bill-payment:
       type: object
       properties:
         bill-payment-pos-type:
@@ -3854,10 +4039,10 @@ components:
     export-lc-bill-payment-patch-request:
       type: object
       properties:
-        export-lc-bill-paymen:
-          $ref: '#/components/schemas/export-lc-bill-payment-patch-request-export-lc-bill-paymen'
+        export-lc-bill-payment:
+          $ref: '#/components/schemas/export-lc-bill-payment-patch-request-export-lc-bill-payment'
       description: EXPORT-LC-BILL-PAYMENT-PATCH-REQUEST
-    export-lc-bill-payment-patch-request-export-lc-bill-paymen:
+    export-lc-bill-payment-patch-request-export-lc-bill-payment:
       required:
         - user-action
       type: object
@@ -3871,19 +4056,19 @@ components:
     export-lc-bill-payment-patch-response:
       type: object
       properties:
-        export-lc-bill-paymen:
-          $ref: '#/components/schemas/export-lc-bill-payment-put-response-export-lc-bill-paymen'
+        export-lc-bill-payment:
+          $ref: '#/components/schemas/export-lc-bill-payment-put-response-export-lc-bill-payment'
       description: EXPORT-LC-BILL-PAYMENT-PATCH-RESPONSE
 ######## export-lc-post-shipment-crystallization-or-bill-recovery GET
     export-lc-post-shipment-crystallization-or-bill-recovery-get-response:
       type: object
       properties:
-         export-lc-post-shipment-crystallization-or-bill-recover:
+         export-lc-post-shipment-crystallization-or-bill-recovery:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-get-response-export-lc-post-shipment-crystallization-or-bill-recover'
+            $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-get-response-export-lc-post-shipment-crystallization-or-bill-recovery'
       description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-GET-RESPONSE
-    export-lc-post-shipment-crystallization-or-bill-recovery-get-response-export-lc-post-shipment-crystallization-or-bill-recover:
+    export-lc-post-shipment-crystallization-or-bill-recovery-get-response-export-lc-post-shipment-crystallization-or-bill-recovery:
       type: object
       properties:
         entity:
@@ -3932,14 +4117,14 @@ components:
     export-lc-post-shipment-crystallization-or-bill-recovery-post-request:
       type: object
       properties:
-        export-lc-post-shipment-crystallization-or-bill-recover:
-          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-post-request-export-lc-post-shipment-crystallization-or-bill-recover'
-        recovery-detail:
+        export-lc-post-shipment-crystallization-or-bill-recovery:
+          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-post-request-export-lc-post-shipment-crystallization-or-bill-recovery'
+        recovery-details:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-post-request-recovery-detail'
+            $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-post-request-recovery-details'
       description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-POST-REQUEST
-    export-lc-post-shipment-crystallization-or-bill-recovery-post-request-export-lc-post-shipment-crystallization-or-bill-recover:
+    export-lc-post-shipment-crystallization-or-bill-recovery-post-request-export-lc-post-shipment-crystallization-or-bill-recovery:
       required:
         - bill-reference-external
         - mode-of-recovery
@@ -3955,7 +4140,7 @@ components:
         requested-status:
           type: number
           description: 'REQUESTED-STATUS Allowed values:OnHold:OnHold,PendingAuthorisation:PendingAuthorisation,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Rejected:Rejected,Cancelled:Cancelled,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Close:Close,Executed:Executed,Expired:Expired,Failed:Failed,InActive:InActive,MOnHold:MOnHold,MPendActOnHOld:MPendActOnHOld,MPendActPendingAuth:MPendActPendingAuth,MPendingAuth:MPendingAuth,OnHold:OnHold,Open:Open,PendingActivation:PendingActivation,PendingCancel:PendingCancel,PendingClosure:PendingClosure,Successful:Successful,PendingInactivation:PendingInactivation,PendingPendActiveCancel:PendingPendActiveCancel,PendingReopen:PendingReopen,ReInitiate:ReInitiate,Rejected:Rejected,Impaired:Impaired,Writeoff:Writeoff,NonPrfAsset:NonPrfAsset,WaitingForRate:WaitingForRate,RepairAwaited:RepairAwaited,AuthAwaited:AuthAwaited,PendWriteoff:PendWriteoff,RolloverMergeClosed:RolloverMergeClosed,PendingClosureWaitingForRate:PendingClosureWaitingForRate,PendingClosureAuthAwaited:PendingClosureAuthAwaited,ReschedPendngAuth:ReschedPendngAuth,AuthWtchRjctd:AuthWtchRjctd,PendingReversal:PendingReversal,Reversed:Reversed,Rescinded:Rescinded,IRSCancelled:IRSCancelled,PndngClsrCalcAwatd:PndngClsrCalcAwatd,PndngClsrCalcCompl:PndngClsrCalcCompl,IRSPendingCancel:IRSPendingCancel,PymntInitdFrClsr:PymntInitdFrClsr,Liquidated:Liquidated,PendingClosureInitiated:PendingClosureInitiated,Released:Released,PendingRevert:PendingRevert,Reverted:Reverted,Authorised:Authorised,PendingAuth:PendingAuth,ReversalAuth:ReversalAuth,ReversalRejected:ReversalRejected,Freezed:Freezed,PendingFreeze:PendingFreeze,Utilised:Utilised,Deferred:Deferred,SentBack:SentBack;'
-    export-lc-post-shipment-crystallization-or-bill-recovery-post-request-recovery-detail:
+    export-lc-post-shipment-crystallization-or-bill-recovery-post-request-recovery-details:
       required:
         - recovery-account-type
         - recovery-account-number
@@ -3979,10 +4164,10 @@ components:
     export-lc-post-shipment-crystallization-or-bill-recovery-post-response:
       type: object
       properties:
-        export-lc-post-shipment-crystallization-or-bill-recover:
-          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-post-response-export-lc-post-shipment-crystallization-or-bill-recover'
+        export-lc-post-shipment-crystallization-or-bill-recovery:
+          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-post-response-export-lc-post-shipment-crystallization-or-bill-recovery'
       description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-POST-RESPONSE
-    export-lc-post-shipment-crystallization-or-bill-recovery-post-response-export-lc-post-shipment-crystallization-or-bill-recover:
+    export-lc-post-shipment-crystallization-or-bill-recovery-post-response-export-lc-post-shipment-crystallization-or-bill-recovery:
       type: object
       properties:
         crystallization-pos-type:
@@ -4001,14 +4186,14 @@ components:
     export-lc-post-shipment-crystallization-or-bill-recovery-get2-response:
       type: object
       properties:
-        export-lc-post-shipment-crystallization-or-bill-recover:
-          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-export-lc-post-shipment-crystallization-or-bill-recover'
-        recovery-detail:
+        export-lc-post-shipment-crystallization-or-bill-recovery:
+          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-export-lc-post-shipment-crystallization-or-bill-recovery'
+        recovery-details:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-recovery-detail'
+            $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-recovery-details'
       description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-GET2-RESPONSE
-    export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-export-lc-post-shipment-crystallization-or-bill-recover:
+    export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-export-lc-post-shipment-crystallization-or-bill-recovery:
       type: object
       properties:
         entity:
@@ -4101,7 +4286,7 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,PendingAuthorisation:PendingAuthorisation,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Rejected:Rejected,Cancelled:Cancelled,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Close:Close,Executed:Executed,Expired:Expired,Failed:Failed,InActive:InActive,MOnHold:MOnHold,MPendActOnHOld:MPendActOnHOld,MPendActPendingAuth:MPendActPendingAuth,MPendingAuth:MPendingAuth,OnHold:OnHold,Open:Open,PendingActivation:PendingActivation,PendingCancel:PendingCancel,PendingClosure:PendingClosure,Successful:Successful,PendingInactivation:PendingInactivation,PendingPendActiveCancel:PendingPendActiveCancel,PendingReopen:PendingReopen,ReInitiate:ReInitiate,Rejected:Rejected,Impaired:Impaired,Writeoff:Writeoff,NonPrfAsset:NonPrfAsset,WaitingForRate:WaitingForRate,RepairAwaited:RepairAwaited,AuthAwaited:AuthAwaited,PendWriteoff:PendWriteoff,RolloverMergeClosed:RolloverMergeClosed,PendingClosureWaitingForRate:PendingClosureWaitingForRate,PendingClosureAuthAwaited:PendingClosureAuthAwaited,ReschedPendngAuth:ReschedPendngAuth,AuthWtchRjctd:AuthWtchRjctd,PendingReversal:PendingReversal,Reversed:Reversed,Rescinded:Rescinded,IRSCancelled:IRSCancelled,PndngClsrCalcAwatd:PndngClsrCalcAwatd,PndngClsrCalcCompl:PndngClsrCalcCompl,IRSPendingCancel:IRSPendingCancel,PymntInitdFrClsr:PymntInitdFrClsr,Liquidated:Liquidated,PendingClosureInitiated:PendingClosureInitiated,Released:Released,PendingRevert:PendingRevert,Reverted:Reverted,Authorised:Authorised,PendingAuth:PendingAuth,ReversalAuth:ReversalAuth,ReversalRejected:ReversalRejected,Freezed:Freezed,PendingFreeze:PendingFreeze,Utilised:Utilised,Deferred:Deferred,SentBack:SentBack;'
-    export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-recovery-detail:
+    export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-recovery-details:
       type: object
       properties:
         recovery-account-type:
@@ -4120,14 +4305,14 @@ components:
     export-lc-post-shipment-crystallization-or-bill-recovery-put-request:
       type: object
       properties:
-        export-lc-post-shipment-crystallization-or-bill-recover:
-          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-put-request-export-lc-post-shipment-crystallization-or-bill-recover'
-        recovery-detail:
+        export-lc-post-shipment-crystallization-or-bill-recovery:
+          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-put-request-export-lc-post-shipment-crystallization-or-bill-recovery'
+        recovery-details:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-put-request-recovery-detail'
+            $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-put-request-recovery-details'
       description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-PUT-REQUEST
-    export-lc-post-shipment-crystallization-or-bill-recovery-put-request-export-lc-post-shipment-crystallization-or-bill-recover:
+    export-lc-post-shipment-crystallization-or-bill-recovery-put-request-export-lc-post-shipment-crystallization-or-bill-recovery:
       required:
         - bill-reference-externa
         - mode-of-recover
@@ -4143,7 +4328,7 @@ components:
         requested-statu:
           type: number
           description: State Transition will be OnHold, Released
-    export-lc-post-shipment-crystallization-or-bill-recovery-put-request-recovery-detail:
+    export-lc-post-shipment-crystallization-or-bill-recovery-put-request-recovery-details:
       required:
         - recovery-account-typ
         - recovery-account-numbe
@@ -4166,10 +4351,10 @@ components:
     export-lc-post-shipment-crystallization-or-bill-recovery-put-response:
       type: object
       properties:
-        export-lc-post-shipment-crystallization-or-bill-recover:
-          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-put-response-export-lc-post-shipment-crystallization-or-bill-recover'
+        export-lc-post-shipment-crystallization-or-bill-recovery:
+          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-put-response-export-lc-post-shipment-crystallization-or-bill-recovery'
       description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-PUT-RESPONSE
-    export-lc-post-shipment-crystallization-or-bill-recovery-put-response-export-lc-post-shipment-crystallization-or-bill-recover:
+    export-lc-post-shipment-crystallization-or-bill-recovery-put-response-export-lc-post-shipment-crystallization-or-bill-recovery:
       type: object
       properties:
         crystallization-pos-type:
@@ -4188,7 +4373,7 @@ components:
     export-lc-post-shipment-crystallization-or-bill-recovery-patch-request:
       type: object
       properties:
-        export-lc-post-shipment-crystallization-or-bill-recover:
+        export-lc-post-shipment-crystallization-or-bill-recovery:
           $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-patch-request-export-lc-post-shipment-crystallization-or-bill-recover'
       description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-PATCH-REQUEST
     export-lc-post-shipment-crystallization-or-bill-recovery-patch-request-export-lc-post-shipment-crystallization-or-bill-recover:
@@ -4202,6 +4387,218 @@ components:
         remarks:
           type: string
           description: Qualifying remarks if any. Mandatory, in case of Reject, Cancel
+######## export-lc-pre-post-shipment-loan-registration POST
+    export-lc-pre-post-shipment-loan-registration-post-request:
+      type: object
+      properties:
+        elc-pre-shipment-loan-amount-details:
+          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-shipment-loan-amount-details'
+        elc-post-shipment-loan-n-or-p-or-d-details:
+          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request-elc-post-shipment-loan-n-or-p-or-d-details'
+        elc-post-shipment-loan:
+          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request-elc-post-shipment-loan'
+        elc-pre-shipment-loan:
+          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-shipment-loan'
+        elc-pre-post-shipment-loan-settlement-details:
+          type: array
+          items:
+            $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-post-shipment-loan-settlement-details'
+      description: EXPORT-LC-PRE-POST-SHIPMENT-LOAN-REGISTRATION-POST-REQUEST
+    export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-shipment-loan-amount-details:
+      required:
+        - fob-value
+        - available-balance
+        - loan-eligible-amount
+        - margin-percentage
+        - loan-currency-type
+        - loan-amount
+        - eligible-amount
+        - exchange-rate-or-mid-rate
+      type: object
+      properties:
+        fob-value:
+          type: string
+          description: FOB Value
+        available-balance:
+          type: string
+          description: Available Balance
+        loan-eligible-amount:
+          type: string
+          description: Loan Eligible Amount
+        uin-expiry-date:
+          type: string
+          description: UIN Expiry Date
+        interest-subvention-rate:
+          type: number
+          description: Interest Subvention Rate
+        margin-percentage:
+          type: number
+          description: Margin Percentage
+        loan-currency-type:
+          type: number
+          description: Loan Currency Type
+        loan-amount:
+          type: string
+          description: Loan Amount
+        msme-customer:
+          type: number
+          description: 'MSME-CUSTOMER Allowed values:Yes:Yes,No:No;'
+        eligible-amount:
+          type: string
+          description: Eligible Amount
+        exchange-rate-or-mid-rate:
+          type: number
+          description: Exchange Rate or Mid Rate
+        uin:
+          type: number
+          description: UIN
+        eligible-for-subvention:
+          type: number
+          description: 'ELIGIBLE-FOR-SUBVENTION Allowed values:Yes:Yes,No:No;'
+    export-lc-pre-post-shipment-loan-registration-post-request-elc-post-shipment-loan-n-or-p-or-d-details:
+      required:
+        - margin-percentage
+        - shipment-type
+        - eligible-loan-amount
+        - loan-currency-type
+        - n-or-p-or-d-or-aacb-amount
+      type: object
+      properties:
+        risk-at :
+          type: number
+          description: 'RISK-AT  Allowed values:IssuingBank:IssuingBank,Customer:Customer;'
+        margin-percentage:
+          type: number
+          description: Margin Percentage
+        uin :
+          type: string
+          description: UIN 
+        eligible-for-subvention:
+          type: number
+          description: 'ELIGIBLE-FOR-SUBVENTION Allowed values:Yes:Yes,No:No;'
+        shipment-type:
+          type: number
+          description: 'SHIPMENT-TYPE Allowed values:PreShipment:PreShipment,PostShipment:PostShipment;'
+        eligible-loan-amount:
+          type: string
+          description: Eligible Loan Amount
+        uin-expiry-date :
+          type: string
+          description: UIN Expiry Date 
+        interest-subvention-rate :
+          type: number
+          description: Interest Subvention Rate 
+        loan-currency-type:
+          type: string
+          description: Loan Currency Type
+        n-or-p-or-d-or-aacb-amount:
+          type: string
+          description: N or P or D or AACB Amount
+        msme-customer :
+          type: number
+          description: 'MSME-CUSTOMER  Allowed values:Yes:Yes,No:No;'
+    export-lc-pre-post-shipment-loan-registration-post-request-elc-post-shipment-loan:
+      required:
+        - bill-reference-external
+        - operation-type
+      type: object
+      properties:
+        bill-reference-external:
+          type: string
+          description: Bill Reference External
+        discrepancy-status :
+          type: number
+          description: 'DISCREPANCY-STATUS  Allowed values:Yes:Yes,No:No;'
+        operation-type:
+          type: string
+          description: Operation Type
+        acceptance-status :
+          type: number
+          description: 'ACCEPTANCE-STATUS  Allowed values:Yes:Yes,No:No;'
+    export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-shipment-loan:
+      required:
+        - document-type
+        - transaction-date
+        - document-ref-number
+        - latest-shipment-date
+      type: object
+      properties:
+        document-type:
+          type: number
+          description: 'DOCUMENT-TYPE Allowed values:ELC:ELC,PO_PI_SC:PO_PI_SC,Others:Others,Electricity Bill:Electricity Bill,PortMngmntAgrmnt:PortMngmntAgrmnt,Export:Export,ImportDesp:ImportDesp,ExpDesp:ExpDesp,ExpImpDesp:ExpImpDesp,ExconLOA:ExconLOA,Disclaimer Form:Disclaimer Form,KYC1:KYC1,Trade License:Trade License,KYC3:KYC3,PEP:PEP,POA Agreement:POA Agreement,Passport:Passport,Memorandum of Association:Memorandum of Association,Articles of Association:Articles of Association,BrdResolDoc:BrdResolDoc,Utiliy Bill:Utiliy Bill,Miscellaneous:Miscellaneous,Aus Wthhld KESt1:Aus Wthhld KESt1,Aus Wthhld KESt2:Aus Wthhld KESt2,Aus Wthhld KESt2 Options:Aus Wthhld KESt2 Options,Aus Wthhld KESt3:Aus Wthhld KESt3,EUQuest Document:EUQuest Document,All:All,Fiscal Declaration For Custody Account:Fiscal Declaration For Custody Account,Aus Backup Tax:Aus Backup Tax,WHT Exemption:WHT Exemption,WHT Reduction:WHT Reduction,15H:15H,Account Opening:Account Opening,Birth Certificate:Birth Certificate,Guradian Official Identification:Guradian Official Identification,Valid paper work for foreigners:Valid paper work for foreigners,Statement of Account:Statement of Account,GST-In:GST-In,Bankers Verification:Bankers Verification,Education ID card:Education ID card,Government Origination ID Card:Government Origination ID Card,Photo Credit Card:Photo Credit Card,Document of Local Bodies:Document of Local Bodies,Document of Central State Government:Document of Central State Government,CUSTOMER PROFILE FORM:CUSTOMER PROFILE FORM,AOF:AOF,PHOTO:PHOTO,SIGNATURE:SIGNATURE,SPECIMEN CARD:SPECIMEN CARD,E-KYC:E-KYC,PAN VALIDATION:PAN VALIDATION,MOBILE BANKING FORM:MOBILE BANKING FORM,INTERNET BANKING FORM:INTERNET BANKING FORM,SMS BANKING FORM:SMS BANKING FORM,VISA DEBIT CARD FORM:VISA DEBIT CARD FORM,RUPAY DEBIT CARD FORM:RUPAY DEBIT CARD FORM,CHEQUE BOOK FORM:CHEQUE BOOK FORM,PNCPS FORM:PNCPS FORM,LTD FORM:LTD FORM,NREGA Job card:NREGA Job card,PHOTO I-CARD ISSUED BY PUBLIC FINANCIAL INSTITUTION:PHOTO I-CARD ISSUED BY PUBLIC FINANCIAL INSTITUTION,CLOSE RELATIVE DECLARATION:CLOSE RELATIVE DECLARATION,PHOTOCARD ISSUED BY STATE GOVT.:PHOTOCARD ISSUED BY STATE GOVT.,FORM 60:FORM 60,CST CERTIFICATE:CST CERTIFICATE,COPARCENERS DECLARATION:COPARCENERS DECLARATION,GAZETTE NOTIFICATION:GAZETTE NOTIFICATION,HUF DEED:HUF DEED,LETTER FROM EMPLOYER:LETTER FROM EMPLOYER,LIST OF COPARCENERS:LIST OF COPARCENERS,MARRIAGE CERTIFICATE:MARRIAGE CERTIFICATE,PARTNERSHIP DEED:PARTNERSHIP DEED,POWER OF ATORNY:POWER OF ATORNY,RESOLUTION:RESOLUTION,SALES TAX RETURN:SALES TAX RETURN,TRUST DEED:TRUST DEED,VAT CERTIFICATE:VAT CERTIFICATE,VISA:VISA,PROFESSIONAL TAX AUTHORITY CERTIFICATE:PROFESSIONAL TAX AUTHORITY CERTIFICATE,SALES TAX AUTHORITY CERTIFICATE:SALES TAX AUTHORITY CERTIFICATE,SERVICE TAX AUTHORITY CERTIFICATE:SERVICE TAX AUTHORITY CERTIFICATE,PHOTO I-CARD ISSUED BY CENTRAL GOVT.:PHOTO I-CARD ISSUED BY CENTRAL GOVT.,PHOTO I-CARD ISSUED BY PUBLIC SECTOR UNDERTAKINGS:PHOTO I-CARD ISSUED BY PUBLIC SECTOR UNDERTAKINGS,REGISTERED SALE DEED:REGISTERED SALE DEED,REGISTERED RENT AGREEMENT:REGISTERED RENT AGREEMENT,IEC ISSUED BY DGFT:IEC ISSUED BY DGFT,PHOTO I-CARD ISSUED BY SCHEDULED COMMERCIAL BANKS:PHOTO I-CARD ISSUED BY SCHEDULED COMMERCIAL BANKS,PHOTO I-CARD ISSUED BY STATUTORY AUTHORITY:PHOTO I-CARD ISSUED BY STATUTORY AUTHORITY,PHOTO I-CARD ISSUED BY REGULATORY AUTHORITY:PHOTO I-CARD ISSUED BY REGULATORY AUTHORITY,GAZETTED OFFICERS LETTER WITH PHOTO ATTESTATION:GAZETTED OFFICERS LETTER WITH PHOTO ATTESTATION,MIGRANT WORKER FORM:MIGRANT WORKER FORM,FATCA FORM:FATCA FORM,STUDENT PHOTO I-CARD:STUDENT PHOTO I-CARD,OTHER BANK PASSBOOK WITH BANK STATEMENT:OTHER BANK PASSBOOK WITH BANK STATEMENT,FEE RECIEPT:FEE RECIEPT,CONTACT POINT VERIFICATION REPORT:CONTACT POINT VERIFICATION REPORT,COLLEGE LEAVING CERTIFICATE:COLLEGE LEAVING CERTIFICATE,NOTARISED RENT AGREEMENT WITH POLICE VERIFICATION:NOTARISED RENT AGREEMENT WITH POLICE VERIFICATION,RBI LICENSE:RBI LICENSE,GUARDIANS PAN CARD:GUARDIANS PAN CARD,FOOD DRUG LICENSE:FOOD DRUG LICENSE,PROPERTY TAX ISSUED BY MUNCIPAL AUTHORITY:PROPERTY TAX ISSUED BY MUNCIPAL AUTHORITY,SCHOOL BONAFIED CERTIFICATE:SCHOOL BONAFIED CERTIFICATE,NOC FROM GRAMPANCHAYAT:NOC FROM GRAMPANCHAYAT,GAS BILL/RECEIPT LATEST:GAS BILL/RECEIPT LATEST,SCHOOL LEAVING CERTIFICATE:SCHOOL LEAVING CERTIFICATE,I-20 FORM:I-20 FORM,SOCIAL SECURITY (NRE):SOCIAL SECURITY (NRE),ALL MERGED DOCUMENT:ALL MERGED DOCUMENT,CPF-Page-1:CPF-Page-1,CPF-Page-2:CPF-Page-2,CPF-Page-3:CPF-Page-3,CPF-Page-4:CPF-Page-4,AOF-Page-1:AOF-Page-1,AOF-Page-2:AOF-Page-2,1st Applicant Photo:1st Applicant Photo,2nd Applicant Photo:2nd Applicant Photo,3rd Applicant Photo:3rd Applicant Photo,4th Applicant Photo:4th Applicant Photo,ABCD:ABCD,CPR:CPR,IGA Certificate:IGA Certificate,Proof Of Address:Proof Of Address,Bank Statement:Bank Statement,TIN:TIN,SSN:SSN,W-9 Form:W-9 Form,W-8BEN Form:W-8BEN Form,Wathiq Consent:Wathiq Consent,W-8 ECI:W-8 ECI,W-8 EXP:W-8 EXP,W-8 IMY:W-8 IMY,License Certificate:License Certificate,Financial Statement:Financial Statement,Customer Consent Declaration Form:Customer Consent Declaration Form,Benefit Consent Form:Benefit Consent Form,Board Resolution Seeking Banking Services:Board Resolution Seeking Banking Services,Memorandum And AOA:Memorandum And AOA,Partnership Agreement:Partnership Agreement,RequestLetter:RequestLetter,EN-Unified National Establishment Number:EN-Unified National Establishment Number,Deed Of Pledge:Deed Of Pledge,Mortgage Note:Mortgage Note,Insurance Policy:Insurance Policy,Bank Guarantee:Bank Guarantee,LetterOfCredit:LetterOfCredit,FiduciaryAgr:FiduciaryAgr,PortMngmntAgrmn:PortMngmntAgrmn,PrfmncOtCur:PrfmncOtCur,IntrLetter:IntrLetter,Address Proof:Address Proof,Reference letter:Reference letter,Certificate of Incorporation:Certificate of Incorporation,Account Opening Form:Account Opening Form,SpcmnSgntur:SpcmnSgntur,Proxy Doc:Proxy Doc,DrvtvsAgrmnt:DrvtvsAgrmnt,Social Security Number:Social Security Number,W9:W9,EquityAgrmnt:EquityAgrmnt,MutualFundAgrmn:MutualFundAgrmn,OptionAgrmnt:OptionAgrmnt,FuturesAgrmnt:FuturesAgrmnt,AssetLiabMngt:AssetLiabMngt,IdentificationA:IdentificationA,ForeignAgrmnt:ForeignAgrmnt,PAN:PAN,Driving License:Driving License,Certified Articles of Incopration:Certified Articles of Incopration,Government issued license:Government issued license,Trust Instrument:Trust Instrument,EIN:EIN,ITIN:ITIN,ATIN:ATIN,PTIN:PTIN,CoSignerNtc:CoSignerNtc,26AAA:26AAA,Aadhaar Card:Aadhaar Card,NREGA Card:NREGA Card,Ration Card:Ration Card,Student ID Card:Student ID Card,TAN:TAN,Telephone Bill:Telephone Bill,Voter Identity Card:Voter Identity Card,Water Bill:Water Bill,Shop and Establishment Registration:Shop and Establishment Registration,Photo I-Card Issued By Public Financial Insitution:Photo I-Card Issued By Public Financial Insitution,Photo I-Card Issued By State Govt:Photo I-Card Issued By State Govt,Certificate Of Registration:Certificate Of Registration,Incorporation Certificate:Incorporation Certificate,Photo I-Card Issued By Central Govt:Photo I-Card Issued By Central Govt,Food & Drug License:Food & Drug License,FATCA Self Declaration:FATCA Self Declaration,Resident Identity:Resident Identity,Main Certificate Registration:Main Certificate Registration,Governmental Permission Letter:Governmental Permission Letter,Diplomatic Passport:Diplomatic Passport,Family Registration Book:Family Registration Book,Hafithat Nofos and Civil Regis:Hafithat Nofos and Civil Regis,Certificate of birth for speci:Certificate of birth for speci,SAMA approval letter:SAMA approval letter,Non-Saudi Passport:Non-Saudi Passport,Board of Directors Decision Fo:Board of Directors Decision Fo,Embassy Letter:Embassy Letter,President or Vice President Re:President or Vice President Re,Commercial License:Commercial License,Special Passport:Special Passport,Certificate of birth:Certificate of birth,Court Deed:Court Deed,Introduction Letter:Introduction Letter,GCC Passport:GCC Passport,Tribesmen of Rabi AlKhali Perm:Tribesmen of Rabi AlKhali Perm,GCC National Identification Ca:GCC National Identification Ca,Diplomatic Card:Diplomatic Card,Official Letter:Official Letter,Sub Certificate Registration:Sub Certificate Registration,Article of Association:Article of Association,Non-Saudi Certificate Registra:Non-Saudi Certificate Registra,Depository Area Lease Contract:Depository Area Lease Contract,Banking License:Banking License,Hereditary Succession Deed:Hereditary Succession Deed,Iqama Without Passport:Iqama Without Passport,Organizations Presence Agreeme:Organizations Presence Agreeme,SAMA Approval Letter (valid fo:SAMA Approval Letter (valid fo,Royal Order:Royal Order,Compliance Approval Letter:Compliance Approval Letter,Family Record:Family Record,License issued by the Ministry:License issued by the Ministry,Commercial Registration Contra:Commercial Registration Contra,Visitor Card/Temporary Iqama:Visitor Card/Temporary Iqama,Magnetic IQAMA:Magnetic IQAMA,License to practice the activi:License to practice the activi,ARAB:ARAB,aviation:aviation,CMA License:CMA License,Deceased Identity:Deceased Identity,DEFAULT ID TYPE:DEFAULT ID TYPE,Rental Agreement:Rental Agreement,Acknowledgment from bank in country of origin:Acknowledgment from bank in country of origin,Cpd approval:Cpd approval,Authorized representative file:Authorized representative file,Ajeer notice certified by the school:Ajeer notice certified by the school,Bedoun:Bedoun,Certified copy of civil registration ( woman ):Certified copy of civil registration ( woman ),Ministry of education eligibility certificate:Ministry of education eligibility certificate,Customer Agreement/File:Customer Agreement/File,Court Appointment Custodian ID:Court Appointment Custodian ID,Court Appointment Custodian License:Court Appointment Custodian License,Court Decision Appointing Custodian:Court Decision Appointing Custodian,Self Certification:Self Certification,Copy Of Dispute Document:Copy Of Dispute Document,Employment ID:Employment ID,Muqeem ID:Muqeem ID,Saudi ID card:Saudi ID card,Introduction letter from employer:Introduction letter from employer,Ids of heirs:Ids of heirs,Intr ltr fm area mayr prp/clr add:Intr ltr fm area mayr prp/clr add,Iqama:Iqama,Ids of reference:Ids of reference,Members ids:Members ids,Judicial Resolution Deed:Judicial Resolution Deed,Letter Of Entity Requesting Visit:Letter Of Entity Requesting Visit,Letter of intro/refer cert by govt/other agency:Letter of intro/refer cert by govt/other agency,License from min. of education:License from min. of education,Min of interior approval:Min of interior approval,Ministry of labor license:Ministry of labor license,Gcc national i.d. card:Gcc national i.d. card,Proof of ksa address:Proof of ksa address,Pledge to inform bank of each departure:Pledge to inform bank of each departure,Visit visa on passport:Visit visa on passport,Psprt with 3 mos wrkng visa:Psprt with 3 mos wrkng visa,Crs Self Certification:Crs Self Certification,Saudi passport:Saudi passport,Signature Card of authorized signatory:Signature Card of authorized signatory,Salary certificate/proof of income:Salary certificate/proof of income,Succession Deed:Succession Deed,Signature Card of cpt:Signature Card of cpt,Death Certificate:Death Certificate,Saudia ID card:Saudia ID card,Undertaking to present mq (magnetic iq)later stag:Undertaking to present mq (magnetic iq)later stag,Undertaking to inform end of contract:Undertaking to inform end of contract,Undertaking to prst pasprt at a ls:Undertaking to prst pasprt at a ls,Written commitment to notify final departure:Written commitment to notify final departure,Written req by entity to open acct:Written req by entity to open acct,IDs of all authorized signatories:IDs of all authorized signatories,Power of attorney to open / operate account:Power of attorney to open / operate account,Min of labor and social affairs letter:Min of labor and social affairs letter,Copy of decision to form the board of directors:Copy of decision to form the board of directors,Approval of high committee to collect donation:Approval of high committee to collect donation,Lic from min of islamic affairs for call and guid.:Lic from min of islamic affairs for call and guid.,License/permission from ministry of commerce:License/permission from ministry of commerce,License from min. of health:License from min. of health,Royal degree:Royal degree,License from gen. pres. for youth welfare (gpyw):License from gen. pres. for youth welfare (gpyw),Commercial registration:Commercial registration,Private Professional License:Private Professional License,Permanent License:Permanent License,Temporary License:Temporary License,Bank Memo:Bank Memo,Court Decision Appointing Custodian And his auth:Court Decision Appointing Custodian And his auth,Court Appointed Custodian id:Court Appointed Custodian id,Court Appointed Custodian License:Court Appointed Custodian License,Copy Of Disputes Document:Copy Of Disputes Document,Legal Deed (property endowment) wakf:Legal Deed (property endowment) wakf,ID Of Signatories:ID Of Signatories,Written Request:Written Request,By Laws:By Laws,Board Resolution:Board Resolution,Ministry Of Social Affairs License:Ministry Of Social Affairs License,Preliminary Articles Of Association:Preliminary Articles Of Association,Legalized c.r. of home country:Legalized c.r. of home country,Permit or lic from ministry:Permit or lic from ministry,Ministry Of Finance Approval:Ministry Of Finance Approval,Sagia License:Sagia License,Grievance Bureau Resolution:Grievance Bureau Resolution,Aprvl frm govt of home cntry:Aprvl frm govt of home cntry,Pledge Agreement:Pledge Agreement,Contract for Collateral Loans - Lombard Credit:Contract for Collateral Loans - Lombard Credit,Loan Pledge Agreement:Loan Pledge Agreement,Lombard Loan Agreement:Lombard Loan Agreement,Reg GG Certification:Reg GG Certification,W-8BEN-E:W-8BEN-E,SignatureCard:SignatureCard,UdyogAdhar:UdyogAdhar,TinNumber:TinNumber,IECode:IECode,TradeLicense:TradeLicense;'
+        expiry-date:
+          type: string
+          description: Expiry Date
+        incoterm:
+          type: number
+          description: 'INCOTERM Allowed values:CFR - Cost and Freight:CFR - Cost and Freight,CPT - Carriage Paid To:CPT - Carriage Paid To,CIP Carriage Insurance Paid To:CIP Carriage Insurance Paid To,CIF Cost Insurance and Freight:CIF Cost Insurance and Freight,DAP - Delivered at Place:DAP - Delivered at Place,Delivered Duty Paid:Delivered Duty Paid,EXW-Ex-Works:EXW-Ex-Works,Free alongside Ship:Free alongside Ship,FCA- Free Carrier:FCA- Free Carrier,Free Delivery at Sub Contract:Free Delivery at Sub Contract;'
+        transaction-date:
+          type: string
+          description: Transaction Date
+        document-ref-number:
+          type: string
+          description: Document Ref Number
+        latest-shipment-date:
+          type: string
+          description: Latest Shipment Date
+        shipment-type:
+          type: number
+          description: 'SHIPMENT-TYPE Allowed values:PreShipment:PreShipment,PostShipment:PostShipment;'
+    export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-post-shipment-loan-settlement-details:
+      required:
+        - deal-type
+        - equivalent-amount
+      type: object
+      properties:
+        deal-type:
+          type: number
+          description: Deal Type
+        transaction-ccy:
+          type: string
+          description: Transaction CCY
+        settlement-ccy:
+          type: string
+          description: Settlement CCY
+        transaction-amount:
+          type: number
+          description: Transaction Amount
+        deal-ref:
+          type: string
+          description: Deal Ref
+        exchange-rate:
+          type: number
+          description: Exchange Rate
+        equivalent-amount:
+          type: number
+          description: Equivalent Amount
+        remaining-amount:
+          type: number
+          description: Remaining Amount
+    export-lc-pre-post-shipment-loan-registration-post-response:
+      type: object
+      properties:
+        export-lc-pre-post-shipment-loan-registration:
+          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-response-export-lc-pre-post-shipment-loan-registration'
+      description: EXPORT-LC-PRE-POST-SHIPMENT-LOAN-REGISTRATION-POST-RESPONSE
+    export-lc-pre-post-shipment-loan-registration-post-response-export-lc-pre-post-shipment-loan-registration:
+      type: object
+      properties:
+        lc-pos-type:
+          type: number
+          description: 'LC-POS-TYPE Allowed values:Revaluation:Revaluation,Cash:Cash,Custody:Custody,FXForexDeal:FXForexDeal,FXOTCOptDeal:FXOTCOptDeal,FXRateRequest:FXRateRequest,FXERADeal:FXERADeal,MMDepositDeal:MMDepositDeal,MMFRADeal:MMFRADeal,MMIRSDeal:MMIRSDeal,MMIRODeal:MMIRODeal,CreditAplctn:CreditAplctn,CreditLoan:CreditLoan,NonTrade:NonTrade,CustodyForward:CustodyForward,MMOrder:MMOrder,MMDeal:MMDeal,CurrPositon:CurrPositon,Exchval:Exchval,CurrPosNotes:CurrPosNotes,ExchValNotes:ExchValNotes,Gbt:Gbt,Fatxn:Fatxn,Internal:Internal,OutPymntOrd:OutPymntOrd,OpenDelivery:OpenDelivery,Broker:Broker,Custodian:Custodian,VarMrgn:VarMrgn,InitMrgn:InitMrgn,AcntClsr:AcntClsr,SENetSett:SENetSett,DetCustody:DetCustody,TBill:TBill,RSShipOrd:RSShipOrd,RSTCShipOrd:RSTCShipOrd,RSECBOOrd:RSECBOOrd,RSTCOOrd:RSTCOOrd,RSCBOOrd:RSCBOOrd,RSBCOOrd:RSBCOOrd,RSCRDOOrd:RSCRDOOrd,RSCOWithdrawal:RSCOWithdrawal,RSCCOOrd:RSCCOOrd,RSENCOOrd:RSENCOOrd,RSEXOOrd:RSEXOOrd,RSSROOrd:RSSROOrd,RSSPOOrd:RSSPOOrd,RSVCOOrd:RSVCOOrd,RSCODeposit:RSCODeposit,Entitlement:Entitlement,FXForexOrd:FXForexOrd,FXOTCOptOrd:FXOTCOptOrd,FXERAOrd:FXERAOrd,MMGlobal:MMGlobal,IntrstAppln:IntrstAppln,MMDepositOrd:MMDepositOrd,MMIROOrd:MMIROOrd,IntrstRepoDeal:IntrstRepoDeal,CMOCashFlow:CMOCashFlow,ST_CustOrder:ST_CustOrder,PooledOrder:PooledOrder,ST_TradeOrder:ST_TradeOrder,STDeal:STDeal,ExerciseOrder:ExerciseOrder,Allocation:Allocation,OptionAlloc:OptionAlloc,SA_Order:SA_Order,CA:CA,Certificate:Certificate,RegnDetail:RegnDetail,CM_Order:CM_Order,Coupon:Coupon,ConvOrder:ConvOrder,Eligibility:Eligibility,ICN:ICN,PeriodicCharge:PeriodicCharge,CMO:CMO,TBond:TBond,Repo:Repo,Retail_Order:Retail_Order,EMTNDeal:EMTNDeal,IntrstAcrl:IntrstAcrl,IntrstStBonds:IntrstStBonds,OpenPrtfl:OpenPrtfl,DTA_LSV_Order:DTA_LSV_Order,IntTransfer:IntTransfer,InPymntOrd:InPymntOrd,RcptInstruction:RcptInstruction,StandingOrder:StandingOrder,AssignOrder:AssignOrder,MarginOrder:MarginOrder,SICMessage:SICMessage,SWIFTMessage:SWIFTMessage,PresettledDeal:PresettledDeal,LinkedSAOrder:LinkedSAOrder,TOGroup:TOGroup,DervSett:DervSett,Assignment:Assignment,DsbrmntOrdr:DsbrmntOrdr,DsbrmntPlan:DsbrmntPlan,InvstPlan:InvstPlan,SwitchOrdr:SwitchOrdr,AutoOrdr:AutoOrdr,MFSimple:MFSimple,FAP:FAP,FAPG:FAPG,MemberLoan:MemberLoan,AccountLimit:AccountLimit,Amrtz:Amrtz,ChqPaidOut:ChqPaidOut,ChqPaidIn:ChqPaidIn,DDPaidOut:DDPaidOut,DDPaidIn:DDPaidIn,StpChqPymnt:StpChqPymnt,Mandate:Mandate,OvrDrftLmt:OvrDrftLmt,GlblCA:GlblCA,ConversionOrd:ConversionOrd,CmbntnOrdr:CmbntnOrdr,TrnsfrBlnc:TrnsfrBlnc,InitialiseBlnc:InitialiseBlnc,RprcIntrst:RprcIntrst,Expired_Pos:Expired_Pos,AdhocChrgs:AdhocChrgs,DrvMrgn:DrvMrgn,IBSTxns:IBSTxns,AME:AME,AccountOpening:AccountOpening,AdditionFeeZBA:AdditionFeeZBA,ChqRecon:ChqRecon,ExternalChrg:ExternalChrg,GetTxn:GetTxn,RptChrg:RptChrg,Final102:Final102,RejRet:RejRet,CTI:CTI,Return:Return,940:940,941:941,942:942,BillPaidIn:BillPaidIn,BillPaidOut:BillPaidOut,CTIId:CTIId,ChqPnOrdr:ChqPnOrdr,InvcApplication:InvcApplication,Originator:Originator,RemovalFeeZBA:RemovalFeeZBA,RetOrder:RetOrder,N96:N96,210:210,CnclRqst:CnclRqst,N91:N91,N95:N95,N90:N90,920:920,950:950,StpDDPymnt:StpDDPymnt,ExtAdvice:ExtAdvice,SDD_PDIN:SDD_PDIN,SDD_PDOUT:SDD_PDOUT,SDD_ORIG:SDD_ORIG,SDD_MAN:SDD_MAN,SDD_RTRNPDIN:SDD_RTRNPDIN,SDD_RTRNPDOUT:SDD_RTRNPDOUT,CashConcentration:CashConcentration,InvcAcrl:InvcAcrl,GrpdBook:GrpdBook,BulkPosType:BulkPosType,RspnsReq:RspnsReq,Alctn:Alctn,Alctn_Order:Alctn_Order,BC:BC,BackOfcPstn:BackOfcPstn,BackUpTaxPrdc:BackUpTaxPrdc,Bills:Bills,C21:C21,CCODAcnt:CCODAcnt,CER:CER,CLMOrder:CLMOrder,CPAdjstmnt:CPAdjstmnt,ClrngIn:ClrngIn,ClrngOut:ClrngOut,ConversionOrdr:ConversionOrdr,Current:Current,DD:DD,DIAShadowMvmnts:DIAShadowMvmnts,Deal:Deal,Deel:Deel,DisbrsmentCash:DisbrsmentCash,TrnCrsBsCIEAcnt:TrnCrsBsCIEAcnt,DisbrsmentTrfr:DisbrsmentTrfr,DrvPosnExpry:DrvPosnExpry,ExportBill:ExportBill,ExtLadChk:ExtLadChk,FEDS:FEDS,Flexi:Flexi,FrmVaultTfr:FrmVaultTfr,FxRvltn:FxRvltn,Guarantees:Guarantees,HdTlrTlrTfr:HdTlrTlrTfr,ICAMS:ICAMS,IdvstmntRun:IdvstmntRun,Ijarah:Ijarah,IncomeExpOrder:IncomeExpOrder,IncomeExpOrderDtl:IncomeExpOrderDtl,InvApplication:InvApplication,InwdBtch:InwdBtch,Istisnaa:Istisnaa,LinkedSENetSett:LinkedSENetSett,LmtUpdate:LmtUpdate,LoanActClosure:LoanActClosure,LoyaltySaving:LoyaltySaving,LtrofCredits:LtrofCredits,MLIntAccrual:MLIntAccrual,MLIntAppln:MLIntAppln,MT:MT,MT900:MT900,MT910:MT910,NCS:NCS,Offset:Offset,OpolTrnsfrOrdr:OpolTrnsfrOrdr,OutBtch:OutBtch,PO:PO,PooledSettOrdr:PooledSettOrdr,Pooled_Order:Pooled_Order,RpymntActTrnsfr:RpymntActTrnsfr,RpymntCash:RpymntCash,SCA:SCA,SafeCustody:SafeCustody,SafekpngFee:SafekpngFee,Sbscrptn_Order:Sbscrptn_Order,TT:TT,TaxLot:TaxLot,TcBuy:TcBuy,TcSell:TcSell,TlrToHdTlrTfr:TlrToHdTlrTfr,ToVaultTfr:ToVaultTfr,Trade:Trade,ExtNotionalPool:ExtNotionalPool,ClaimLedgrCharge:ClaimLedgrCharge,Writeoff:Writeoff,SHARETRADE_BatchTxn_BUY:SHARETRADE_BatchTxn_BUY,SHARETRADE_BatchTxn_SELL:SHARETRADE_BatchTxn_SELL,ASBA_FUND_TRANSFER:ASBA_FUND_TRANSFER,FX:FX,FCNR:FCNR,Cards:Cards,CardTransaction:CardTransaction,RDInstlmnt:RDInstlmnt,CltrlAbandn:CltrlAbandn,LoanCncl:LoanCncl,CounterprtyClaim:CounterprtyClaim,TxnBasedSweep:TxnBasedSweep,InterBankClaim:InterBankClaim,ICS:ICS,ICS_INTRST_RECORD:ICS_INTRST_RECORD,Representative:Representative,JointRepresentative:JointRepresentative,CashBlk:CashBlk,OutwardClearing:OutwardClearing,InwardClearing:InwardClearing,StpChq:StpChq,ChqCancel:ChqCancel,BulkBkng:BulkBkng,BulkPosTyp:BulkPosTyp,CrncyBuy:CrncyBuy,CrncySell:CrncySell,CrprtColl:CrprtColl,CrprtPmnt:CrprtPmnt,CstmrReport:CstmrReport,DIA:DIA,FundPlan:FundPlan,GlobalInterest:GlobalInterest,KestRecomp:KestRecomp,MsgQue:MsgQue,NAV:NAV,PayOrder:PayOrder,PrtflEntitlement:PrtflEntitlement,PymtNotification:PymtNotification,RTGS:RTGS,Subscription:Subscription,Unpaid:Unpaid,NotionalPool:NotionalPool,ExtTxnTyp:ExtTxnTyp,ExternalAccount:ExternalAccount,DepositTxn:DepositTxn,DepositOrderTxn:DepositOrderTxn,BGTxn:BGTxn,LCTxn:LCTxn,PreAdvcTxn:PreAdvcTxn,TFBillTxn:TFBillTxn,TFBillPayment:TFBillPayment,TFDC:TFDC,CustNotExch:CustNotExch,FCY_NOTESIN:FCY_NOTESIN,FCY_NOTESOUT:FCY_NOTESOUT,TlrTrnsfer:TlrTrnsfer,CshMachngByEye:CshMachngByEye,TFDCPay:TFDCPay,Salary:Salary,CashConc_Prcng:CashConc_Prcng,CashConc_Prcng_TBS:CashConc_Prcng_TBS,DamagedNotes:DamagedNotes,ELIMINATION_REQUEST:ELIMINATION_REQUEST,LEAF_STAT_UPDATE:LEAF_STAT_UPDATE,AcntDesg:AcntDesg,AddInfo:AddInfo,TFBGClaim:TFBGClaim,TFBGStlmnt:TFBGStlmnt,TFBGContrct:TFBGContrct,TFBGPymnt:TFBGPymnt,FlexiDepTxn:FlexiDepTxn,CARD_FX_SETTLEMENT:CARD_FX_SETTLEMENT,Ext_Sys_Chrg:Ext_Sys_Chrg,SBBTransfer:SBBTransfer,SBBIntrstReversal:SBBIntrstReversal,SBBTaxReversal:SBBTaxReversal,CntrctTrnsfr:CntrctTrnsfr,E_MONEY_BOX_MONTHEND_TXNS:E_MONEY_BOX_MONTHEND_TXNS,LossRecovery:LossRecovery,Business:Business,BusinessBank:BusinessBank,SCNTransfer:SCNTransfer,RSChequeReOrder:RSChequeReOrder,TxnCntMtchng:TxnCntMtchng,SCNAdjustment:SCNAdjustment,BulkCshWdrwl:BulkCshWdrwl,BulkCshDpst:BulkCshDpst,MarkedNotes:MarkedNotes,CHEQUE_BOOK_SUB_ORDER:CHEQUE_BOOK_SUB_ORDER,CHEQUE_INVENTORY_REQUEST:CHEQUE_INVENTORY_REQUEST,CHEQUE_INVENTORY_REQUEST_DTLS:CHEQUE_INVENTORY_REQUEST_DTLS,SCNTxn:SCNTxn,RSFundTrf:RSFundTrf,FakeNotesTxn:FakeNotesTxn,SCNTallyTxn:SCNTallyTxn,LnkgTxn:LnkgTxn,LoanFreezing:LoanFreezing,Report:Report,LoanWriteOff:LoanWriteOff,LoanPartWriteOff:LoanPartWriteOff,LoanReschedule:LoanReschedule,LoanRollover:LoanRollover,LoanForcedIntrstCaptlzt:LoanForcedIntrstCaptlzt,AdvanceRepayment:AdvanceRepayment,CollateralPool:CollateralPool,LoanForcedIntrstCaptlztn:LoanForcedIntrstCaptlztn,AssetTxn:AssetTxn,ConstructionDisb:ConstructionDisb,RetentionPay:RetentionPay,branch_transfer:branch_transfer,LoanAdjustment:LoanAdjustment,FORBEARANCE:FORBEARANCE,Offline_Settlement:Offline_Settlement,LimitRedraw:LimitRedraw,Insurance:Insurance,NegBal:NegBal,AMEStandingOrder:AMEStandingOrder,NPATxn:NPATxn,ShreAppln:ShreAppln,Syndication:Syndication,CollateralRelease:CollateralRelease,Securitization:Securitization,PndngChrgComp:PndngChrgComp,Appraisal:Appraisal,PASSBOOK_ACCOUNT:PASSBOOK_ACCOUNT,AccStmntTxn:AccStmntTxn,KIOSK_DEP_TXN:KIOSK_DEP_TXN,IBT:IBT,Challan:Challan,IBT_Res:IBT_Res,FollowUp:FollowUp,VendorTxn:VendorTxn,FixedAssetPur:FixedAssetPur,FixedAsset:FixedAsset,RfndOfRpymntAdvnc:RfndOfRpymntAdvnc,TopUp:TopUp,DownPayment:DownPayment,RSBillsBatchOrd:RSBillsBatchOrd,RSCashOrd:RSCashOrd,RSDrftSaleOrd:RSDrftSaleOrd,RSTCSaleOrd:RSTCSaleOrd,RSBillsPrchsOrd:RSBillsPrchsOrd,LoanRecall:LoanRecall,SecDeposit:SecDeposit,IntrstSubsidy:IntrstSubsidy,CommdtyPurchase:CommdtyPurchase,CommdtySell:CommdtySell,CommdtyTransfer:CommdtyTransfer,BackValueDtRpymnt:BackValueDtRpymnt,BackValueDtPrePymnt:BackValueDtPrePymnt,DwnpymntSubsidy:DwnpymntSubsidy,LoanCancellation:LoanCancellation,CommImmSell:CommImmSell,RescheduleChrge:RescheduleChrge,DeveloperAccountingTranche:DeveloperAccountingTranche,PurchseOnCompletion:PurchseOnCompletion,Virtual:Virtual,FUNDING_TXN:FUNDING_TXN,FUNDING_BOOKING:FUNDING_BOOKING,PreNotice:PreNotice,SyndicationLoan:SyndicationLoan,LoanPostponement:LoanPostponement,Preclosure:Preclosure,Prepaymnt:Prepaymnt,WriteOffCollection:WriteOffCollection,ComdtyBlockfrRlos:ComdtyBlockfrRlos,ELCTxn:ELCTxn,ELCBillTxn:ELCBillTxn,ELCBillPayTxn:ELCBillPayTxn,EDCBillTxn:EDCBillTxn,LocCrBlncGL:LocCrBlncGL,CryptoWallet:CryptoWallet,RepaySimulExtract:RepaySimulExtract,CryptoStakingTransfer:CryptoStakingTransfer,CryptoExitOrder:CryptoExitOrder,CryptoRebalancing:CryptoRebalancing,ATMBlncInqTxnChrg:ATMBlncInqTxnChrg,ATMDecTxnChrg:ATMDecTxnChrg,Escrow:Escrow,VAM_BKNG:VAM_BKNG,BCStopPymnt:BCStopPymnt,BCRevokeStopPymnt:BCRevokeStopPymnt,CryptoStakingRewards:CryptoStakingRewards,RevOfRepayment:RevOfRepayment,DeathDisability:DeathDisability,EarlyTermDeathdisability:EarlyTermDeathdisability,EarlyTermBuyoutloan:EarlyTermBuyoutloan,EarlyTermStaffloan:EarlyTermStaffloan,EarlyTermPreremidial:EarlyTermPreremidial,SyndicationEvent:SyndicationEvent,AWBEndorsement:AWBEndorsement,IBGPosTyp:IBGPosTyp,CrncySwtch:CrncySwtch,ManualInterestAdjust:ManualInterestAdjust,ChrgSimulator:ChrgSimulator,EDCPurchaseOrder:EDCPurchaseOrder,APAROrigination:APAROrigination,APARResponding:APARResponding,TFIBGContrct:TFIBGContrct,ChngStlmntAcnt:ChngStlmntAcnt,NPDPosTyp:NPDPosTyp,AWBDCPosTyp:AWBDCPosTyp,PDC_TXN:PDC_TXN,UFT_TXN:UFT_TXN,Contingent_Txn:Contingent_Txn,Issuance_SPLetterOfComfort:Issuance_SPLetterOfComfort,Reversal_SPLetterOfComfort:Reversal_SPLetterOfComfort,Forward_FAReceiptLetterOfComfort:Forward_FAReceiptLetterOfComfort,Reversal_FAReceiptLetterOfComfort:Reversal_FAReceiptLetterOfComfort,Issuance_of_Nonfund:Issuance_of_Nonfund,Payment_of_Nonfund:Payment_of_Nonfund,Forward_SFAUtilisation:Forward_SFAUtilisation,Reversal_SFAUtilisation:Reversal_SFAUtilisation,TFCrystallizationLoan:TFCrystallizationLoan,DormancyChrg:DormancyChrg,SalePurchasePosTyp:SalePurchasePosTyp,DpstChrgs:DpstChrgs,Onlinebnkingpymntbkng:Onlinebnkingpymntbkng,Discountingorder:Discountingorder,Product:Product,Nostro:Nostro,LOC:LOC,Savings:Savings,Term Deposit:Term Deposit;'
+        lc-reference:
+          type: number
+          description: This field will contain POS_ID
+        event-leg-id:
+          type: number
+          description: This field will contain EVNT_LEG_ID
+        status:
+          type: number
+          description: 'STATUS Allowed values:Discharged:Discharged,FullyDisbursed:FullyDisbursed,FullyRepaid:FullyRepaid,PartlyDisbursed:PartlyDisbursed,Active:Active,Disbursed:Disbursed,Grant:Grant,InProgress:InProgress,LeaseOutInitiated:LeaseOutInitiated,PendingDisbursement:PendingDisbursement,Rejected:Rejected,Cancelled:Cancelled,LeasedOut:LeasedOut,PayOrderCreated:PayOrderCreated,PurchaseInitiated:PurchaseInitiated,PurchasePending:PurchasePending,Onhold:Onhold,DisbursedtoTransit:DisbursedtoTransit,Approved:Approved,PendingClose:PendingClose,Closed:Closed,Frozen:Frozen,PendingWithdrwl:PendingWithdrwl,PendingAuth:PendingAuth,DebitFrozen:DebitFrozen,writtenoff:writtenoff,LPOAccepted:LPOAccepted,LPOIssued:LPOIssued,Expired:Expired,PendingDownPayment:PendingDownPayment,SentBack:SentBack;'
+
+
+
+
 security: []
 tags:
   - name: letter-of-credit-draft-details
