@@ -4190,20 +4190,16 @@ components:
         status:
           type: number
           description: Status will be OnHold
-
-
-
-
 ######## LC-147 export-lc-bill-payment bill-payment-reference GET 
     export-lc-bill-payment-get-bill-payment-reference-response:
       type: object
       properties:
         export-lc-bill-payment:
           $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-export-lc-bill-payment'
-        payment-details:
-          $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-payment-details'
         credit-details:
           $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-credit-details'
+        payment-details:
+          $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-payment-details'
       description: EXPORT-LC-BILL-PAYMENT-GET-BILL-PAYMENT-REFERENCE-RESPONSE
     export-lc-bill-payment-get-bill-payment-reference-response-export-lc-bill-payment:
       type: object
@@ -4214,6 +4210,7 @@ components:
         entity-date:
           type: string
           description: Entity Date
+          format: date
         export-lc-advising-reference:
           type: string
           description: Export LC advising Ref
@@ -4283,6 +4280,57 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,Released:Released,Verified:Verified,Executed:Executed,Rejected:Rejected,AmndmntInit:AmndmntInit,WaitingForRate:WaitingForRate,Expired:Expired,CnclClosePndng:CnclClosePndng,CnclCloseVerify:CnclCloseVerify,Cancelled:Cancelled,Closed:Closed,ModifyOnHold:ModifyOnHold,ModifyReleased:ModifyReleased,RevivedLCOnHold:RevivedLCOnHold,RevivedLCReleased:RevivedLCReleased,Revived:Revived,SentBack:SentBack,SGPending:SGPending,ComplianceFailed:ComplianceFailed,ComplianceOnHold:ComplianceOnHold,Reject:Reject;'
+    export-lc-bill-payment-get-bill-payment-reference-response-credit-details:
+      type: object
+      properties:
+        deal-type:
+          type: number
+          description: Deal Type
+        deal-reference-number:
+          type: string
+          description: Deal Reference Number
+        deal-amount-or-available-balance:
+          type: number
+          description: Deal Amount or Available Balance
+        account-type:
+          type: number
+          description: Account Type
+        settlement-currency:
+          type: string
+          description: Settlement Currency
+        settlement-account-number:
+          type: string
+          description: Settlement Account Number
+        transaction-currency:
+          type: string
+          description: Transaction Currency
+        transaction-amount:
+          type: number
+          description: Transaction Amount
+        exchange-rate:
+          type: number
+          description: Exchange Rate
+        rate-request:
+          type: string
+          description: 'RATE-REQUEST Allowed values:Accounted:Accounted,Cancelled:Cancelled,Pending:Pending,RateProvided:RateProvided,TRProcessed:TRProcessed,WaitingForRate:WaitingForRate,Reversed:Reversed,SentForAcntng:SentForAcntng,Treasury_to_be_Processes:Treasury_to_be_Processes;'
+        amount-to-be-adjusted:
+          type: number
+          description: Amount To Be Adjusted
+        loan-closure-amount:
+          type: number
+          description: Loan Closure Amount
+        loan-closure-flag:
+          type: number
+          description: 'LOAN-CLOSURE-FLAG Allowed values:Yes:Yes,No:No;'
+        amount-in-bill-currency:
+          type: number
+          description: Amount In Bill Currency
+        financed-amount:
+          type: number
+          description: Financed Amount
+        interest-amount:
+          type: number
+          description: Interest Amount
     export-lc-bill-payment-get-bill-payment-reference-response-payment-details:
       type: object
       properties:
@@ -4310,9 +4358,11 @@ components:
         maturity-date:
           type: string
           description: Maturity Date
+          format: date
         value-date:
           type: string
           description: Value Date
+          format: date
         correspondent-bank-charges:
           type: string
           description: Correspondent Bank Charges
@@ -4376,57 +4426,8 @@ components:
         shortfall-recovery-acct-ref:
           type: string
           description: Shortfall Recovery Acct Ref
-    export-lc-bill-payment-get-bill-payment-reference-response-credit-details:
-      type: object
-      properties:
-        deal-type:
-          type: number
-          description: Deal Type
-        deal-reference-number:
-          type: string
-          description: Deal Reference Number
-        deal-amount-or-available-balance:
-          type: number
-          description: Deal Amount or Available Balance
-        account-type:
-          type: number
-          description: Account Type
-        settlement-currency:
-          type: string
-          description: Settlement Currency
-        settlement-account-number:
-          type: string
-          description: Settlement Account Number
-        transaction-currency:
-          type: string
-          description: Transaction Currency
-        transaction-amount:
-          type: number
-          description: Transaction Amount
-        exchange-rate:
-          type: number
-          description: Exchange Rate
-        rate-request:
-          type: string
-          description: 'RATE-REQUEST Allowed values:Accounted:Accounted,Cancelled:Cancelled,Pending:Pending,RateProvided:RateProvided,TRProcessed:TRProcessed,WaitingForRate:WaitingForRate,Reversed:Reversed,SentForAcntng:SentForAcntng,Treasury_to_be_Processes:Treasury_to_be_Processes;'
-        amount-to-be-adjusted:
-          type: number
-          description: Amount To Be Adjusted
-        loan-closure-amount:
-          type: number
-          description: Loan Closure Amount
-        loan-closure-flag:
-          type: number
-          description: 'LOAN-CLOSURE-FLAG Allowed values:Yes:Yes,No:No;'
-        amount-in-bill-currency:
-          type: number
-          description: Amount In Bill Currency
-        financed-amount:
-          type: number
-          description: Financed Amount
-        interest-amount:
-          type: number
-          description: Interest Amount
+
+
 ######## LC-148 export-lc-bill-payment PUT
     export-lc-bill-payment-put-request:
       type: object
