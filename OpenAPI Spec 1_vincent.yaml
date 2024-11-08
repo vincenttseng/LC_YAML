@@ -3261,6 +3261,7 @@ components:
         due-date:
           type: string
           description: Due Date. Applicable and Mandatory for ELC Bill Lodgement Draft Details
+          format: date
         instructions:
           type: string
           description: Instructions
@@ -3273,6 +3274,7 @@ components:
         license-date:
           type: string
           description: License Date
+          format: date
         license-number:
           type: string
           description: License Number
@@ -3288,6 +3290,7 @@ components:
         tenor-start-date:
           type: string
           description: Tenor Start Date. Applicable and Mandatory for ELC Bill Lodgement Draft Details
+          format: date
         elc-bill-lodgement-draft-amount:
           type: number
           description: Draft Amount.This field is Applicable and mandatory in ELC bill lodgement.
@@ -3312,6 +3315,7 @@ components:
         interest-from:
           type: string
           description: Interest from
+          format: date
         interest-rate:
           type: number
           description: Interest Rate
@@ -3387,6 +3391,7 @@ components:
         draft-date:
           type: string
           description: Draft Date. Applicable and mandatory for ILC and ELC Bill Lodgement Draft Details
+          format: date
         draft-number:
           type: string
           description: Draft Number. This field is Applicable and mandatory in LC bill lodgement
@@ -3396,6 +3401,7 @@ components:
         date-of-presentation-of-bill:
           type: string
           description: Date of Presentation of Bill. Applicable when ILC Draft tenor-type is set as deferred payment
+          format: date
         amount-payable:
           type: number
           description: Amount payable. Applicable when ILC Draft tenor-type is set as deferred payment
