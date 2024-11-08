@@ -3432,20 +3432,20 @@ components:
       properties:
         draft-details:
           $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-draft-details'
-        elc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-elc-draft-details'
+        lc-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-draft-details'
+        elc-bill-lodgement-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-elc-bill-lodgement-draft-details'
+        ilc-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-draft-details'
         ilc-bill-lodgement-draft-details:
           $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-bill-lodgement-draft-details'
         ilc-amend-draft-details:
           $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-amend-draft-details'
+        elc-draft-details:
+          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-elc-draft-details'
         lc-bill-lodgement-draft-details:
           $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-bill-lodgement-draft-details'
-        ilc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-draft-details'
-        elc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-elc-bill-lodgement-draft-details'
-        lc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-draft-details'
         lc-deferred-payment-details:
           type: array
           items:
@@ -3466,42 +3466,162 @@ components:
         event-leg-id:
           type: number
           description: This field will contain EVNT_LEG_ID
-    letter-of-credit-draft-details-get-response-elc-draft-details:
+    letter-of-credit-draft-details-get-response-lc-draft-details:
       type: object
       properties:
-        drawee:
+        available-by:
+          type: number
+          description: 'AVAILABLE-BY Allowed values:ByPayment:ByPayment,ByNegotiation:ByNegotiation,ByDeferredPayment:ByDeferredPayment,ByAcceptance:ByAcceptance,By Mixed Payment:By Mixed Payment;'
+        available-with-or-draft-drawn-on:
+          type: number
+          description: 'AVAILABLE-WITH-OR-DRAFT-DRAWN-ON Allowed values:ANY:ANY,Specific:Specific;'
+        available-with-bank-id:
           type: string
-          description: Drawee
-        elc-draft-drawee-name:
+          description: Available with Bank ID. Applicable and mandatory when available with is selected as Select
+        available-with-bank-name:
+          type: string
+          description: Available with Bank Name
+        available-with-bank-address-one:
+          type: string
+          description: Available with Bank Address One
+        available-with-bank-address-two:
+          type: string
+          description: Available with Bank Address Two
+        available-with-bank-address-three:
+          type: string
+          description: Available with Bank Address Three
+        mix-payment-details:
+          type: string
+          description: Mix Payment Details.Applicable and mandatory when tenor type is selected as mixed payment. For ELC draft details, it is applicable when we select Available With as any bank and Available By as mixed payment
+        deferred-payment:
+          type: string
+          description: Deferred Payment.Applicable and mandatory when tenor type is selected as deferred payment. For ELC draft details, it is Applicable when we select Available By as deferred payment
+        draft-at-or-tenor-type:
+          type: string
+          description: Draft At/Tenor Type. For ILC draft details, Applicable when Tenor Type is selected as Sight or Usance
+    letter-of-credit-draft-details-get-response-elc-bill-lodgement-draft-details:
+      type: object
+      properties:
+        bank-id:
+          type: string
+          description: Bank ID
+        bank-name:
+          type: string
+          description: Bank Name
+        elc-bill-lodgement-draft-drawn-on:
+          type: number
+          description: 'ELC-BILL-LODGEMENT-DRAFT-DRAWN-ON Allowed values:ANY:ANY,Specific:Specific;'
+        elc-bill-lodgement-draft-at-or-tenor-type:
+          type: number
+          description: 'ELC-BILL-LODGEMENT-DRAFT-AT-OR-TENOR-TYPE Allowed values:Sight:Sight,Usance:Usance,MixedPayment:MixedPayment,DeferredPayment:DeferredPayment;'
+        elc-bill-lodgement-tenor-days:
+          type: number
+          description: ELC Bill Lodgement Tenor Days. Applicable and Mandatory for ELC Bill Lodgement Draft Details
+        due-date:
+          type: string
+          description: Due Date. Applicable and Mandatory for ELC Bill Lodgement Draft Details
+          format: date
+        instructions:
+          type: string
+          description: Instructions
+        license-amount-currency:
+          type: string
+          description: License Amount Currency
+        license-amount:
+          type: number
+          description: License Amount
+        license-date:
+          type: string
+          description: License Date
+          format: date
+        license-number:
+          type: string
+          description: License Number
+        mixed-payment-of-sight:
+          type: string
+          description: Mixed Payment Of Sight. Applicable and Mandatory when we select Tenor Type as Mixed Payment
+        mixed-payment-of-usance:
+          type: string
+          description: Mixed Payment Of Usance. Applicable and Mandatory when we select Tenor Type as Mixed Payment
+        tenor-description:
+          type: number
+          description: 'TENOR-DESCRIPTION Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
+        tenor-start-date:
+          type: string
+          description: Tenor Start Date. Applicable and Mandatory for ELC Bill Lodgement Draft Details
+          format: date
+        elc-bill-lodgement-draft-amount-currency:
+          type: string
+          description: Draft Amount Currency
+        elc-bill-lodgement-draft-amount:
+          type: number
+          description: Draft Amount.
+    letter-of-credit-draft-details-get-response-ilc-draft-details:
+      type: object
+      properties:
+        charges-flag:
+          type: number
+          description: 'CHARGES-FLAG Allowed values:Yes:Yes,No:No;'
+        charges-narrative:
+          type: string
+          description: Charges Narrative.This field is applicable in ILC draft and ILC amendment draft
+        country:
+          type: string
+          description: Country.  This field is applicable and mandatory in ILC draft
+        draft-for-interest-required:
+          type: number
+          description: 'DRAFT-FOR-INTEREST-REQUIRED Allowed values:Yes:Yes,No:No;'
+        drawee-id:
+          type: string
+          description: Drawee ID. Applicable when Tenor Type is selected as mixed payment and deferred payment
+        drawee-name:
           type: string
           description: Drawee Name
-        elc-draft-drawee-address:
+        drawee-address-one:
           type: string
           description: Drawee Address One
-        applicant-bank-charge-amount-currency:
+        drawee-address-two:
           type: string
-          description: Applicant Bank Charge Amount Currency
-        applicant-bank-charge-amount:
-          type: number
-          description: Applicant Bank Charge Amount
-        requested-confirmation-party:
+          description: Drawee Address Two
+        drawee-address-three:
           type: string
-          description: Requested Confirmation Party. Applicable and Mandatory when we select Confirmation Instructions as confirm and May add
-        confirmation-instructions:
+          description: Drawee Address Three
+        interest-from:
+          type: string
+          description: Interest from
+          format: date
+        interest-rate:
           type: number
-          description: 'CONFIRMATION-INSTRUCTIONS Allowed values:Confirm:Confirm,Without:Without,MayAdd:MayAdd;'
-        mode-of-payment:
+          description: Interest Rate
+        sight-amount:
           type: number
-          description: 'MODE-OF-PAYMENT Allowed values:IMMEDIATE:IMMEDIATE,BILLPAYMENT:BILLPAYMENT;'
+          description: Sight Amount. Applicable and Mandatory when Tenor Type is selected as mixed payment
+        tenor-or-tenor-days:
+          type: number
+          description: Tenor. Applicable and mandatory when tenor type is selected as Usance, Mixed Pyament and Deferred Payment
+        tenor-type:
+          type: number
+          description: 'TENOR-TYPE Allowed values:Sight:Sight,Usance:Usance,MixedPayment:MixedPayment,DeferredPayment:DeferredPayment;'
+        usance-amount:
+          type: number
+          description: Usance Amount. Applicable and Mandatory when Tenor Type is selected as mixed payment
+        usance-from:
+          type: number
+          description: 'USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
+        upas:
+          type: number
+          description: 'UPAS Allowed values:Yes:Yes,No:No;'
     letter-of-credit-draft-details-get-response-ilc-bill-lodgement-draft-details:
       type: object
       properties:
         due-date-for-sight:
           type: string
           description: Due Date for Sight
+          format: date
         due-date-for-usance:
           type: string
           description: Due Date for Usance
+          format: date
         period-of-sight-payment:
           type: number
           description: Period of Sight Payment. Applicable when Tenor Type is selected as Sight, Mixed Payment ,Deferred Payment
@@ -3537,7 +3657,7 @@ components:
           description: Revised Charges Narrative
         revised-draft-for-interest-required :
           type: number
-          description: Revised Draft for Interest required 
+          description: 'REVISED-DRAFT-FOR-INTEREST-REQUIRED  Allowed values:Yes:Yes,No:No;'
         revised-drawee-id:
           type: string
           description: Revised Drawee ID
@@ -3556,6 +3676,34 @@ components:
         revised-interest-from:
           type: string
           description: Revised Interest From
+          format: date
+    letter-of-credit-draft-details-get-response-elc-draft-details:
+      type: object
+      properties:
+        drawee:
+          type: string
+          description: Drawee
+        elc-draft-drawee-name:
+          type: string
+          description: Drawee Name
+        elc-draft-drawee-address:
+          type: string
+          description: Drawee Address One
+        applicant-bank-charge-amount-currency:
+          type: string
+          description: Applicant Bank Charge Amount Currency
+        applicant-bank-charge-amount:
+          type: number
+          description: Applicant Bank Charge Amount
+        requested-confirmation-party:
+          type: string
+          description: Requested Confirmation Party. Applicable and Mandatory when we select Confirmation Instructions as confirm and May add
+        confirmation-instructions:
+          type: number
+          description: 'CONFIRMATION-INSTRUCTIONS Allowed values:Confirm:Confirm,Without:Without,MayAdd:MayAdd;'
+        mode-of-payment:
+          type: number
+          description: 'MODE-OF-PAYMENT Allowed values:IMMEDIATE:IMMEDIATE,BILLPAYMENT:BILLPAYMENT;'
     letter-of-credit-draft-details-get-response-lc-bill-lodgement-draft-details:
       type: object
       properties:
@@ -3568,156 +3716,17 @@ components:
         draft-date:
           type: string
           description: Draft Date. Applicable and mandatory for ILC and ELC Bill Lodgement Draft Details
+          format: date
         draft-number:
           type: string
           description: Draft Number. This field is Applicable and mandatory in LC bill lodgement
-    letter-of-credit-draft-details-get-response-ilc-draft-details:
-      type: object
-      properties:
-        charges-flag:
-          type: number
-          description: 'CHARGES-FLAG Allowed values:Yes:Yes,No:No;'
-        charges-narrative:
-          type: string
-          description: Charges Narrative.This field is applicable in ILC draft and ILC amendment draft
-        country:
-          type: string
-          description: Country.  This field is applicable and mandatory in ILC draft
-        draft-for-interest-required:
-          type: number
-          description: 'DRAFT-FOR-INTEREST-REQUIRED Allowed values:Yes:Yes,No:No;'
-        drawee-id:
-          type: string
-          description: Drawee ID. Applicable when Tenor Type is selected as mixed payment and deferred payment
-        drawee-name:
-          type: string
-          description: Drawee Name
-        drawee-address-one:
-          type: string
-          description: Drawee Address One
-        drawee-address-two:
-          type: string
-          description: Drawee Address Two
-        drawee-address-three:
-          type: string
-          description: Drawee Address Three
-        interest-from:
-          type: string
-          description: Interest from
-        interest-rate:
-          type: number
-          description: Interest Rate
-        sight-amount:
-          type: number
-          description: Sight Amount. Applicable and Mandatory when Tenor Type is selected as mixed payment
-        tenor-or-tenor-days:
-          type: number
-          description: Tenor. Applicable and mandatory when tenor type is selected as Usance, Mixed Pyament and Deferred Payment
-        tenor-type:
-          type: number
-          description: 'TENOR-TYPE Allowed values:Sight:Sight,Usance:Usance,MixedPayment:MixedPayment,DeferredPayment:DeferredPayment;'
-        usance-amount:
-          type: number
-          description: Usance Amount. Applicable and Mandatory when Tenor Type is selected as mixed payment
-        usance-from:
-          type: number
-          description: 'USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-        upas:
-          type: number
-          description: 'UPAS Allowed values:Yes:Yes,No:No;'
-    letter-of-credit-draft-details-get-response-elc-bill-lodgement-draft-details:
-      type: object
-      properties:
-        bank-id:
-          type: string
-          description: Bank ID
-        bank-name:
-          type: string
-          description: Bank Name
-        elc-bill-lodgement-draft-drawn-on:
-          type: number
-          description: 'ELC-BILL-LODGEMENT-DRAFT-DRAWN-ON Allowed values:ANY:ANY,Specific:Specific;'
-        elc-bill-lodgement-draft-at-or-tenor-type:
-          type: number
-          description: 'ELC-BILL-LODGEMENT-DRAFT-AT-OR-TENOR-TYPE Allowed values:Sight:Sight,Usance:Usance,MixedPayment:MixedPayment,DeferredPayment:DeferredPayment;'
-        elc-bill-lodgement-tenor-days:
-          type: number
-          description: ELC Bill Lodgement Tenor Days. Applicable and Mandatory for ELC Bill Lodgement Draft Details
-        due-date:
-          type: string
-          description: Due Date. Applicable and Mandatory for ELC Bill Lodgement Draft Details
-        instructions:
-          type: string
-          description: Instructions
-        license-amount-currency:
-          type: string
-          description: License Amount Currency
-        license-amount:
-          type: number
-          description: License Amount
-        license-date:
-          type: string
-          description: License Date
-        license-number:
-          type: string
-          description: License Number
-        mixed-payment-of-sight:
-          type: string
-          description: Mixed Payment Of Sight. Applicable and Mandatory when we select Tenor Type as Mixed Payment
-        mixed-payment-of-usance:
-          type: string
-          description: Mixed Payment Of Usance. Applicable and Mandatory when we select Tenor Type as Mixed Payment
-        tenor-description:
-          type: number
-          description: 'TENOR-DESCRIPTION Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-        tenor-start-date:
-          type: string
-          description: Tenor Start Date. Applicable and Mandatory for ELC Bill Lodgement Draft Details
-        elc-bill-lodgement-draft-amount-currency:
-          type: string
-          description: Draft Amount Currency
-        elc-bill-lodgement-draft-amount:
-          type: number
-          description: Draft Amount.
-    letter-of-credit-draft-details-get-response-lc-draft-details:
-      type: object
-      properties:
-        available-by:
-          type: number
-          description: 'AVAILABLE-BY Allowed values:ByPayment:ByPayment,ByNegotiation:ByNegotiation,ByDeferredPayment:ByDeferredPayment,ByAcceptance:ByAcceptance,By Mixed Payment:By Mixed Payment;'
-        available-with-or-draft-drawn-on:
-          type: number
-          description: 'AVAILABLE-WITH-OR-DRAFT-DRAWN-ON Allowed values:ANY:ANY,Specific:Specific;'
-        available-with-bank-id:
-          type: string
-          description: Available with Bank ID. Applicable and mandatory when available with is selected as Select
-        available-with-bank-name:
-          type: string
-          description: Available with Bank Name
-        available-with-bank-address-one:
-          type: string
-          description: Available with Bank Address One
-        available-with-bank-address-two:
-          type: string
-          description: Available with Bank Address Two
-        available-with-bank-address-three:
-          type: string
-          description: Available with Bank Address Three
-        mix-payment-details:
-          type: string
-          description: Mix Payment Details.Applicable and mandatory when tenor type is selected as mixed payment. For ELC draft details, it is applicable when we select Available With as any bank and Available By as mixed payment
-        deferred-payment:
-          type: string
-          description: Deferred Payment.Applicable and mandatory when tenor type is selected as deferred payment. For ELC draft details, it is Applicable when we select Available By as deferred payment
-        draft-at-or-tenor-type:
-          type: string
-          description: Draft At/Tenor Type. For ILC draft details, Applicable when Tenor Type is selected as Sight or Usance
     letter-of-credit-draft-details-get-response-lc-deferred-payment-details:
       type: object
       properties:
         date-of-presentation-of-bill:
           type: string
           description: Date of Presentation of Bill. Applicable when ILC Draft tenor-type is set as deferred payment
+          format: date
         amount-payable:
           type: number
           description: Amount payable. Applicable when ILC Draft tenor-type is set as deferred payment
