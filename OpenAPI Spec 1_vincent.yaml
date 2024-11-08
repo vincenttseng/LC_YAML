@@ -11,7 +11,7 @@ servers:
     description: Generated server url
 paths:
   /letter-of-credit/{lc-pos-type}/{lc-reference}/{event-leg-id}/draft-details:
-######## letter-of-credit-draft-details POST
+######## LC-31 letter-of-credit-draft-details POST
     post:
       tags:
         - letter-of-credit-draft-details
@@ -199,7 +199,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## letter-of-credit-draft-details GET
+######## LC-32 letter-of-credit-draft-details GET
     get:
       tags:
         - letter-of-credit-draft-details
@@ -381,7 +381,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## letter-of-credit-draft-details PUT
+######## LC-33 letter-of-credit-draft-details PUT
     put:
       tags:
         - letter-of-credit-draft-details
@@ -569,7 +569,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/api-messages'
                 
-######## export-lc-bill-payment GET
+######## LC-97 export-lc-bill-payment GET
   /export-lc-bill-payment/{from-date}/{to-date}/list:
     get:
       tags:
@@ -806,7 +806,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## export-lc-bill-payment POST    
+######## LC-146 export-lc-bill-payment POST    
   /export-lc-bill-payment:
     post:
       tags:
@@ -976,7 +976,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## export-lc-bill-payment bill-payment-reference GET 
+######## LC-147 export-lc-bill-payment bill-payment-reference GET 
   /export-lc-bill-payment/{bill-payment-reference}:
     get:
       tags:
@@ -1147,7 +1147,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## export-lc-bill-payment PUT
+######## LC-148 export-lc-bill-payment PUT
     put:
       tags:
         - export-lc-bill-payment
@@ -1322,7 +1322,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## export-lc-bill-payment PATCH
+######## LC-149 export-lc-bill-payment PATCH
     patch:
       tags:
         - export-lc-bill-payment
@@ -1505,7 +1505,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## export-lc-post-shipment-crystallization-or-bill-recovery GET
+######## LC-98 export-lc-post-shipment-crystallization-or-bill-recovery GET
   /export-lc-post-shipment-crystallization-or-bill-recovery/{from-date}/{to-date}/list:
     get:
       tags:
@@ -1761,7 +1761,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## export-lc-post-shipment-crystallization-or-bill-recovery POST
+######## LC-154 export-lc-post-shipment-crystallization-or-bill-recovery POST
   /export-lc-post-shipment-crystallization-or-bill-recovery:
     post:
       tags:
@@ -1932,7 +1932,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## export-lc-post-shipment-crystallization-or-bill-recovery GET2
+######## LC-155 export-lc-post-shipment-crystallization-or-bill-recovery GET2
   /export-lc-post-shipment-crystallization-or-bill-recovery/{crystallization-reference}/{sequence-id}:
     get:
       tags:
@@ -2110,7 +2110,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## export-lc-post-shipment-crystallization-or-bill-recovery PUT        
+######## LC-156 export-lc-post-shipment-crystallization-or-bill-recovery PUT        
     put:
       tags:
         - export-lc-post-shipment-crystallization-or-bill-recovery
@@ -2292,7 +2292,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## export-lc-post-shipment-crystallization-or-bill-recovery PATCH         
+######## LC-157 export-lc-post-shipment-crystallization-or-bill-recovery PATCH         
     patch:
       tags:
         - export-lc-post-shipment-crystallization-or-bill-recovery
@@ -3201,7 +3201,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/api-message-error'
-######## letter-of-credit-draft-details POST
+######## LC-31 letter-of-credit-draft-details POST
     letter-of-credit-draft-details-post-request:
       type: object
       properties:
@@ -3420,7 +3420,7 @@ components:
         event-leg-id:
           type: number
           description: This field will contain EVNT_LEG_ID
-######## letter-of-credit-draft-details GET
+######## LC-32 letter-of-credit-draft-details GET
     letter-of-credit-draft-details-get-response:
       type: object
       properties:
@@ -3721,7 +3721,7 @@ components:
         bill-stat:
           type: number
           description: 'BILL-STAT Allowed values:Partially Paid:Partially Paid,Refused:Refused,Acceptal Refusal Verified:Acceptal Refusal Verified,Acceptal Refusal Pending:Acceptal Refusal Pending,Lodged:Lodged,Accepted:Accepted,Cancelled:Cancelled,Verified:Verified,Released:Released,Waiting ForRate:Waiting ForRate,Bill Paid:Bill Paid,On Hold/Draft:On Hold/Draft,Acknowledged:Acknowledged,Return of Documents:Return of Documents,Pending Return:Pending Return,SentBack:SentBack,Rejected:Rejected,Compliance Failed:Compliance Failed,Compliance OnHold:Compliance OnHold,Compliance Approved:Compliance Approved,Compliance Rejected:Compliance Rejected;'
-######## letter-of-credit-draft-details PUT
+######## LC-33 letter-of-credit-draft-details PUT
     letter-of-credit-draft-details-put-request:
       type: object
       properties:
@@ -3966,7 +3966,7 @@ components:
           type: number
           description: This field will contain EVNT_LEG_ID
       description: LETTER-OF-CREDIT-DRAFT-DETAILS-RESPONSE-DRAFT-DETAILS
-######## export-lc-bill-payment GET
+######## LC-97 export-lc-bill-payment GET
     export-lc-bill-payment-get-response:
       type: object
       properties:
@@ -4011,7 +4011,7 @@ components:
         rate-request-status:
           type: number
           description: Rate Request Status
-######## export-lc-bill-payment POST
+######## LC-146 export-lc-bill-payment POST
     export-lc-bill-payment-post-request:
       type: object
       properties:
@@ -4169,7 +4169,7 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,Released:Released,Verified:Verified,Executed:Executed,Rejected:Rejected,AmndmntInit:AmndmntInit,WaitingForRate:WaitingForRate,Expired:Expired,CnclClosePndng:CnclClosePndng,CnclCloseVerify:CnclCloseVerify,Cancelled:Cancelled,Closed:Closed,ModifyOnHold:ModifyOnHold,ModifyReleased:ModifyReleased,RevivedLCOnHold:RevivedLCOnHold,RevivedLCReleased:RevivedLCReleased,Revived:Revived,SentBack:SentBack,SGPending:SGPending,ComplianceFailed:ComplianceFailed,ComplianceOnHold:ComplianceOnHold,Reject:Reject;'
-######## export-lc-bill-payment bill-payment-reference GET 
+######## LC-147 export-lc-bill-payment bill-payment-reference GET 
     export-lc-bill-payment-get-bill-payment-reference-response:
       type: object
       properties:
@@ -4402,7 +4402,7 @@ components:
         interest-amount:
           type: number
           description: Interest Amount
-######## export-lc-bill-payment PUT
+######## LC-148 export-lc-bill-payment PUT
     export-lc-bill-payment-put-request:
       type: object
       properties:
@@ -4558,7 +4558,7 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,Released:Released,Verified:Verified,Executed:Executed,Rejected:Rejected,AmndmntInit:AmndmntInit,WaitingForRate:WaitingForRate,Expired:Expired,CnclClosePndng:CnclClosePndng,CnclCloseVerify:CnclCloseVerify,Cancelled:Cancelled,Closed:Closed,ModifyOnHold:ModifyOnHold,ModifyReleased:ModifyReleased,RevivedLCOnHold:RevivedLCOnHold,RevivedLCReleased:RevivedLCReleased,Revived:Revived,SentBack:SentBack,SGPending:SGPending,ComplianceFailed:ComplianceFailed,ComplianceOnHold:ComplianceOnHold,Reject:Reject;'
-######## export-lc-bill-payment PATCH
+######## LC-149 export-lc-bill-payment PATCH
     export-lc-bill-payment-patch-request:
       type: object
       properties:
@@ -4582,7 +4582,7 @@ components:
         export-lc-bill-payment:
           $ref: '#/components/schemas/export-lc-bill-payment-put-response-export-lc-bill-payment'
       description: EXPORT-LC-BILL-PAYMENT-PATCH-RESPONSE
-######## export-lc-post-shipment-crystallization-or-bill-recovery GET
+######## LC-98 export-lc-post-shipment-crystallization-or-bill-recovery GET
     export-lc-post-shipment-crystallization-or-bill-recovery-get-response:
       type: object
       properties:
@@ -4636,7 +4636,7 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,Release:Release,Executed:Executed,Rejected:Rejected,Sentback:Sentback,PendingCancel:PendingCancel,Cancelled:Cancelled,PendingClose:PendingClose,Closed:Closed,AmendInitiated:AmendInitiated,Expired:Expired,Verified:Verified,WaitingForRate:WaitingForRate,RateAvailable:RateAvailable,RateRejected:RateRejected,RateCancelled:RateCancelled,Disbursed:Disbursed,Settled:Settled,Active:Active,PendingCrystallization:PendingCrystallization,Crystallised:Crystallised;'
-######## export-lc-post-shipment-crystallization-or-bill-recovery POST
+######## LC-154 export-lc-post-shipment-crystallization-or-bill-recovery POST
     export-lc-post-shipment-crystallization-or-bill-recovery-post-request:
       type: object
       properties:
@@ -4705,7 +4705,7 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,PendingAuthorisation:PendingAuthorisation,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Rejected:Rejected,Cancelled:Cancelled,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Close:Close,Executed:Executed,Expired:Expired,Failed:Failed,InActive:InActive,MOnHold:MOnHold,MPendActOnHOld:MPendActOnHOld,MPendActPendingAuth:MPendActPendingAuth,MPendingAuth:MPendingAuth,OnHold:OnHold,Open:Open,PendingActivation:PendingActivation,PendingCancel:PendingCancel,PendingClosure:PendingClosure,Successful:Successful,PendingInactivation:PendingInactivation,PendingPendActiveCancel:PendingPendActiveCancel,PendingReopen:PendingReopen,ReInitiate:ReInitiate,Rejected:Rejected,Impaired:Impaired,Writeoff:Writeoff,NonPrfAsset:NonPrfAsset,WaitingForRate:WaitingForRate,RepairAwaited:RepairAwaited,AuthAwaited:AuthAwaited,PendWriteoff:PendWriteoff,RolloverMergeClosed:RolloverMergeClosed,PendingClosureWaitingForRate:PendingClosureWaitingForRate,PendingClosureAuthAwaited:PendingClosureAuthAwaited,ReschedPendngAuth:ReschedPendngAuth,AuthWtchRjctd:AuthWtchRjctd,PendingReversal:PendingReversal,Reversed:Reversed,Rescinded:Rescinded,IRSCancelled:IRSCancelled,PndngClsrCalcAwatd:PndngClsrCalcAwatd,PndngClsrCalcCompl:PndngClsrCalcCompl,IRSPendingCancel:IRSPendingCancel,PymntInitdFrClsr:PymntInitdFrClsr,Liquidated:Liquidated,PendingClosureInitiated:PendingClosureInitiated,Released:Released,PendingRevert:PendingRevert,Reverted:Reverted,Authorised:Authorised,PendingAuth:PendingAuth,ReversalAuth:ReversalAuth,ReversalRejected:ReversalRejected,Freezed:Freezed,PendingFreeze:PendingFreeze,Utilised:Utilised,Deferred:Deferred,SentBack:SentBack;'
-######## export-lc-post-shipment-crystallization-or-bill-recovery GET2
+######## LC-155 export-lc-post-shipment-crystallization-or-bill-recovery GET2
     export-lc-post-shipment-crystallization-or-bill-recovery-get2-response:
       type: object
       properties:
@@ -4824,7 +4824,7 @@ components:
         recovery-amount:
           type: number
           description: Recovery Amount
-######## export-lc-post-shipment-crystallization-or-bill-recovery PUT
+######## LC-156 export-lc-post-shipment-crystallization-or-bill-recovery PUT
     export-lc-post-shipment-crystallization-or-bill-recovery-put-request:
       type: object
       properties:
@@ -4892,7 +4892,7 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,PendingAuthorisation:PendingAuthorisation,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Rejected:Rejected,Cancelled:Cancelled,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Close:Close,Executed:Executed,Expired:Expired,Failed:Failed,InActive:InActive,MOnHold:MOnHold,MPendActOnHOld:MPendActOnHOld,MPendActPendingAuth:MPendActPendingAuth,MPendingAuth:MPendingAuth,OnHold:OnHold,Open:Open,PendingActivation:PendingActivation,PendingCancel:PendingCancel,PendingClosure:PendingClosure,Successful:Successful,PendingInactivation:PendingInactivation,PendingPendActiveCancel:PendingPendActiveCancel,PendingReopen:PendingReopen,ReInitiate:ReInitiate,Rejected:Rejected,Impaired:Impaired,Writeoff:Writeoff,NonPrfAsset:NonPrfAsset,WaitingForRate:WaitingForRate,RepairAwaited:RepairAwaited,AuthAwaited:AuthAwaited,PendWriteoff:PendWriteoff,RolloverMergeClosed:RolloverMergeClosed,PendingClosureWaitingForRate:PendingClosureWaitingForRate,PendingClosureAuthAwaited:PendingClosureAuthAwaited,ReschedPendngAuth:ReschedPendngAuth,AuthWtchRjctd:AuthWtchRjctd,PendingReversal:PendingReversal,Reversed:Reversed,Rescinded:Rescinded,IRSCancelled:IRSCancelled,PndngClsrCalcAwatd:PndngClsrCalcAwatd,PndngClsrCalcCompl:PndngClsrCalcCompl,IRSPendingCancel:IRSPendingCancel,PymntInitdFrClsr:PymntInitdFrClsr,Liquidated:Liquidated,PendingClosureInitiated:PendingClosureInitiated,Released:Released,PendingRevert:PendingRevert,Reverted:Reverted,Authorised:Authorised,PendingAuth:PendingAuth,ReversalAuth:ReversalAuth,ReversalRejected:ReversalRejected,Freezed:Freezed,PendingFreeze:PendingFreeze,Utilised:Utilised,Deferred:Deferred,SentBack:SentBack;'
-######## export-lc-post-shipment-crystallization-or-bill-recovery PATCH 
+######## LC-157 export-lc-post-shipment-crystallization-or-bill-recovery PATCH 
     export-lc-post-shipment-crystallization-or-bill-recovery-patch-request:
       type: object
       properties:
