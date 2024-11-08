@@ -4471,9 +4471,11 @@ components:
         maturity-date:
           type: string
           description: Maturity Date
+          format: date
         value-date:
           type: string
           description: Value Date
+          format: date
         correspondent-bank-charges:
           type: string
           description: Correspondent Bank Charges
@@ -4653,6 +4655,7 @@ components:
         transaction-date:
           type: string
           description: Transaction Date
+          format: date
         rate-request-status:
           type: number
           description: Rate Request Status
@@ -4754,6 +4757,7 @@ components:
         bill-maturity-date:
           type: string
           description: Bill Maturity date
+          format: date
         drawer-id:
           type: string
           description: Drawer Id
@@ -4781,6 +4785,7 @@ components:
         date:
           type: string
           description: Date
+          format: date
         bill-amount-currency:
           type: string
           description: Bill Amount
@@ -4814,6 +4819,7 @@ components:
         bill-start-date:
           type: string
           description: Bill Start date
+          format: date
         bill-tenor:
           type: number
           description: Bill Tenor
