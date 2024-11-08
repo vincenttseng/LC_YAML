@@ -5229,6 +5229,7 @@ components:
         uin-expiry-date:
           type: string
           description: UIN Expiry Date
+          format: date
         interest-subvention-rate:
           type: number
           description: Interest Subvention Rate
@@ -5280,6 +5281,7 @@ components:
         uin-expiry-date :
           type: string
           description: UIN Expiry Date 
+          format: date
         interest-subvention-rate :
           type: number
           description: Interest Subvention Rate 
@@ -5337,6 +5339,7 @@ components:
         bill-maturity-date:
           type: string
           description: Bill Maturity date
+          format: date
         available-bill-balance-for-loan :
           type: string
           description: Available Bill Balance for Loan 
@@ -5346,6 +5349,7 @@ components:
         date:
           type: string
           description: Date
+          format: date
         bill-amount-currency:
           type: string
           description: Bill Amount
@@ -5379,6 +5383,7 @@ components:
         bill-start-date:
           type: string
           description: Bill Start date
+          format: date
         bill-tenor:
           type: number
           description: Bill Tenor
@@ -5394,18 +5399,21 @@ components:
         expiry-date:
           type: string
           description: Expiry Date
+          format: date
         incoterm:
           type: number
           description: 'INCOTERM Allowed values:CFR - Cost and Freight:CFR - Cost and Freight,CPT - Carriage Paid To:CPT - Carriage Paid To,CIP Carriage Insurance Paid To:CIP Carriage Insurance Paid To,CIF Cost Insurance and Freight:CIF Cost Insurance and Freight,DAP - Delivered at Place:DAP - Delivered at Place,Delivered Duty Paid:Delivered Duty Paid,EXW-Ex-Works:EXW-Ex-Works,Free alongside Ship:Free alongside Ship,FCA- Free Carrier:FCA- Free Carrier,Free Delivery at Sub Contract:Free Delivery at Sub Contract;'
         transaction-date:
           type: string
-          description: Transaction Date
+          description: Transaction date-for-sight
+          format: date
         document-ref-number:
           type: string
           description: Document Ref Number
         latest-shipment-date:
           type: string
           description: Latest Shipment Date
+          format: date
         shipment-type:
           type: number
           description: 'SHIPMENT-TYPE Allowed values:PreShipment:PreShipment,PostShipment:PostShipment;'
