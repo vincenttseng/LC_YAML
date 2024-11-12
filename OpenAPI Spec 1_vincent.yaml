@@ -11,13 +11,13 @@ servers:
     description: Generated server url
 paths:
   /letter-of-credit/{lc-pos-type}/{lc-reference}/{event-leg-id}/draft-details:
-######## LC-31 letter-of-credit-draft-details POST
+######## LC-31 Draft Details
     post:
       tags:
-        - letter-of-credit-draft-details
-      summary: LETTER-OF-CREDIT DRAFT DETAILS
-      description: LETTER-OF-CREDIT DRAFT DETAILS
-      operationId: LETTER-OF-CREDIT DRAFT DETAILS
+        - draft-details
+      summary: Draft Details
+      description: Draft Details
+      operationId: Draft Details
       parameters:
         - name: auth-token
           in: header
@@ -177,7 +177,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/letter-of-credit-draft-details-post-request'
+              $ref: '#/components/schemas/draft-details-request'
       responses:
         '200':
           description: OK
@@ -185,7 +185,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/letter-of-credit-draft-details-post-response'
+                  - $ref: '#/components/schemas/draft-details-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -199,10 +199,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## LC-32 letter-of-credit-draft-details GET
+######## LC-32 Enquire Draft Details
     get:
       tags:
-        - letter-of-credit-draft-details
+        - draft-details
       summary: Enquire Draft Details
       description: Enquire Draft Details
       operationId: Enquire Draft Details
@@ -367,7 +367,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/letter-of-credit-draft-details-get-response'
+                  - $ref: '#/components/schemas/enquire-draft-details-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -381,13 +381,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## LC-33 letter-of-credit-draft-details PUT
+######## LC-33 Modify Draft Details
     put:
       tags:
-        - letter-of-credit-draft-details
+        - draft-details
       summary: Modify Draft Details
       description: Modify Draft Details
-      operationId: Modify-Draft-Details
+      operationId: Modify Draft Details
       parameters:
         - name: auth-token
           in: header
@@ -546,7 +546,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/letter-of-credit-draft-details-put-request'
+              $ref: '#/components/schemas/modify-draft-details-request'
       responses:
         '200':
           description: OK
@@ -554,7 +554,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/letter-of-credit-draft-details-put-response'
+                  - $ref: '#/components/schemas/modify-draft-details-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -568,7 +568,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-                
 ######## LC-97 export-lc-bill-payment GET
   /export-lc-bill-payment/{from-date}/{to-date}/list:
     get:
@@ -3201,28 +3200,28 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/api-message-error'
-######## LC-31 letter-of-credit-draft-details POST
-    letter-of-credit-draft-details-post-request:
+######## LC-31 Draft Details
+    draft-details-request:
       type: object
       properties:
         lc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-lc-draft-details'
+          $ref: '#/components/schemas/draft-details-request-lc-draft-details'
         elc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-elc-bill-lodgement-draft-details'
+          $ref: '#/components/schemas/draft-details-request-elc-bill-lodgement-draft-details'
         ilc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-ilc-draft-details'
+          $ref: '#/components/schemas/draft-details-request-ilc-draft-details'
         ilc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-ilc-bill-lodgement-draft-details'
+          $ref: '#/components/schemas/draft-details-request-ilc-bill-lodgement-draft-details'
         elc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-elc-draft-details'
+          $ref: '#/components/schemas/draft-details-request-elc-draft-details'
         lc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-lc-bill-lodgement-draft-details'
+          $ref: '#/components/schemas/draft-details-request-lc-bill-lodgement-draft-details'
         lc-deferred-payment-details:
           type: array
           items:
-            $ref: '#/components/schemas/letter-of-credit-draft-details-post-request-lc-deferred-payment-details'
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-POST-REQUEST
-    letter-of-credit-draft-details-post-request-lc-draft-details:
+            $ref: '#/components/schemas/draft-details-request-lc-deferred-payment-details'
+      description: DRAFT-DETAILS-REQUEST
+    draft-details-request-lc-draft-details:
       type: object
       properties:
         available-by:
@@ -3234,21 +3233,26 @@ components:
         available-with-bank-id:
           type: string
           description: Available with Bank ID. Applicable and mandatory when available with is selected as Select
+          maxLength: 11
         mix-payment-details:
           type: string
           description: Mix Payment Details.Applicable and mandatory when tenor type is selected as mixed payment. For ELC draft details, it is applicable when we select Available With as any bank and Available By as mixed payment
+          maxLength: 120
         deferred-payment:
           type: string
           description: Deferred Payment.Applicable and mandatory when tenor type is selected as deferred payment. For ELC draft details, it is Applicable when we select Available By as deferred payment
+          maxLength: 120
         draft-at-or-tenor-type:
           type: string
           description: Draft At/Tenor Type. For ILC draft details, Applicable when Tenor Type is selected as Sight or Usance
-    letter-of-credit-draft-details-post-request-elc-bill-lodgement-draft-details:
+          maxLength: 105
+    draft-details-request-elc-bill-lodgement-draft-details:
       type: object
       properties:
         bank-id:
           type: string
           description: Bank ID
+          maxLength: 11
         elc-bill-lodgement-draft-drawn-on:
           type: number
           description: 'ELC-BILL-LODGEMENT-DRAFT-DRAWN-ON Allowed values:ANY:ANY,Specific:Specific;'
@@ -3265,9 +3269,11 @@ components:
         instructions:
           type: string
           description: Instructions
+          maxLength: 200
         license-amount-currency:
           type: string
           description: License Amount Currency
+          maxLength: 10
         license-amount:
           type: number
           description: License Amount
@@ -3278,6 +3284,7 @@ components:
         license-number:
           type: string
           description: License Number
+          maxLength: 16
         mixed-payment-of-sight:
           type: string
           description: Mixed Payment Of Sight. Applicable and Mandatory when we select Tenor Type as Mixed Payment
@@ -3294,7 +3301,7 @@ components:
         elc-bill-lodgement-draft-amount:
           type: number
           description: Draft Amount.This field is Applicable and mandatory in ELC bill lodgement.
-    letter-of-credit-draft-details-post-request-ilc-draft-details:
+    draft-details-request-ilc-draft-details:
       type: object
       properties:
         charges-flag:
@@ -3303,15 +3310,18 @@ components:
         charges-narrative:
           type: string
           description: Charges Narrative.This field is applicable in ILC draft and ILC amendment draft
+          maxLength: 210
         country:
           type: string
           description: Country.  This field is applicable and mandatory in ILC draft
+          maxLength: 4
         draft-for-interest-required:
           type: number
           description: 'DRAFT-FOR-INTEREST-REQUIRED Allowed values:Yes:Yes,No:No;'
         drawee-id:
           type: string
           description: Drawee ID. Applicable when Tenor Type is selected as mixed payment and deferred payment
+          maxLength: 11
         interest-from:
           type: string
           description: Interest from
@@ -3334,7 +3344,7 @@ components:
         usance-from:
           type: number
           description: 'USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-    letter-of-credit-draft-details-post-request-ilc-bill-lodgement-draft-details:
+    draft-details-request-ilc-bill-lodgement-draft-details:
       type: object
       properties:
         period-of-sight-payment:
@@ -3358,34 +3368,39 @@ components:
         ilc-bill-lodgement-usance-from:
           type: number
           description: 'ILC-BILL-LODGEMENT-USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-    letter-of-credit-draft-details-post-request-elc-draft-details:
+    draft-details-request-elc-draft-details:
       type: object
       properties:
         drawee:
           type: string
           description: Drawee
+          maxLength: 105
         elc-draft-drawee-name:
           type: string
           description: Drawee Name
+          maxLength: 35
         elc-draft-drawee-address:
           type: string
           description: Drawee Address One
+          maxLength: 135
         applicant-bank-charge-amount-currency:
           type: string
           description: Applicant Bank Charge Amount Currency
+          maxLength: 10
         applicant-bank-charge-amount:
           type: number
           description: Applicant Bank Charge Amount
         requested-confirmation-party:
           type: string
           description: Requested Confirmation Party. Applicable and Mandatory when we select Confirmation Instructions as confirm and May add
+          maxLength: 140
         confirmation-instructions:
           type: number
           description: 'CONFIRMATION-INSTRUCTIONS Allowed values:Confirm:Confirm,Without:Without,MayAdd:MayAdd;'
         mode-of-payment:
           type: number
           description: 'MODE-OF-PAYMENT Allowed values:IMMEDIATE:IMMEDIATE,BILLPAYMENT:BILLPAYMENT;'
-    letter-of-credit-draft-details-post-request-lc-bill-lodgement-draft-details:
+    draft-details-request-lc-bill-lodgement-draft-details:
       type: object
       properties:
         draft-date:
@@ -3395,7 +3410,8 @@ components:
         draft-number:
           type: string
           description: Draft Number. This field is Applicable and mandatory in LC bill lodgement
-    letter-of-credit-draft-details-post-request-lc-deferred-payment-details:
+          maxLength: 10
+    draft-details-request-lc-deferred-payment-details:
       type: object
       properties:
         date-of-presentation-of-bill:
@@ -3408,13 +3424,14 @@ components:
         remarks:
           type: string
           description: Remarks. Applicable when ILC Draft tenor-type is set as deferred payment
-    letter-of-credit-draft-details-post-response:
+          maxLength: 35
+    draft-details-response:
       type: object
       properties:
         draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-post-response-draft-details'
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-POST-RESPONSE
-    letter-of-credit-draft-details-post-response-draft-details:
+          $ref: '#/components/schemas/draft-details-response-draft-details'
+      description: DRAFT-DETAILS-RESPONSE
+    draft-details-response-draft-details:
       type: object
       properties:
         lc-pos-type:
@@ -3426,37 +3443,38 @@ components:
         event-leg-id:
           type: number
           description: This field will contain EVNT_LEG_ID
-######## LC-32 letter-of-credit-draft-details GET
-    letter-of-credit-draft-details-get-response:
+######## LC-32 Enquire Draft Details
+    enquire-draft-details-response:
       type: object
       properties:
         draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-draft-details'
+          $ref: '#/components/schemas/enquire-draft-details-response-draft-details'
         lc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-draft-details'
+          $ref: '#/components/schemas/enquire-draft-details-response-lc-draft-details'
         elc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-elc-bill-lodgement-draft-details'
+          $ref: '#/components/schemas/enquire-draft-details-response-elc-bill-lodgement-draft-details'
         ilc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-draft-details'
+          $ref: '#/components/schemas/enquire-draft-details-response-ilc-draft-details'
         ilc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-bill-lodgement-draft-details'
+          $ref: '#/components/schemas/enquire-draft-details-response-ilc-bill-lodgement-draft-details'
         ilc-amend-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-ilc-amend-draft-details'
+          $ref: '#/components/schemas/enquire-draft-details-response-ilc-amend-draft-details'
         elc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-elc-draft-details'
+          $ref: '#/components/schemas/enquire-draft-details-response-elc-draft-details'
         lc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-bill-lodgement-draft-details'
+          $ref: '#/components/schemas/enquire-draft-details-response-lc-bill-lodgement-draft-details'
         lc-deferred-payment-details:
           type: array
           items:
-            $ref: '#/components/schemas/letter-of-credit-draft-details-get-response-lc-deferred-payment-details'
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-GET-RESPONSE
-    letter-of-credit-draft-details-get-response-draft-details:
+            $ref: '#/components/schemas/enquire-draft-details-response-lc-deferred-payment-details'
+      description: ENQUIRE-DRAFT-DETAILS-RESPONSE
+    enquire-draft-details-response-draft-details:
       type: object
       properties:
         entity:
           type: string
           description: Entity
+          maxLength: 15
         lc-pos-type:
           type: number
           description: 'LC-POS-TYPE Allowed values:Revaluation:Revaluation,Cash:Cash,Custody:Custody,FXForexDeal:FXForexDeal,FXOTCOptDeal:FXOTCOptDeal,FXRateRequest:FXRateRequest,FXERADeal:FXERADeal,MMDepositDeal:MMDepositDeal,MMFRADeal:MMFRADeal,MMIRSDeal:MMIRSDeal,MMIRODeal:MMIRODeal,CreditAplctn:CreditAplctn,CreditLoan:CreditLoan,NonTrade:NonTrade,CustodyForward:CustodyForward,MMOrder:MMOrder,MMDeal:MMDeal,CurrPositon:CurrPositon,Exchval:Exchval,CurrPosNotes:CurrPosNotes,ExchValNotes:ExchValNotes,Gbt:Gbt,Fatxn:Fatxn,Internal:Internal,OutPymntOrd:OutPymntOrd,OpenDelivery:OpenDelivery,Broker:Broker,Custodian:Custodian,VarMrgn:VarMrgn,InitMrgn:InitMrgn,AcntClsr:AcntClsr,SENetSett:SENetSett,DetCustody:DetCustody,TBill:TBill,RSShipOrd:RSShipOrd,RSTCShipOrd:RSTCShipOrd,RSECBOOrd:RSECBOOrd,RSTCOOrd:RSTCOOrd,RSCBOOrd:RSCBOOrd,RSBCOOrd:RSBCOOrd,RSCRDOOrd:RSCRDOOrd,RSCOWithdrawal:RSCOWithdrawal,RSCCOOrd:RSCCOOrd,RSENCOOrd:RSENCOOrd,RSEXOOrd:RSEXOOrd,RSSROOrd:RSSROOrd,RSSPOOrd:RSSPOOrd,RSVCOOrd:RSVCOOrd,RSCODeposit:RSCODeposit,Entitlement:Entitlement,FXForexOrd:FXForexOrd,FXOTCOptOrd:FXOTCOptOrd,FXERAOrd:FXERAOrd,MMGlobal:MMGlobal,IntrstAppln:IntrstAppln,MMDepositOrd:MMDepositOrd,MMIROOrd:MMIROOrd,IntrstRepoDeal:IntrstRepoDeal,CMOCashFlow:CMOCashFlow,ST_CustOrder:ST_CustOrder,PooledOrder:PooledOrder,ST_TradeOrder:ST_TradeOrder,STDeal:STDeal,ExerciseOrder:ExerciseOrder,Allocation:Allocation,OptionAlloc:OptionAlloc,SA_Order:SA_Order,CA:CA,Certificate:Certificate,RegnDetail:RegnDetail,CM_Order:CM_Order,Coupon:Coupon,ConvOrder:ConvOrder,Eligibility:Eligibility,ICN:ICN,PeriodicCharge:PeriodicCharge,CMO:CMO,TBond:TBond,Repo:Repo,Retail_Order:Retail_Order,EMTNDeal:EMTNDeal,IntrstAcrl:IntrstAcrl,IntrstStBonds:IntrstStBonds,OpenPrtfl:OpenPrtfl,DTA_LSV_Order:DTA_LSV_Order,IntTransfer:IntTransfer,InPymntOrd:InPymntOrd,RcptInstruction:RcptInstruction,StandingOrder:StandingOrder,AssignOrder:AssignOrder,MarginOrder:MarginOrder,SICMessage:SICMessage,SWIFTMessage:SWIFTMessage,PresettledDeal:PresettledDeal,LinkedSAOrder:LinkedSAOrder,TOGroup:TOGroup,DervSett:DervSett,Assignment:Assignment,DsbrmntOrdr:DsbrmntOrdr,DsbrmntPlan:DsbrmntPlan,InvstPlan:InvstPlan,SwitchOrdr:SwitchOrdr,AutoOrdr:AutoOrdr,MFSimple:MFSimple,FAP:FAP,FAPG:FAPG,MemberLoan:MemberLoan,AccountLimit:AccountLimit,Amrtz:Amrtz,ChqPaidOut:ChqPaidOut,ChqPaidIn:ChqPaidIn,DDPaidOut:DDPaidOut,DDPaidIn:DDPaidIn,StpChqPymnt:StpChqPymnt,Mandate:Mandate,OvrDrftLmt:OvrDrftLmt,GlblCA:GlblCA,ConversionOrd:ConversionOrd,CmbntnOrdr:CmbntnOrdr,TrnsfrBlnc:TrnsfrBlnc,InitialiseBlnc:InitialiseBlnc,RprcIntrst:RprcIntrst,Expired_Pos:Expired_Pos,AdhocChrgs:AdhocChrgs,DrvMrgn:DrvMrgn,IBSTxns:IBSTxns,AME:AME,AccountOpening:AccountOpening,AdditionFeeZBA:AdditionFeeZBA,ChqRecon:ChqRecon,ExternalChrg:ExternalChrg,GetTxn:GetTxn,RptChrg:RptChrg,Final102:Final102,RejRet:RejRet,CTI:CTI,Return:Return,940:940,941:941,942:942,BillPaidIn:BillPaidIn,BillPaidOut:BillPaidOut,CTIId:CTIId,ChqPnOrdr:ChqPnOrdr,InvcApplication:InvcApplication,Originator:Originator,RemovalFeeZBA:RemovalFeeZBA,RetOrder:RetOrder,N96:N96,210:210,CnclRqst:CnclRqst,N91:N91,N95:N95,N90:N90,920:920,950:950,StpDDPymnt:StpDDPymnt,ExtAdvice:ExtAdvice,SDD_PDIN:SDD_PDIN,SDD_PDOUT:SDD_PDOUT,SDD_ORIG:SDD_ORIG,SDD_MAN:SDD_MAN,SDD_RTRNPDIN:SDD_RTRNPDIN,SDD_RTRNPDOUT:SDD_RTRNPDOUT,CashConcentration:CashConcentration,InvcAcrl:InvcAcrl,GrpdBook:GrpdBook,BulkPosType:BulkPosType,RspnsReq:RspnsReq,Alctn:Alctn,Alctn_Order:Alctn_Order,BC:BC,BackOfcPstn:BackOfcPstn,BackUpTaxPrdc:BackUpTaxPrdc,Bills:Bills,C21:C21,CCODAcnt:CCODAcnt,CER:CER,CLMOrder:CLMOrder,CPAdjstmnt:CPAdjstmnt,ClrngIn:ClrngIn,ClrngOut:ClrngOut,ConversionOrdr:ConversionOrdr,Current:Current,DD:DD,DIAShadowMvmnts:DIAShadowMvmnts,Deal:Deal,Deel:Deel,DisbrsmentCash:DisbrsmentCash,TrnCrsBsCIEAcnt:TrnCrsBsCIEAcnt,DisbrsmentTrfr:DisbrsmentTrfr,DrvPosnExpry:DrvPosnExpry,ExportBill:ExportBill,ExtLadChk:ExtLadChk,FEDS:FEDS,Flexi:Flexi,FrmVaultTfr:FrmVaultTfr,FxRvltn:FxRvltn,Guarantees:Guarantees,HdTlrTlrTfr:HdTlrTlrTfr,ICAMS:ICAMS,IdvstmntRun:IdvstmntRun,Ijarah:Ijarah,IncomeExpOrder:IncomeExpOrder,IncomeExpOrderDtl:IncomeExpOrderDtl,InvApplication:InvApplication,InwdBtch:InwdBtch,Istisnaa:Istisnaa,LinkedSENetSett:LinkedSENetSett,LmtUpdate:LmtUpdate,LoanActClosure:LoanActClosure,LoyaltySaving:LoyaltySaving,LtrofCredits:LtrofCredits,MLIntAccrual:MLIntAccrual,MLIntAppln:MLIntAppln,MT:MT,MT900:MT900,MT910:MT910,NCS:NCS,Offset:Offset,OpolTrnsfrOrdr:OpolTrnsfrOrdr,OutBtch:OutBtch,PO:PO,PooledSettOrdr:PooledSettOrdr,Pooled_Order:Pooled_Order,RpymntActTrnsfr:RpymntActTrnsfr,RpymntCash:RpymntCash,SCA:SCA,SafeCustody:SafeCustody,SafekpngFee:SafekpngFee,Sbscrptn_Order:Sbscrptn_Order,TT:TT,TaxLot:TaxLot,TcBuy:TcBuy,TcSell:TcSell,TlrToHdTlrTfr:TlrToHdTlrTfr,ToVaultTfr:ToVaultTfr,Trade:Trade,ExtNotionalPool:ExtNotionalPool,ClaimLedgrCharge:ClaimLedgrCharge,Writeoff:Writeoff,SHARETRADE_BatchTxn_BUY:SHARETRADE_BatchTxn_BUY,SHARETRADE_BatchTxn_SELL:SHARETRADE_BatchTxn_SELL,ASBA_FUND_TRANSFER:ASBA_FUND_TRANSFER,FX:FX,FCNR:FCNR,Cards:Cards,CardTransaction:CardTransaction,RDInstlmnt:RDInstlmnt,CltrlAbandn:CltrlAbandn,LoanCncl:LoanCncl,CounterprtyClaim:CounterprtyClaim,TxnBasedSweep:TxnBasedSweep,InterBankClaim:InterBankClaim,ICS:ICS,ICS_INTRST_RECORD:ICS_INTRST_RECORD,Representative:Representative,JointRepresentative:JointRepresentative,CashBlk:CashBlk,OutwardClearing:OutwardClearing,InwardClearing:InwardClearing,StpChq:StpChq,ChqCancel:ChqCancel,BulkBkng:BulkBkng,BulkPosTyp:BulkPosTyp,CrncyBuy:CrncyBuy,CrncySell:CrncySell,CrprtColl:CrprtColl,CrprtPmnt:CrprtPmnt,CstmrReport:CstmrReport,DIA:DIA,FundPlan:FundPlan,GlobalInterest:GlobalInterest,KestRecomp:KestRecomp,MsgQue:MsgQue,NAV:NAV,PayOrder:PayOrder,PrtflEntitlement:PrtflEntitlement,PymtNotification:PymtNotification,RTGS:RTGS,Subscription:Subscription,Unpaid:Unpaid,NotionalPool:NotionalPool,ExtTxnTyp:ExtTxnTyp,ExternalAccount:ExternalAccount,DepositTxn:DepositTxn,DepositOrderTxn:DepositOrderTxn,BGTxn:BGTxn,LCTxn:LCTxn,PreAdvcTxn:PreAdvcTxn,TFBillTxn:TFBillTxn,TFBillPayment:TFBillPayment,TFDC:TFDC,CustNotExch:CustNotExch,FCY_NOTESIN:FCY_NOTESIN,FCY_NOTESOUT:FCY_NOTESOUT,TlrTrnsfer:TlrTrnsfer,CshMachngByEye:CshMachngByEye,TFDCPay:TFDCPay,Salary:Salary,CashConc_Prcng:CashConc_Prcng,CashConc_Prcng_TBS:CashConc_Prcng_TBS,DamagedNotes:DamagedNotes,ELIMINATION_REQUEST:ELIMINATION_REQUEST,LEAF_STAT_UPDATE:LEAF_STAT_UPDATE,AcntDesg:AcntDesg,AddInfo:AddInfo,TFBGClaim:TFBGClaim,TFBGStlmnt:TFBGStlmnt,TFBGContrct:TFBGContrct,TFBGPymnt:TFBGPymnt,FlexiDepTxn:FlexiDepTxn,CARD_FX_SETTLEMENT:CARD_FX_SETTLEMENT,Ext_Sys_Chrg:Ext_Sys_Chrg,SBBTransfer:SBBTransfer,SBBIntrstReversal:SBBIntrstReversal,SBBTaxReversal:SBBTaxReversal,CntrctTrnsfr:CntrctTrnsfr,E_MONEY_BOX_MONTHEND_TXNS:E_MONEY_BOX_MONTHEND_TXNS,LossRecovery:LossRecovery,Business:Business,BusinessBank:BusinessBank,SCNTransfer:SCNTransfer,RSChequeReOrder:RSChequeReOrder,TxnCntMtchng:TxnCntMtchng,SCNAdjustment:SCNAdjustment,BulkCshWdrwl:BulkCshWdrwl,BulkCshDpst:BulkCshDpst,MarkedNotes:MarkedNotes,CHEQUE_BOOK_SUB_ORDER:CHEQUE_BOOK_SUB_ORDER,CHEQUE_INVENTORY_REQUEST:CHEQUE_INVENTORY_REQUEST,CHEQUE_INVENTORY_REQUEST_DTLS:CHEQUE_INVENTORY_REQUEST_DTLS,SCNTxn:SCNTxn,RSFundTrf:RSFundTrf,FakeNotesTxn:FakeNotesTxn,SCNTallyTxn:SCNTallyTxn,LnkgTxn:LnkgTxn,LoanFreezing:LoanFreezing,Report:Report,LoanWriteOff:LoanWriteOff,LoanPartWriteOff:LoanPartWriteOff,LoanReschedule:LoanReschedule,LoanRollover:LoanRollover,LoanForcedIntrstCaptlzt:LoanForcedIntrstCaptlzt,AdvanceRepayment:AdvanceRepayment,CollateralPool:CollateralPool,LoanForcedIntrstCaptlztn:LoanForcedIntrstCaptlztn,AssetTxn:AssetTxn,ConstructionDisb:ConstructionDisb,RetentionPay:RetentionPay,branch_transfer:branch_transfer,LoanAdjustment:LoanAdjustment,FORBEARANCE:FORBEARANCE,Offline_Settlement:Offline_Settlement,LimitRedraw:LimitRedraw,Insurance:Insurance,NegBal:NegBal,AMEStandingOrder:AMEStandingOrder,NPATxn:NPATxn,ShreAppln:ShreAppln,Syndication:Syndication,CollateralRelease:CollateralRelease,Securitization:Securitization,PndngChrgComp:PndngChrgComp,Appraisal:Appraisal,PASSBOOK_ACCOUNT:PASSBOOK_ACCOUNT,AccStmntTxn:AccStmntTxn,KIOSK_DEP_TXN:KIOSK_DEP_TXN,IBT:IBT,Challan:Challan,IBT_Res:IBT_Res,FollowUp:FollowUp,VendorTxn:VendorTxn,FixedAssetPur:FixedAssetPur,FixedAsset:FixedAsset,RfndOfRpymntAdvnc:RfndOfRpymntAdvnc,TopUp:TopUp,DownPayment:DownPayment,RSBillsBatchOrd:RSBillsBatchOrd,RSCashOrd:RSCashOrd,RSDrftSaleOrd:RSDrftSaleOrd,RSTCSaleOrd:RSTCSaleOrd,RSBillsPrchsOrd:RSBillsPrchsOrd,LoanRecall:LoanRecall,SecDeposit:SecDeposit,IntrstSubsidy:IntrstSubsidy,CommdtyPurchase:CommdtyPurchase,CommdtySell:CommdtySell,CommdtyTransfer:CommdtyTransfer,BackValueDtRpymnt:BackValueDtRpymnt,BackValueDtPrePymnt:BackValueDtPrePymnt,DwnpymntSubsidy:DwnpymntSubsidy,LoanCancellation:LoanCancellation,CommImmSell:CommImmSell,RescheduleChrge:RescheduleChrge,DeveloperAccountingTranche:DeveloperAccountingTranche,PurchseOnCompletion:PurchseOnCompletion,Virtual:Virtual,FUNDING_TXN:FUNDING_TXN,FUNDING_BOOKING:FUNDING_BOOKING,PreNotice:PreNotice,SyndicationLoan:SyndicationLoan,LoanPostponement:LoanPostponement,Preclosure:Preclosure,Prepaymnt:Prepaymnt,WriteOffCollection:WriteOffCollection,ComdtyBlockfrRlos:ComdtyBlockfrRlos,ELCTxn:ELCTxn,ELCBillTxn:ELCBillTxn,ELCBillPayTxn:ELCBillPayTxn,EDCBillTxn:EDCBillTxn,LocCrBlncGL:LocCrBlncGL,CryptoWallet:CryptoWallet,RepaySimulExtract:RepaySimulExtract,CryptoStakingTransfer:CryptoStakingTransfer,CryptoExitOrder:CryptoExitOrder,CryptoRebalancing:CryptoRebalancing,ATMBlncInqTxnChrg:ATMBlncInqTxnChrg,ATMDecTxnChrg:ATMDecTxnChrg,Escrow:Escrow,VAM_BKNG:VAM_BKNG,BCStopPymnt:BCStopPymnt,BCRevokeStopPymnt:BCRevokeStopPymnt,CryptoStakingRewards:CryptoStakingRewards,RevOfRepayment:RevOfRepayment,DeathDisability:DeathDisability,EarlyTermDeathdisability:EarlyTermDeathdisability,EarlyTermBuyoutloan:EarlyTermBuyoutloan,EarlyTermStaffloan:EarlyTermStaffloan,EarlyTermPreremidial:EarlyTermPreremidial,SyndicationEvent:SyndicationEvent,AWBEndorsement:AWBEndorsement,IBGPosTyp:IBGPosTyp,CrncySwtch:CrncySwtch,ManualInterestAdjust:ManualInterestAdjust,ChrgSimulator:ChrgSimulator,EDCPurchaseOrder:EDCPurchaseOrder,APAROrigination:APAROrigination,APARResponding:APARResponding,TFIBGContrct:TFIBGContrct,ChngStlmntAcnt:ChngStlmntAcnt,NPDPosTyp:NPDPosTyp,AWBDCPosTyp:AWBDCPosTyp,PDC_TXN:PDC_TXN,UFT_TXN:UFT_TXN,Contingent_Txn:Contingent_Txn,Issuance_SPLetterOfComfort:Issuance_SPLetterOfComfort,Reversal_SPLetterOfComfort:Reversal_SPLetterOfComfort,Forward_FAReceiptLetterOfComfort:Forward_FAReceiptLetterOfComfort,Reversal_FAReceiptLetterOfComfort:Reversal_FAReceiptLetterOfComfort,Issuance_of_Nonfund:Issuance_of_Nonfund,Payment_of_Nonfund:Payment_of_Nonfund,Forward_SFAUtilisation:Forward_SFAUtilisation,Reversal_SFAUtilisation:Reversal_SFAUtilisation,TFCrystallizationLoan:TFCrystallizationLoan,DormancyChrg:DormancyChrg,SalePurchasePosTyp:SalePurchasePosTyp,DpstChrgs:DpstChrgs,Onlinebnkingpymntbkng:Onlinebnkingpymntbkng,Discountingorder:Discountingorder,Product:Product,Nostro:Nostro,LOC:LOC,Savings:Savings,Term Deposit:Term Deposit;'
@@ -3466,7 +3484,7 @@ components:
         event-leg-id:
           type: number
           description: This field will contain EVNT_LEG_ID
-    letter-of-credit-draft-details-get-response-lc-draft-details:
+    enquire-draft-details-response-lc-draft-details:
       type: object
       properties:
         available-by:
@@ -3478,36 +3496,46 @@ components:
         available-with-bank-id:
           type: string
           description: Available with Bank ID. Applicable and mandatory when available with is selected as Select
+          maxLength: 11
         available-with-bank-name:
           type: string
           description: Available with Bank Name
+          maxLength: 135
         available-with-bank-address-one:
           type: string
           description: Available with Bank Address One
+          maxLength: 135
         available-with-bank-address-two:
           type: string
           description: Available with Bank Address Two
+          maxLength: 135
         available-with-bank-address-three:
           type: string
           description: Available with Bank Address Three
+          maxLength: 135
         mix-payment-details:
           type: string
           description: Mix Payment Details.Applicable and mandatory when tenor type is selected as mixed payment. For ELC draft details, it is applicable when we select Available With as any bank and Available By as mixed payment
+          maxLength: 120
         deferred-payment:
           type: string
           description: Deferred Payment.Applicable and mandatory when tenor type is selected as deferred payment. For ELC draft details, it is Applicable when we select Available By as deferred payment
+          maxLength: 120
         draft-at-or-tenor-type:
           type: string
           description: Draft At/Tenor Type. For ILC draft details, Applicable when Tenor Type is selected as Sight or Usance
-    letter-of-credit-draft-details-get-response-elc-bill-lodgement-draft-details:
+          maxLength: 105
+    enquire-draft-details-response-elc-bill-lodgement-draft-details:
       type: object
       properties:
         bank-id:
           type: string
           description: Bank ID
+          maxLength: 11
         bank-name:
           type: string
           description: Bank Name
+          maxLength: 135
         elc-bill-lodgement-draft-drawn-on:
           type: number
           description: 'ELC-BILL-LODGEMENT-DRAFT-DRAWN-ON Allowed values:ANY:ANY,Specific:Specific;'
@@ -3524,9 +3552,11 @@ components:
         instructions:
           type: string
           description: Instructions
+          maxLength: 200
         license-amount-currency:
           type: string
           description: License Amount Currency
+          maxLength: 10
         license-amount:
           type: number
           description: License Amount
@@ -3537,6 +3567,7 @@ components:
         license-number:
           type: string
           description: License Number
+          maxLength: 16
         mixed-payment-of-sight:
           type: string
           description: Mixed Payment Of Sight. Applicable and Mandatory when we select Tenor Type as Mixed Payment
@@ -3553,10 +3584,11 @@ components:
         elc-bill-lodgement-draft-amount-currency:
           type: string
           description: Draft Amount Currency
+          maxLength: 10
         elc-bill-lodgement-draft-amount:
           type: number
           description: Draft Amount.
-    letter-of-credit-draft-details-get-response-ilc-draft-details:
+    enquire-draft-details-response-ilc-draft-details:
       type: object
       properties:
         charges-flag:
@@ -3565,27 +3597,34 @@ components:
         charges-narrative:
           type: string
           description: Charges Narrative.This field is applicable in ILC draft and ILC amendment draft
+          maxLength: 210
         country:
           type: string
           description: Country.  This field is applicable and mandatory in ILC draft
+          maxLength: 4
         draft-for-interest-required:
           type: number
           description: 'DRAFT-FOR-INTEREST-REQUIRED Allowed values:Yes:Yes,No:No;'
         drawee-id:
           type: string
           description: Drawee ID. Applicable when Tenor Type is selected as mixed payment and deferred payment
+          maxLength: 11
         drawee-name:
           type: string
           description: Drawee Name
+          maxLength: 135
         drawee-address-one:
           type: string
           description: Drawee Address One
+          maxLength: 135
         drawee-address-two:
           type: string
           description: Drawee Address Two
+          maxLength: 135
         drawee-address-three:
           type: string
           description: Drawee Address Three
+          maxLength: 135
         interest-from:
           type: string
           description: Interest from
@@ -3611,7 +3650,7 @@ components:
         upas:
           type: number
           description: 'UPAS Allowed values:Yes:Yes,No:No;'
-    letter-of-credit-draft-details-get-response-ilc-bill-lodgement-draft-details:
+    enquire-draft-details-response-ilc-bill-lodgement-draft-details:
       type: object
       properties:
         due-date-for-sight:
@@ -3643,7 +3682,7 @@ components:
         ilc-bill-lodgement-usance-from:
           type: number
           description: 'ILC-BILL-LODGEMENT-USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-    letter-of-credit-draft-details-get-response-ilc-amend-draft-details:
+    enquire-draft-details-response-ilc-amend-draft-details:
       type: object
       properties:
         amendment-charge-payable-by:
@@ -3655,40 +3694,49 @@ components:
         revised-charges-narrative:
           type: string
           description: Revised Charges Narrative
+          maxLength: 210
         revised-draft-for-interest-required :
           type: number
-          description: 'REVISED-DRAFT-FOR-INTEREST-REQUIRED  Allowed values:Yes:Yes,No:No;'
+          description: Revised Draft for Interest required 
         revised-drawee-id:
           type: string
           description: Revised Drawee ID
+          maxLength: 11
         revised-drawee-name:
           type: string
           description: Revised Drawee Name
+          maxLength: 135
         revised-drawee-address-one:
           type: string
           description: Revised Drawee Address One
+          maxLength: 135
         revised-drawee-address-two:
           type: string
           description: Revised Drawee Address Two
+          maxLength: 135
         revised-drawee-address-three:
           type: string
           description: Revised Drawee Address Three
+          maxLength: 135
         revised-interest-from:
           type: string
           description: Revised Interest From
           format: date
-    letter-of-credit-draft-details-get-response-elc-draft-details:
+    enquire-draft-details-response-elc-draft-details:
       type: object
       properties:
         drawee:
           type: string
           description: Drawee
+          maxLength: 105
         elc-draft-drawee-name:
           type: string
           description: Drawee Name
+          maxLength: 35
         elc-draft-drawee-address:
           type: string
           description: Drawee Address One
+          maxLength: 135
         applicant-bank-charge-amount-currency:
           type: string
           description: Applicant Bank Charge Amount Currency
@@ -3698,18 +3746,20 @@ components:
         requested-confirmation-party:
           type: string
           description: Requested Confirmation Party. Applicable and Mandatory when we select Confirmation Instructions as confirm and May add
+          maxLength: 140
         confirmation-instructions:
           type: number
           description: 'CONFIRMATION-INSTRUCTIONS Allowed values:Confirm:Confirm,Without:Without,MayAdd:MayAdd;'
         mode-of-payment:
           type: number
           description: 'MODE-OF-PAYMENT Allowed values:IMMEDIATE:IMMEDIATE,BILLPAYMENT:BILLPAYMENT;'
-    letter-of-credit-draft-details-get-response-lc-bill-lodgement-draft-details:
+    enquire-draft-details-response-lc-bill-lodgement-draft-details:
       type: object
       properties:
         draft-amount-currency:
           type: string
           description: Draft Amount Currency.
+          maxLength: 10
         draft-amount:
           type: number
           description: Draft Amount.
@@ -3720,7 +3770,8 @@ components:
         draft-number:
           type: string
           description: Draft Number. This field is Applicable and mandatory in LC bill lodgement
-    letter-of-credit-draft-details-get-response-lc-deferred-payment-details:
+          maxLength: 10
+    enquire-draft-details-response-lc-deferred-payment-details:
       type: object
       properties:
         date-of-presentation-of-bill:
@@ -3733,33 +3784,34 @@ components:
         remarks:
           type: string
           description: Remarks. Applicable when ILC Draft tenor-type is set as deferred payment
+          maxLength: 35
         bill-stat:
           type: number
           description: 'BILL-STAT Allowed values:Partially Paid:Partially Paid,Refused:Refused,Acceptal Refusal Verified:Acceptal Refusal Verified,Acceptal Refusal Pending:Acceptal Refusal Pending,Lodged:Lodged,Accepted:Accepted,Cancelled:Cancelled,Verified:Verified,Released:Released,Waiting ForRate:Waiting ForRate,Bill Paid:Bill Paid,On Hold/Draft:On Hold/Draft,Acknowledged:Acknowledged,Return of Documents:Return of Documents,Pending Return:Pending Return,SentBack:SentBack,Rejected:Rejected,Compliance Failed:Compliance Failed,Compliance OnHold:Compliance OnHold,Compliance Approved:Compliance Approved,Compliance Rejected:Compliance Rejected;'
-######## LC-33 letter-of-credit-draft-details PUT
-    letter-of-credit-draft-details-put-request:
+######## LC-33 Modify Draft Details
+    modify-draft-details-request:
       type: object
       properties:
         lc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-lc-draft-details'
+          $ref: '#/components/schemas/modify-draft-details-request-lc-draft-details'
         elc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-elc-bill-lodgement-draft-details'
+          $ref: '#/components/schemas/modify-draft-details-request-elc-bill-lodgement-draft-details'
         ilc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-ilc-draft-details'
+          $ref: '#/components/schemas/modify-draft-details-request-ilc-draft-details'
         ilc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-ilc-bill-lodgement-draft-details'
+          $ref: '#/components/schemas/modify-draft-details-request-ilc-bill-lodgement-draft-details'
         ilc-amend-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-ilc-amend-draft-details'
+          $ref: '#/components/schemas/modify-draft-details-request-ilc-amend-draft-details'
         elc-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-elc-draft-details'
+          $ref: '#/components/schemas/modify-draft-details-request-elc-draft-details'
         lc-bill-lodgement-draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-lc-bill-lodgement-draft-details'
+          $ref: '#/components/schemas/modify-draft-details-request-lc-bill-lodgement-draft-details'
         lc-deferred-payment-details:
           type: array
           items:
-            $ref: '#/components/schemas/letter-of-credit-draft-details-put-request-lc-deferred-payment-details'
-      description: LETTER-OF-CREDIT-DRAFT-DETAILS-PUT-REQUEST
-    letter-of-credit-draft-details-put-request-lc-draft-details:
+            $ref: '#/components/schemas/modify-draft-details-request-lc-deferred-payment-details'
+      description: MODIFY-DRAFT-DETAILS-REQUEST
+    modify-draft-details-request-lc-draft-details:
       type: object
       properties:
         available-by:
@@ -3771,21 +3823,26 @@ components:
         available-with-bank-id:
           type: string
           description: Available with Bank ID. Applicable and mandatory when available with is selected as Select
+          maxLength: 11
         mix-payment-details:
           type: string
           description: Mix Payment Details.Applicable and mandatory when tenor type is selected as mixed payment. For ELC draft details, it is applicable when we select Available With as any bank and Available By as mixed payment
+          maxLength: 120
         deferred-payment:
           type: string
           description: Deferred Payment.Applicable and mandatory when tenor type is selected as deferred payment. For ELC draft details, it is Applicable when we select Available By as deferred payment
+          maxLength: 120
         draft-at-or-tenor-type:
           type: string
           description: Draft At/Tenor Type. For ILC draft details, Applicable when Tenor Type is selected as Sight or Usance
-    letter-of-credit-draft-details-put-request-elc-bill-lodgement-draft-details:
+          maxLength: 105
+    modify-draft-details-request-elc-bill-lodgement-draft-details:
       type: object
       properties:
         bank-id:
           type: string
           description: Bank ID
+          maxLength: 11
         elc-bill-lodgement-draft-drawn-on:
           type: number
           description: 'ELC-BILL-LODGEMENT-DRAFT-DRAWN-ON Allowed values:ANY:ANY,Specific:Specific;'
@@ -3802,9 +3859,11 @@ components:
         instructions:
           type: string
           description: Instructions
+          maxLength: 200
         license-amount-currency:
           type: string
           description: License Amount Currency
+          maxLength: 10
         license-amount:
           type: number
           description: License Amount
@@ -3815,6 +3874,7 @@ components:
         license-number:
           type: string
           description: License Number
+          maxLength: 16
         mixed-payment-of-sight:
           type: string
           description: Mixed Payment Of Sight. Applicable and Mandatory when we select Tenor Type as Mixed Payment
@@ -3831,7 +3891,7 @@ components:
         elc-bill-lodgement-draft-amount:
           type: number
           description: Draft Amount.This field is Applicable and mandatory in ELC bill lodgement.
-    letter-of-credit-draft-details-put-request-ilc-draft-details:
+    modify-draft-details-request-ilc-draft-details:
       type: object
       properties:
         charges-flag:
@@ -3840,15 +3900,18 @@ components:
         charges-narrative:
           type: string
           description: Charges Narrative.This field is applicable in ILC draft and ILC amendment draft
+          maxLength: 210
         country:
           type: string
           description: Country.  This field is applicable and mandatory in ILC draft
+          maxLength: 4
         draft-for-interest-required:
           type: number
           description: 'DRAFT-FOR-INTEREST-REQUIRED Allowed values:Yes:Yes,No:No;'
         drawee-id:
           type: string
           description: Drawee ID. Applicable when Tenor Type is selected as mixed payment and deferred payment
+          maxLength: 11
         interest-from:
           type: string
           description: Interest from
@@ -3871,7 +3934,7 @@ components:
         usance-from:
           type: number
           description: 'USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-    letter-of-credit-draft-details-put-request-ilc-bill-lodgement-draft-details:
+    modify-draft-details-request-ilc-bill-lodgement-draft-details:
       type: object
       properties:
         period-of-sight-payment:
@@ -3895,7 +3958,7 @@ components:
         ilc-bill-lodgement-usance-from:
           type: number
           description: 'ILC-BILL-LODGEMENT-USANCE-FROM Allowed values:AfterSight:AfterSight,AfterAcceptance:AfterAcceptance,DateofTrnsprtDoc:DateofTrnsprtDoc,DateofInvoice:DateofInvoice,DateofBillofExch:DateofBillofExch,DateofNego:DateofNego;'
-    letter-of-credit-draft-details-put-request-ilc-amend-draft-details:
+    modify-draft-details-request-ilc-amend-draft-details:
       type: object
       properties:
         amendment-charge-payable-by:
@@ -3907,44 +3970,51 @@ components:
         revised-charges-narrative:
           type: string
           description: Revised Charges Narrative
+          maxLength: 210
         revised-draft-for-interest-required :
           type: number
           description: 'REVISED-DRAFT-FOR-INTEREST-REQUIRED  Allowed values:Yes:Yes,No:No;'
         revised-drawee-id:
           type: string
           description: Revised Drawee ID
+          maxLength: 11
         revised-interest-from:
           type: string
           description: Revised Interest From
           format: date
-    letter-of-credit-draft-details-put-request-elc-draft-details:
+    modify-draft-details-request-elc-draft-details:
       type: object
       properties:
         drawee:
           type: string
           description: Drawee
+          maxLength: 105
         elc-draft-drawee-name:
           type: string
           description: Drawee Name
+          maxLength: 35
         elc-draft-drawee-address:
           type: string
           description: Drawee Address One
+          maxLength: 135
         applicant-bank-charge-amount-currency:
           type: string
           description: Applicant Bank Charge Amount Currency
+          maxLength: 10
         applicant-bank-charge-amount:
           type: number
           description: Applicant Bank Charge Amount
         requested-confirmation-party:
           type: string
           description: Requested Confirmation Party. Applicable and Mandatory when we select Confirmation Instructions as confirm and May add
+          maxLength: 140
         confirmation-instructions:
           type: number
           description: 'CONFIRMATION-INSTRUCTIONS Allowed values:Confirm:Confirm,Without:Without,MayAdd:MayAdd;'
         mode-of-payment:
           type: number
           description: 'MODE-OF-PAYMENT Allowed values:IMMEDIATE:IMMEDIATE,BILLPAYMENT:BILLPAYMENT;'
-    letter-of-credit-draft-details-put-request-lc-bill-lodgement-draft-details:
+    modify-draft-details-request-lc-bill-lodgement-draft-details:
       type: object
       properties:
         draft-date:
@@ -3954,7 +4024,8 @@ components:
         draft-number:
           type: string
           description: Draft Number. This field is Applicable and mandatory in LC bill lodgement
-    letter-of-credit-draft-details-put-request-lc-deferred-payment-details:
+          maxLength: 10
+    modify-draft-details-request-lc-deferred-payment-details:
       type: object
       properties:
         date-of-presentation-of-bill:
@@ -3967,12 +4038,14 @@ components:
         remarks:
           type: string
           description: Remarks. Applicable when ILC Draft tenor-type is set as deferred payment
-    letter-of-credit-draft-details-put-response:
+          maxLength: 35
+    modify-draft-details-response:
       type: object
       properties:
         draft-details:
-          $ref: '#/components/schemas/letter-of-credit-draft-details-put-response-draft-details'
-    letter-of-credit-draft-details-put-response-draft-details:
+          $ref: '#/components/schemas/modify-draft-details-response-draft-details'
+      description: MODIFY-DRAFT-DETAILS-RESPONSE
+    modify-draft-details-response-draft-details:
       type: object
       properties:
         lc-pos-type:
@@ -5708,6 +5781,7 @@ components:
 ######## security
 security: []
 tags:
-  - name: letter-of-credit-draft-details
+  - name: draft-details
   - name: export-lc-bill-payment
   - name: export-lc-post-shipment-crystallization-or-bill-recovery
+  - name: export-lc-pre-post-shipment-loan-registration
