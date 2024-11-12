@@ -568,7 +568,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## LC-97 export-lc-bill-payment GET
+######## LC-97 Export LC Bill Payment List
   /export-lc-bill-payment/{from-date}/{to-date}/list:
     get:
       tags:
@@ -791,7 +791,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/export-lc-bill-payment-get-response'
+                  - $ref: '#/components/schemas/export-lc-bill-payment-list-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -805,14 +805,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## LC-146 export-lc-bill-payment POST    
+######## LC-146 Export LC Bill Payment   
   /export-lc-bill-payment:
     post:
       tags:
         - export-lc-bill-payment
-      summary: Export LC Bill Payment
-      description: Export LC Bill Payment
-      operationId: Export LC Bill Payment
+      summary: Export LC Bill Paymen
+      description: Export LC Bill Paymen
+      operationId: Export LC Bill Paymen
       parameters:
         - name: auth-token
           in: header
@@ -953,7 +953,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/export-lc-bill-payment-post-request'
+              $ref: '#/components/schemas/export-lc-bill-payment-request'
       responses:
         '200':
           description: OK
@@ -961,7 +961,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/export-lc-bill-payment-post-response'
+                  - $ref: '#/components/schemas/export-lc-bill-payment-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -4057,16 +4057,16 @@ components:
         event-leg-id:
           type: number
           description: This field will contain EVNT_LEG_ID
-######## LC-97 export-lc-bill-payment GET
-    export-lc-bill-payment-get-response:
+######## LC-97 Export LC Bill Payment List
+    export-lc-bill-payment-list-response:
       type: object
       properties:
         export-lc-bill-payment:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-bill-payment-get-response-export-lc-bill-payment'
-      description: EXPORT-LC-BILL-PAYMENT-GET-RESPONSE
-    export-lc-bill-payment-get-response-export-lc-bill-payment:
+            $ref: '#/components/schemas/export-lc-bill-payment-list-response-export-lc-bill-payment'
+      description: EXPORT-LC-BILL-PAYMENT-LIST-RESPONSE
+    export-lc-bill-payment-list-response-export-lc-bill-payment:
       type: object
       properties:
         entity:
@@ -4078,21 +4078,25 @@ components:
         bill-reference:
           type: string
           description: Bill Reference
+          maxLength: 16
         customer-id:
           type: string
           description: CIF ID
         customer-name:
           type: string
           description: Customer Name
+          maxLength: 135
         bill-amount-currency:
           type: string
           description: Bill Amount Currency
+          maxLength: 10
         bill-amount:
           type: number
           description: Bill Amount
         export-lc-advising-reference:
           type: string
           description: Export LC advising Ref
+          maxLength: 16
         maturity-date:
           type: string
           description: Maturity Date
@@ -4103,20 +4107,20 @@ components:
         rate-request-status:
           type: number
           description: Rate Request Status
-######## LC-146 export-lc-bill-payment POST
-    export-lc-bill-payment-post-request:
+######## LC-146 Export LC Bill Payment
+    export-lc-bill-payment-request:
       type: object
       properties:
         export-lc-bill-payment:
-          $ref: '#/components/schemas/export-lc-bill-payment-post-request-export-lc-bill-payment'
+          $ref: '#/components/schemas/export-lc-bill-payment-request-export-lc-bill-payment'
         payment-details:
-          $ref: '#/components/schemas/export-lc-bill-payment-post-request-payment-details'
+          $ref: '#/components/schemas/export-lc-bill-payment-request-payment-details'
         credit-details:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-bill-payment-post-request-credit-details'
-      description: EXPORT-LC-BILL-PAYMENT-POST-REQUEST
-    export-lc-bill-payment-post-request-export-lc-bill-payment:
+            $ref: '#/components/schemas/export-lc-bill-payment-request-credit-details'
+      description: EXPORT-LC-BILL-PAYMENT-REQUEST
+    export-lc-bill-payment-request-export-lc-bill-payment:
       required:
         - correspondence-medium
         - bill-reference
@@ -4127,20 +4131,23 @@ components:
       properties:
         correspondence-medium:
           type: number
-          description: Correspondence Medium
+          description: 'CORRESPONDENCE-MEDIUM Allowed values:Telephone:Telephone,MgmntMandate:MgmntMandate,Telex:Telex,Facsimile:Facsimile,Customer:Customer,InternalOrder:InternalOrder,E_Mail:E_Mail,Teller:Teller,Written:Written,VrbWrtNoSig:VrbWrtNoSig,VrbWrtSig:VrbWrtSig,OthrMechOrElct:OthrMechOrElct,Internet:Internet,Call_Center:Call_Center,Local_Bank:Local_Bank,IVR:IVR,LiffeConnect:LiffeConnect,PSCAN:PSCAN,FBK:FBK,VOCA:VOCA,WBC:WBC,LocalBank:LocalBank,OprtrWrkStnCstm:OprtrWrkStnCstm,OprtrWrkStnFax:OprtrWrkStnFax,OprtrWrkStnPhne:OprtrWrkStnPhne,OprtrWrkStnSMS:OprtrWrkStnSMS,TrdWrkStnCstm:TrdWrkStnCstm,TrdWrkStnFax:TrdWrkStnFax,TrdWrkStnPhne:TrdWrkStnPhne,TrdWrkStnSMS:TrdWrkStnSMS,BaNCS_SP:BaNCS_SP,DLAM:DLAM,E_Finance:E_Finance,UNKNOWN:UNKNOWN,ZVIS_GUI:ZVIS_GUI,TDSYNTH:TDSYNTH,E-Mail:E-Mail,Letter:Letter,SFMS:SFMS,SWIFT:SWIFT,Physical:Physical;'
         bill-reference:
           type: string
           description: Bill Reference
+          maxLength: 16
         sender-reference-number-mt-two-zero-two:
           type: string
           description: Sender Ref No.MT Two Zero Two
+          maxLength: 210
         sender-reference-number-mt-seven-five-four:
           type: string
           description: Sender Ref No.MT Seven Five Four
+          maxLength: 210
         type-of-lc:
           type: number
-          description: Type of LC
-    export-lc-bill-payment-post-request-payment-details:
+          description: 'TYPE-OF-LC Allowed values:International:International,Domestic:Domestic;'
+    export-lc-bill-payment-request-payment-details:
       type: object
       properties:
         amount:
@@ -4159,50 +4166,59 @@ components:
           description: Correspondent Bank Charges
         payment-type:
           type: number
-          description: Payment Type
+          description: 'PAYMENT-TYPE Allowed values:ESR:ESR,BLPmnt:BLPmnt,CTI:CTI,Collection:Collection,Commercial:Commercial,DrftIssuance:DrftIssuance,Financial:Financial,InterBank:InterBank,Postal:Postal,ReturnPymnt:ReturnPymnt,ReturnSO:ReturnSO,SO:SO,SalaryPmnt:SalaryPmnt,StlmntDD:StlmntDD,TEAM:TEAM,Treasury:Treasury,DividendPmnt:DividendPmnt,IntraCompany:IntraCompany,Other:Other,BankInitTrnsfr:BankInitTrnsfr,FX4Cash:FX4Cash,OLA:OLA,OLO:OLO,LoanRepayment:LoanRepayment,AcceptGiro:AcceptGiro,MMAcceptCall:MMAcceptCall,DirectDebit:DirectDebit,RevocationDD:RevocationDD,MMPlaceDeal:MMPlaceDeal,MMAcceptDeal:MMAcceptDeal,MMPlaceSettlement:MMPlaceSettlement,MMAcceptSettlement:MMAcceptSettlement,POSAcquiring:POSAcquiring,iDEALAcquiring:iDEALAcquiring,EPPayment:EPPayment,ICSPayment:ICSPayment,CorrBkFund:CorrBkFund,EBP:EBP,LiqdtyTxn:LiqdtyTxn,OutStatChq:OutStatChq,TYPC:TYPC,VACP:VACP,WkInCust:WkInCust,CentralBank:CentralBank,SEPA:SEPA,LoanDisbursement:LoanDisbursement,Full Payment:Full Payment,Partial Payment:Partial Payment;'
         third-party-payment:
           type: number
-          description: Third Party Payment
+          description: 'THIRD-PARTY-PAYMENT Allowed values:Yes:Yes,No:No;'
         our-correspondent-bank-id:
           type: string
           description: Our Correspondent Bank ID
         close-bill:
           type: number
-          description: Close Bill
+          description: 'CLOSE-BILL Allowed values:Yes:Yes,No:No;'
         remitting-bank-id:
           type: string
           description: Remitting Bank ID
         our-correspondent-bank-name:
           type: string
           description: Our Correspondent Bank Name
+          maxLength: 135
         mode-of-payment:
           type: number
-          description: 'MODE-OF-PAYMENT Allowed values:IMMEDIATE:IMMEDIATE,BILLPAYMENT:BILLPAYMENT;'
+          description: 'MODE-OF-PAYMENT Allowed values:Cheque:Cheque,Clearing:Clearing,Account:Account,Cash:Cash,VoucherSet:VoucherSet,ETFHouseTransfer:ETFHouseTransfer,InwardClearing:InwardClearing,IBTO:IBTO,BankersCheque:BankersCheque;'
         remitter-name:
           type: string
           description: Remitter Name
+          maxLength: 135
         remitting-bank-name:
           type: string
           description: Remitting Bank Name
+          maxLength: 135
         country:
           type: string
           description: Country
+          maxLength: 4
         remitter-address:
           type: string
           description: Remitter Address
+          maxLength: 135
         remitting-bank-country:
           type: string
           description: Remitting Bank Country
+          maxLength: 4
         account-number:
           type: string
           description: Account Number
+          maxLength: 16
         remitter-country:
           type: string
           description: Remitter Country
+          maxLength: 4
         reference-number:
           type: string
           description: Reference Number
-    export-lc-bill-payment-post-request-credit-details:
+          maxLength: 16
+    export-lc-bill-payment-request-credit-details:
       required:
         - deal-type
         - account-type
@@ -4224,12 +4240,15 @@ components:
         settlement-currency:
           type: string
           description: Settlement Currency
+          maxLength: 10
         settlement-account-number:
           type: string
           description: Settlement Account Number
+          maxLength: 30
         transaction-currency:
           type: string
           description: Transaction Currency
+          maxLength: 10
         transaction-amount:
           type: number
           description: Transaction Amount
@@ -4242,18 +4261,18 @@ components:
         amount-in-bill-currency:
           type: number
           description: Amount In Bill Currency
-    export-lc-bill-payment-post-response:
+    export-lc-bill-payment-response:
       type: object
       properties:
         export-lc-bill-payment:
-          $ref: '#/components/schemas/export-lc-bill-payment-post-response-export-lc-bill-payment'
-      description: EXPORT-LC-BILL-PAYMENT-POST-RESPONSE
-    export-lc-bill-payment-post-response-export-lc-bill-payment:
+          $ref: '#/components/schemas/export-lc-bill-payment-response-export-lc-bill-payment'
+      description: EXPORT-LC-BILL-PAYMENT-RESPONSE
+    export-lc-bill-payment-response-export-lc-bill-payment:
       type: object
       properties:
         bill-payment-pos-type:
           type: number
-          description: This field will contain BL_PAY_POS_TYPE
+          description: 'BILL-PAYMENT-POS-TYPE Allowed values:Revaluation:Revaluation,Cash:Cash,Custody:Custody,FXForexDeal:FXForexDeal,FXOTCOptDeal:FXOTCOptDeal,FXRateRequest:FXRateRequest,FXERADeal:FXERADeal,MMDepositDeal:MMDepositDeal,MMFRADeal:MMFRADeal,MMIRSDeal:MMIRSDeal,MMIRODeal:MMIRODeal,CreditAplctn:CreditAplctn,CreditLoan:CreditLoan,NonTrade:NonTrade,CustodyForward:CustodyForward,MMOrder:MMOrder,MMDeal:MMDeal,CurrPositon:CurrPositon,Exchval:Exchval,CurrPosNotes:CurrPosNotes,ExchValNotes:ExchValNotes,Gbt:Gbt,Fatxn:Fatxn,Internal:Internal,OutPymntOrd:OutPymntOrd,OpenDelivery:OpenDelivery,Broker:Broker,Custodian:Custodian,VarMrgn:VarMrgn,InitMrgn:InitMrgn,AcntClsr:AcntClsr,SENetSett:SENetSett,DetCustody:DetCustody,TBill:TBill,RSShipOrd:RSShipOrd,RSTCShipOrd:RSTCShipOrd,RSECBOOrd:RSECBOOrd,RSTCOOrd:RSTCOOrd,RSCBOOrd:RSCBOOrd,RSBCOOrd:RSBCOOrd,RSCRDOOrd:RSCRDOOrd,RSCOWithdrawal:RSCOWithdrawal,RSCCOOrd:RSCCOOrd,RSENCOOrd:RSENCOOrd,RSEXOOrd:RSEXOOrd,RSSROOrd:RSSROOrd,RSSPOOrd:RSSPOOrd,RSVCOOrd:RSVCOOrd,RSCODeposit:RSCODeposit,Entitlement:Entitlement,FXForexOrd:FXForexOrd,FXOTCOptOrd:FXOTCOptOrd,FXERAOrd:FXERAOrd,MMGlobal:MMGlobal,IntrstAppln:IntrstAppln,MMDepositOrd:MMDepositOrd,MMIROOrd:MMIROOrd,IntrstRepoDeal:IntrstRepoDeal,CMOCashFlow:CMOCashFlow,ST_CustOrder:ST_CustOrder,PooledOrder:PooledOrder,ST_TradeOrder:ST_TradeOrder,STDeal:STDeal,ExerciseOrder:ExerciseOrder,Allocation:Allocation,OptionAlloc:OptionAlloc,SA_Order:SA_Order,CA:CA,Certificate:Certificate,RegnDetail:RegnDetail,CM_Order:CM_Order,Coupon:Coupon,ConvOrder:ConvOrder,Eligibility:Eligibility,ICN:ICN,PeriodicCharge:PeriodicCharge,CMO:CMO,TBond:TBond,Repo:Repo,Retail_Order:Retail_Order,EMTNDeal:EMTNDeal,IntrstAcrl:IntrstAcrl,IntrstStBonds:IntrstStBonds,OpenPrtfl:OpenPrtfl,DTA_LSV_Order:DTA_LSV_Order,IntTransfer:IntTransfer,InPymntOrd:InPymntOrd,RcptInstruction:RcptInstruction,StandingOrder:StandingOrder,AssignOrder:AssignOrder,MarginOrder:MarginOrder,SICMessage:SICMessage,SWIFTMessage:SWIFTMessage,PresettledDeal:PresettledDeal,LinkedSAOrder:LinkedSAOrder,TOGroup:TOGroup,DervSett:DervSett,Assignment:Assignment,DsbrmntOrdr:DsbrmntOrdr,DsbrmntPlan:DsbrmntPlan,InvstPlan:InvstPlan,SwitchOrdr:SwitchOrdr,AutoOrdr:AutoOrdr,MFSimple:MFSimple,FAP:FAP,FAPG:FAPG,MemberLoan:MemberLoan,AccountLimit:AccountLimit,Amrtz:Amrtz,ChqPaidOut:ChqPaidOut,ChqPaidIn:ChqPaidIn,DDPaidOut:DDPaidOut,DDPaidIn:DDPaidIn,StpChqPymnt:StpChqPymnt,Mandate:Mandate,OvrDrftLmt:OvrDrftLmt,GlblCA:GlblCA,ConversionOrd:ConversionOrd,CmbntnOrdr:CmbntnOrdr,TrnsfrBlnc:TrnsfrBlnc,InitialiseBlnc:InitialiseBlnc,RprcIntrst:RprcIntrst,Expired_Pos:Expired_Pos,AdhocChrgs:AdhocChrgs,DrvMrgn:DrvMrgn,IBSTxns:IBSTxns,AME:AME,AccountOpening:AccountOpening,AdditionFeeZBA:AdditionFeeZBA,ChqRecon:ChqRecon,ExternalChrg:ExternalChrg,GetTxn:GetTxn,RptChrg:RptChrg,Final102:Final102,RejRet:RejRet,CTI:CTI,Return:Return,940:940,941:941,942:942,BillPaidIn:BillPaidIn,BillPaidOut:BillPaidOut,CTIId:CTIId,ChqPnOrdr:ChqPnOrdr,InvcApplication:InvcApplication,Originator:Originator,RemovalFeeZBA:RemovalFeeZBA,RetOrder:RetOrder,N96:N96,210:210,CnclRqst:CnclRqst,N91:N91,N95:N95,N90:N90,920:920,950:950,StpDDPymnt:StpDDPymnt,ExtAdvice:ExtAdvice,SDD_PDIN:SDD_PDIN,SDD_PDOUT:SDD_PDOUT,SDD_ORIG:SDD_ORIG,SDD_MAN:SDD_MAN,SDD_RTRNPDIN:SDD_RTRNPDIN,SDD_RTRNPDOUT:SDD_RTRNPDOUT,CashConcentration:CashConcentration,InvcAcrl:InvcAcrl,GrpdBook:GrpdBook,BulkPosType:BulkPosType,RspnsReq:RspnsReq,Alctn:Alctn,Alctn_Order:Alctn_Order,BC:BC,BackOfcPstn:BackOfcPstn,BackUpTaxPrdc:BackUpTaxPrdc,Bills:Bills,C21:C21,CCODAcnt:CCODAcnt,CER:CER,CLMOrder:CLMOrder,CPAdjstmnt:CPAdjstmnt,ClrngIn:ClrngIn,ClrngOut:ClrngOut,ConversionOrdr:ConversionOrdr,Current:Current,DD:DD,DIAShadowMvmnts:DIAShadowMvmnts,Deal:Deal,Deel:Deel,DisbrsmentCash:DisbrsmentCash,TrnCrsBsCIEAcnt:TrnCrsBsCIEAcnt,DisbrsmentTrfr:DisbrsmentTrfr,DrvPosnExpry:DrvPosnExpry,ExportBill:ExportBill,ExtLadChk:ExtLadChk,FEDS:FEDS,Flexi:Flexi,FrmVaultTfr:FrmVaultTfr,FxRvltn:FxRvltn,Guarantees:Guarantees,HdTlrTlrTfr:HdTlrTlrTfr,ICAMS:ICAMS,IdvstmntRun:IdvstmntRun,Ijarah:Ijarah,IncomeExpOrder:IncomeExpOrder,IncomeExpOrderDtl:IncomeExpOrderDtl,InvApplication:InvApplication,InwdBtch:InwdBtch,Istisnaa:Istisnaa,LinkedSENetSett:LinkedSENetSett,LmtUpdate:LmtUpdate,LoanActClosure:LoanActClosure,LoyaltySaving:LoyaltySaving,LtrofCredits:LtrofCredits,MLIntAccrual:MLIntAccrual,MLIntAppln:MLIntAppln,MT:MT,MT900:MT900,MT910:MT910,NCS:NCS,Offset:Offset,OpolTrnsfrOrdr:OpolTrnsfrOrdr,OutBtch:OutBtch,PO:PO,PooledSettOrdr:PooledSettOrdr,Pooled_Order:Pooled_Order,RpymntActTrnsfr:RpymntActTrnsfr,RpymntCash:RpymntCash,SCA:SCA,SafeCustody:SafeCustody,SafekpngFee:SafekpngFee,Sbscrptn_Order:Sbscrptn_Order,TT:TT,TaxLot:TaxLot,TcBuy:TcBuy,TcSell:TcSell,TlrToHdTlrTfr:TlrToHdTlrTfr,ToVaultTfr:ToVaultTfr,Trade:Trade,ExtNotionalPool:ExtNotionalPool,ClaimLedgrCharge:ClaimLedgrCharge,Writeoff:Writeoff,SHARETRADE_BatchTxn_BUY:SHARETRADE_BatchTxn_BUY,SHARETRADE_BatchTxn_SELL:SHARETRADE_BatchTxn_SELL,ASBA_FUND_TRANSFER:ASBA_FUND_TRANSFER,FX:FX,FCNR:FCNR,Cards:Cards,CardTransaction:CardTransaction,RDInstlmnt:RDInstlmnt,CltrlAbandn:CltrlAbandn,LoanCncl:LoanCncl,CounterprtyClaim:CounterprtyClaim,TxnBasedSweep:TxnBasedSweep,InterBankClaim:InterBankClaim,ICS:ICS,ICS_INTRST_RECORD:ICS_INTRST_RECORD,Representative:Representative,JointRepresentative:JointRepresentative,CashBlk:CashBlk,OutwardClearing:OutwardClearing,InwardClearing:InwardClearing,StpChq:StpChq,ChqCancel:ChqCancel,BulkBkng:BulkBkng,BulkPosTyp:BulkPosTyp,CrncyBuy:CrncyBuy,CrncySell:CrncySell,CrprtColl:CrprtColl,CrprtPmnt:CrprtPmnt,CstmrReport:CstmrReport,DIA:DIA,FundPlan:FundPlan,GlobalInterest:GlobalInterest,KestRecomp:KestRecomp,MsgQue:MsgQue,NAV:NAV,PayOrder:PayOrder,PrtflEntitlement:PrtflEntitlement,PymtNotification:PymtNotification,RTGS:RTGS,Subscription:Subscription,Unpaid:Unpaid,NotionalPool:NotionalPool,ExtTxnTyp:ExtTxnTyp,ExternalAccount:ExternalAccount,DepositTxn:DepositTxn,DepositOrderTxn:DepositOrderTxn,BGTxn:BGTxn,LCTxn:LCTxn,PreAdvcTxn:PreAdvcTxn,TFBillTxn:TFBillTxn,TFBillPayment:TFBillPayment,TFDC:TFDC,CustNotExch:CustNotExch,FCY_NOTESIN:FCY_NOTESIN,FCY_NOTESOUT:FCY_NOTESOUT,TlrTrnsfer:TlrTrnsfer,CshMachngByEye:CshMachngByEye,TFDCPay:TFDCPay,Salary:Salary,CashConc_Prcng:CashConc_Prcng,CashConc_Prcng_TBS:CashConc_Prcng_TBS,DamagedNotes:DamagedNotes,ELIMINATION_REQUEST:ELIMINATION_REQUEST,LEAF_STAT_UPDATE:LEAF_STAT_UPDATE,AcntDesg:AcntDesg,AddInfo:AddInfo,TFBGClaim:TFBGClaim,TFBGStlmnt:TFBGStlmnt,TFBGContrct:TFBGContrct,TFBGPymnt:TFBGPymnt,FlexiDepTxn:FlexiDepTxn,CARD_FX_SETTLEMENT:CARD_FX_SETTLEMENT,Ext_Sys_Chrg:Ext_Sys_Chrg,SBBTransfer:SBBTransfer,SBBIntrstReversal:SBBIntrstReversal,SBBTaxReversal:SBBTaxReversal,CntrctTrnsfr:CntrctTrnsfr,E_MONEY_BOX_MONTHEND_TXNS:E_MONEY_BOX_MONTHEND_TXNS,LossRecovery:LossRecovery,Business:Business,BusinessBank:BusinessBank,SCNTransfer:SCNTransfer,RSChequeReOrder:RSChequeReOrder,TxnCntMtchng:TxnCntMtchng,SCNAdjustment:SCNAdjustment,BulkCshWdrwl:BulkCshWdrwl,BulkCshDpst:BulkCshDpst,MarkedNotes:MarkedNotes,CHEQUE_BOOK_SUB_ORDER:CHEQUE_BOOK_SUB_ORDER,CHEQUE_INVENTORY_REQUEST:CHEQUE_INVENTORY_REQUEST,CHEQUE_INVENTORY_REQUEST_DTLS:CHEQUE_INVENTORY_REQUEST_DTLS,SCNTxn:SCNTxn,RSFundTrf:RSFundTrf,FakeNotesTxn:FakeNotesTxn,SCNTallyTxn:SCNTallyTxn,LnkgTxn:LnkgTxn,LoanFreezing:LoanFreezing,Report:Report,LoanWriteOff:LoanWriteOff,LoanPartWriteOff:LoanPartWriteOff,LoanReschedule:LoanReschedule,LoanRollover:LoanRollover,LoanForcedIntrstCaptlzt:LoanForcedIntrstCaptlzt,AdvanceRepayment:AdvanceRepayment,CollateralPool:CollateralPool,LoanForcedIntrstCaptlztn:LoanForcedIntrstCaptlztn,AssetTxn:AssetTxn,ConstructionDisb:ConstructionDisb,RetentionPay:RetentionPay,branch_transfer:branch_transfer,LoanAdjustment:LoanAdjustment,FORBEARANCE:FORBEARANCE,Offline_Settlement:Offline_Settlement,LimitRedraw:LimitRedraw,Insurance:Insurance,NegBal:NegBal,AMEStandingOrder:AMEStandingOrder,NPATxn:NPATxn,ShreAppln:ShreAppln,Syndication:Syndication,CollateralRelease:CollateralRelease,Securitization:Securitization,PndngChrgComp:PndngChrgComp,Appraisal:Appraisal,PASSBOOK_ACCOUNT:PASSBOOK_ACCOUNT,AccStmntTxn:AccStmntTxn,KIOSK_DEP_TXN:KIOSK_DEP_TXN,IBT:IBT,Challan:Challan,IBT_Res:IBT_Res,FollowUp:FollowUp,VendorTxn:VendorTxn,FixedAssetPur:FixedAssetPur,FixedAsset:FixedAsset,RfndOfRpymntAdvnc:RfndOfRpymntAdvnc,TopUp:TopUp,DownPayment:DownPayment,RSBillsBatchOrd:RSBillsBatchOrd,RSCashOrd:RSCashOrd,RSDrftSaleOrd:RSDrftSaleOrd,RSTCSaleOrd:RSTCSaleOrd,RSBillsPrchsOrd:RSBillsPrchsOrd,LoanRecall:LoanRecall,SecDeposit:SecDeposit,IntrstSubsidy:IntrstSubsidy,CommdtyPurchase:CommdtyPurchase,CommdtySell:CommdtySell,CommdtyTransfer:CommdtyTransfer,BackValueDtRpymnt:BackValueDtRpymnt,BackValueDtPrePymnt:BackValueDtPrePymnt,DwnpymntSubsidy:DwnpymntSubsidy,LoanCancellation:LoanCancellation,CommImmSell:CommImmSell,RescheduleChrge:RescheduleChrge,DeveloperAccountingTranche:DeveloperAccountingTranche,PurchseOnCompletion:PurchseOnCompletion,Virtual:Virtual,FUNDING_TXN:FUNDING_TXN,FUNDING_BOOKING:FUNDING_BOOKING,PreNotice:PreNotice,SyndicationLoan:SyndicationLoan,LoanPostponement:LoanPostponement,Preclosure:Preclosure,Prepaymnt:Prepaymnt,WriteOffCollection:WriteOffCollection,ComdtyBlockfrRlos:ComdtyBlockfrRlos,ELCTxn:ELCTxn,ELCBillTxn:ELCBillTxn,ELCBillPayTxn:ELCBillPayTxn,EDCBillTxn:EDCBillTxn,LocCrBlncGL:LocCrBlncGL,CryptoWallet:CryptoWallet,RepaySimulExtract:RepaySimulExtract,CryptoStakingTransfer:CryptoStakingTransfer,CryptoExitOrder:CryptoExitOrder,CryptoRebalancing:CryptoRebalancing,ATMBlncInqTxnChrg:ATMBlncInqTxnChrg,ATMDecTxnChrg:ATMDecTxnChrg,Escrow:Escrow,VAM_BKNG:VAM_BKNG,BCStopPymnt:BCStopPymnt,BCRevokeStopPymnt:BCRevokeStopPymnt,CryptoStakingRewards:CryptoStakingRewards,RevOfRepayment:RevOfRepayment,DeathDisability:DeathDisability,EarlyTermDeathdisability:EarlyTermDeathdisability,EarlyTermBuyoutloan:EarlyTermBuyoutloan,EarlyTermStaffloan:EarlyTermStaffloan,EarlyTermPreremidial:EarlyTermPreremidial,SyndicationEvent:SyndicationEvent,AWBEndorsement:AWBEndorsement,IBGPosTyp:IBGPosTyp,CrncySwtch:CrncySwtch,ManualInterestAdjust:ManualInterestAdjust,ChrgSimulator:ChrgSimulator,EDCPurchaseOrder:EDCPurchaseOrder,APAROrigination:APAROrigination,APARResponding:APARResponding,TFIBGContrct:TFIBGContrct,ChngStlmntAcnt:ChngStlmntAcnt,NPDPosTyp:NPDPosTyp,AWBDCPosTyp:AWBDCPosTyp,PDC_TXN:PDC_TXN,UFT_TXN:UFT_TXN,Contingent_Txn:Contingent_Txn,Issuance_SPLetterOfComfort:Issuance_SPLetterOfComfort,Reversal_SPLetterOfComfort:Reversal_SPLetterOfComfort,Forward_FAReceiptLetterOfComfort:Forward_FAReceiptLetterOfComfort,Reversal_FAReceiptLetterOfComfort:Reversal_FAReceiptLetterOfComfort,Issuance_of_Nonfund:Issuance_of_Nonfund,Payment_of_Nonfund:Payment_of_Nonfund,Forward_SFAUtilisation:Forward_SFAUtilisation,Reversal_SFAUtilisation:Reversal_SFAUtilisation,TFCrystallizationLoan:TFCrystallizationLoan,DormancyChrg:DormancyChrg,SalePurchasePosTyp:SalePurchasePosTyp,DpstChrgs:DpstChrgs,Onlinebnkingpymntbkng:Onlinebnkingpymntbkng,Discountingorder:Discountingorder,Product:Product,Nostro:Nostro,LOC:LOC,Savings:Savings,Term Deposit:Term Deposit;'
         bill-payment-reference:
           type: number
           description: This field will contain BL_PAY_POS_ID
@@ -4262,7 +4281,7 @@ components:
           description: This field will contain EVNT_LEG_ID
         status:
           type: number
-          description: Status will be OnHold
+          description: 'STATUS Allowed values:OnHold:OnHold,Released:Released,Verified:Verified,Executed:Executed,Rejected:Rejected,AmndmntInit:AmndmntInit,WaitingForRate:WaitingForRate,Expired:Expired,CnclClosePndng:CnclClosePndng,CnclCloseVerify:CnclCloseVerify,Cancelled:Cancelled,Closed:Closed,ModifyOnHold:ModifyOnHold,ModifyReleased:ModifyReleased,RevivedLCOnHold:RevivedLCOnHold,RevivedLCReleased:RevivedLCReleased,Revived:Revived,SentBack:SentBack,SGPending:SGPending,ComplianceFailed:ComplianceFailed,ComplianceOnHold:ComplianceOnHold,Reject:Reject;'
 ######## LC-147 export-lc-bill-payment bill-payment-reference GET 
     export-lc-bill-payment-get-bill-payment-reference-response:
       type: object
