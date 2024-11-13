@@ -1931,7 +1931,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## LC-155 export-lc-post-shipment-crystallization-or-bill-recovery GET2
+######## LC-155 Enquire Export LC Post Shipment Crystallization or Bill Recovery
   /export-lc-post-shipment-crystallization-or-bill-recovery/{crystallization-reference}/{sequence-id}:
     get:
       tags:
@@ -2095,7 +2095,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-get2-response'
+                  - $ref: '#/components/schemas/enquire-export-lc-post-shipment-crystallization-or-bill-recovery-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -4887,18 +4887,18 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,PendingAuthorisation:PendingAuthorisation,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Rejected:Rejected,Cancelled:Cancelled,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Close:Close,Executed:Executed,Expired:Expired,Failed:Failed,InActive:InActive,MOnHold:MOnHold,MPendActOnHOld:MPendActOnHOld,MPendActPendingAuth:MPendActPendingAuth,MPendingAuth:MPendingAuth,OnHold:OnHold,Open:Open,PendingActivation:PendingActivation,PendingCancel:PendingCancel,PendingClosure:PendingClosure,Successful:Successful,PendingInactivation:PendingInactivation,PendingPendActiveCancel:PendingPendActiveCancel,PendingReopen:PendingReopen,ReInitiate:ReInitiate,Rejected:Rejected,Impaired:Impaired,Writeoff:Writeoff,NonPrfAsset:NonPrfAsset,WaitingForRate:WaitingForRate,RepairAwaited:RepairAwaited,AuthAwaited:AuthAwaited,PendWriteoff:PendWriteoff,RolloverMergeClosed:RolloverMergeClosed,PendingClosureWaitingForRate:PendingClosureWaitingForRate,PendingClosureAuthAwaited:PendingClosureAuthAwaited,ReschedPendngAuth:ReschedPendngAuth,AuthWtchRjctd:AuthWtchRjctd,PendingReversal:PendingReversal,Reversed:Reversed,Rescinded:Rescinded,IRSCancelled:IRSCancelled,PndngClsrCalcAwatd:PndngClsrCalcAwatd,PndngClsrCalcCompl:PndngClsrCalcCompl,IRSPendingCancel:IRSPendingCancel,PymntInitdFrClsr:PymntInitdFrClsr,Liquidated:Liquidated,PendingClosureInitiated:PendingClosureInitiated,Released:Released,PendingRevert:PendingRevert,Reverted:Reverted,Authorised:Authorised,PendingAuth:PendingAuth,ReversalAuth:ReversalAuth,ReversalRejected:ReversalRejected,Freezed:Freezed,PendingFreeze:PendingFreeze,Utilised:Utilised,Deferred:Deferred,SentBack:SentBack;'
-######## LC-155 export-lc-post-shipment-crystallization-or-bill-recovery GET2
-    export-lc-post-shipment-crystallization-or-bill-recovery-get2-response:
+######## LC-155 Enquire Export LC Post Shipment Crystallization or Bill Recovery
+    enquire-export-lc-post-shipment-crystallization-or-bill-recovery-response:
       type: object
       properties:
         export-lc-post-shipment-crystallization-or-bill-recovery:
-          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-export-lc-post-shipment-crystallization-or-bill-recovery'
+          $ref: '#/components/schemas/enquire-export-lc-post-shipment-crystallization-or-bill-recovery-response-export-lc-post-shipment-crystallization-or-bill-recovery'
         recovery-details:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-recovery-details'
-      description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-GET2-RESPONSE
-    export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-export-lc-post-shipment-crystallization-or-bill-recovery:
+            $ref: '#/components/schemas/enquire-export-lc-post-shipment-crystallization-or-bill-recovery-response-recovery-details'
+      description: ENQUIRE-EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-RESPONSE
+    enquire-export-lc-post-shipment-crystallization-or-bill-recovery-response-export-lc-post-shipment-crystallization-or-bill-recovery:
       type: object
       properties:
         entity:
@@ -4907,6 +4907,7 @@ components:
         bill-reference-external:
           type: string
           description: Bill Reference External
+          maxLength: 16
         bill-maturity-date:
           type: string
           description: Bill Maturity date
@@ -4917,21 +4918,27 @@ components:
         drawer-name:
           type: string
           description: Drawer Name
+          maxLength: 135
         drawer-address-line-one:
           type: string
           description: Address line 1
+          maxLength: 135
         drawer-address-line-two:
           type: string
           description: Address line 2
+          maxLength: 135
         drawer-address-line-three:
           type: string
           description: Address line 3
+          maxLength: 135
         drawer-country:
           type: string
           description: Drawer Country
+          maxLength: 4
         outstanding-bill-amount-currency:
           type: string
           description: Outstanding Bill Amount
+          maxLength: 10
         outstanding-bill-amount:
           type: number
           description: Outstanding Bill Amount
@@ -4942,6 +4949,7 @@ components:
         bill-amount-currency:
           type: string
           description: Bill Amount
+          maxLength: 10
         bill-amount:
           type: number
           description: Bill Amount
@@ -4951,21 +4959,27 @@ components:
         drawee-id:
           type: string
           description: Drawee ID
+          maxLength: 16
         drawee-name:
           type: string
           description: Drawee Name
+          maxLength: 135
         drawee-address-line-one:
           type: string
           description: Address line 1
+          maxLength: 135
         drawee-address-line-two:
           type: string
           description: Address line 2
+          maxLength: 135
         drawee-address-line-three:
           type: string
           description: Address line 3
+          maxLength: 135
         drawee-country:
           type: string
           description: Drawee Country
+          maxLength: 4
         mode-of-recovery:
           type: number
           description: 'MODE-OF-RECOVERY Allowed values:Casa:Casa,LoC:LoC,Loan:Loan,CasaAndLoan:CasaAndLoan,CasaAndLoC:CasaAndLoC,LoCAndLoan:LoCAndLoan,CasaLoCAndLoan:CasaLoCAndLoan;'
@@ -4994,7 +5008,7 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,PendingAuthorisation:PendingAuthorisation,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Rejected:Rejected,Cancelled:Cancelled,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Close:Close,Executed:Executed,Expired:Expired,Failed:Failed,InActive:InActive,MOnHold:MOnHold,MPendActOnHOld:MPendActOnHOld,MPendActPendingAuth:MPendActPendingAuth,MPendingAuth:MPendingAuth,OnHold:OnHold,Open:Open,PendingActivation:PendingActivation,PendingCancel:PendingCancel,PendingClosure:PendingClosure,Successful:Successful,PendingInactivation:PendingInactivation,PendingPendActiveCancel:PendingPendActiveCancel,PendingReopen:PendingReopen,ReInitiate:ReInitiate,Rejected:Rejected,Impaired:Impaired,Writeoff:Writeoff,NonPrfAsset:NonPrfAsset,WaitingForRate:WaitingForRate,RepairAwaited:RepairAwaited,AuthAwaited:AuthAwaited,PendWriteoff:PendWriteoff,RolloverMergeClosed:RolloverMergeClosed,PendingClosureWaitingForRate:PendingClosureWaitingForRate,PendingClosureAuthAwaited:PendingClosureAuthAwaited,ReschedPendngAuth:ReschedPendngAuth,AuthWtchRjctd:AuthWtchRjctd,PendingReversal:PendingReversal,Reversed:Reversed,Rescinded:Rescinded,IRSCancelled:IRSCancelled,PndngClsrCalcAwatd:PndngClsrCalcAwatd,PndngClsrCalcCompl:PndngClsrCalcCompl,IRSPendingCancel:IRSPendingCancel,PymntInitdFrClsr:PymntInitdFrClsr,Liquidated:Liquidated,PendingClosureInitiated:PendingClosureInitiated,Released:Released,PendingRevert:PendingRevert,Reverted:Reverted,Authorised:Authorised,PendingAuth:PendingAuth,ReversalAuth:ReversalAuth,ReversalRejected:ReversalRejected,Freezed:Freezed,PendingFreeze:PendingFreeze,Utilised:Utilised,Deferred:Deferred,SentBack:SentBack;'
-    export-lc-post-shipment-crystallization-or-bill-recovery-get2-response-recovery-details:
+    enquire-export-lc-post-shipment-crystallization-or-bill-recovery-response-recovery-details:
       type: object
       properties:
         recovery-account-type:
@@ -5003,9 +5017,11 @@ components:
         recovery-account-number:
           type: string
           description: Recovery Account Number
+          maxLength: 16
         recovery-amount-currency:
           type: string
           description: Recovery Amount Currency
+          maxLength: 10
         recovery-amount:
           type: number
           description: Recovery Amount
