@@ -1760,7 +1760,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## LC-154 export-lc-post-shipment-crystallization-or-bill-recovery POST
+######## LC-154 Export LC Post Shipment Crystallization or Bill Recovery
   /export-lc-post-shipment-crystallization-or-bill-recovery:
     post:
       tags:
@@ -1909,7 +1909,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-post-request'
+              $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-request'
       responses:
         '200':
           description: OK
@@ -1917,7 +1917,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-post-response'
+                  - $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -4816,18 +4816,18 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,Released:Released,Verified:Verified,Executed:Executed,Rejected:Rejected,AmndmntInit:AmndmntInit,WaitingForRate:WaitingForRate,Expired:Expired,CnclClosePndng:CnclClosePndng,CnclCloseVerify:CnclCloseVerify,Cancelled:Cancelled,Closed:Closed,ModifyOnHold:ModifyOnHold,ModifyReleased:ModifyReleased,RevivedLCOnHold:RevivedLCOnHold,RevivedLCReleased:RevivedLCReleased,Revived:Revived,SentBack:SentBack,SGPending:SGPending,ComplianceFailed:ComplianceFailed,ComplianceOnHold:ComplianceOnHold,Reject:Reject;'
-######## LC-154 export-lc-post-shipment-crystallization-or-bill-recovery POST
-    export-lc-post-shipment-crystallization-or-bill-recovery-post-request:
+######## LC-154 Export LC Post Shipment Crystallization or Bill Recovery
+    export-lc-post-shipment-crystallization-or-bill-recovery-request:
       type: object
       properties:
         export-lc-post-shipment-crystallization-or-bill-recovery:
-          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-post-request-export-lc-post-shipment-crystallization-or-bill-recovery'
+          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-request-export-lc-post-shipment-crystallization-or-bill-recovery'
         recovery-details:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-post-request-recovery-details'
-      description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-POST-REQUEST
-    export-lc-post-shipment-crystallization-or-bill-recovery-post-request-export-lc-post-shipment-crystallization-or-bill-recovery:
+            $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-request-recovery-details'
+      description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-REQUEST
+    export-lc-post-shipment-crystallization-or-bill-recovery-request-export-lc-post-shipment-crystallization-or-bill-recovery:
       required:
         - bill-reference-external
         - mode-of-recovery
@@ -4837,13 +4837,14 @@ components:
         bill-reference-external:
           type: string
           description: Bill Reference External
+          maxLength: 16
         mode-of-recovery:
           type: number
           description: 'MODE-OF-RECOVERY Allowed values:Casa:Casa,LoC:LoC,Loan:Loan,CasaAndLoan:CasaAndLoan,CasaAndLoC:CasaAndLoC,LoCAndLoan:LoCAndLoan,CasaLoCAndLoan:CasaLoCAndLoan;'
         requested-status:
           type: number
           description: 'REQUESTED-STATUS Allowed values:OnHold:OnHold,PendingAuthorisation:PendingAuthorisation,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Rejected:Rejected,Cancelled:Cancelled,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Close:Close,Executed:Executed,Expired:Expired,Failed:Failed,InActive:InActive,MOnHold:MOnHold,MPendActOnHOld:MPendActOnHOld,MPendActPendingAuth:MPendActPendingAuth,MPendingAuth:MPendingAuth,OnHold:OnHold,Open:Open,PendingActivation:PendingActivation,PendingCancel:PendingCancel,PendingClosure:PendingClosure,Successful:Successful,PendingInactivation:PendingInactivation,PendingPendActiveCancel:PendingPendActiveCancel,PendingReopen:PendingReopen,ReInitiate:ReInitiate,Rejected:Rejected,Impaired:Impaired,Writeoff:Writeoff,NonPrfAsset:NonPrfAsset,WaitingForRate:WaitingForRate,RepairAwaited:RepairAwaited,AuthAwaited:AuthAwaited,PendWriteoff:PendWriteoff,RolloverMergeClosed:RolloverMergeClosed,PendingClosureWaitingForRate:PendingClosureWaitingForRate,PendingClosureAuthAwaited:PendingClosureAuthAwaited,ReschedPendngAuth:ReschedPendngAuth,AuthWtchRjctd:AuthWtchRjctd,PendingReversal:PendingReversal,Reversed:Reversed,Rescinded:Rescinded,IRSCancelled:IRSCancelled,PndngClsrCalcAwatd:PndngClsrCalcAwatd,PndngClsrCalcCompl:PndngClsrCalcCompl,IRSPendingCancel:IRSPendingCancel,PymntInitdFrClsr:PymntInitdFrClsr,Liquidated:Liquidated,PendingClosureInitiated:PendingClosureInitiated,Released:Released,PendingRevert:PendingRevert,Reverted:Reverted,Authorised:Authorised,PendingAuth:PendingAuth,ReversalAuth:ReversalAuth,ReversalRejected:ReversalRejected,Freezed:Freezed,PendingFreeze:PendingFreeze,Utilised:Utilised,Deferred:Deferred,SentBack:SentBack;'
-    export-lc-post-shipment-crystallization-or-bill-recovery-post-request-recovery-details:
+    export-lc-post-shipment-crystallization-or-bill-recovery-request-recovery-details:
       required:
         - recovery-account-type
         - recovery-account-number
@@ -4857,20 +4858,21 @@ components:
         recovery-account-number:
           type: string
           description: Recovery Account Number
+          maxLength: 16
         recovery-amount-currency:
           type: string
           description: Recovery Amount Currency
+          maxLength: 10
         recovery-amount:
           type: number
           description: Recovery Amount
-
-    export-lc-post-shipment-crystallization-or-bill-recovery-post-response:
+    export-lc-post-shipment-crystallization-or-bill-recovery-response:
       type: object
       properties:
         export-lc-post-shipment-crystallization-or-bill-recovery:
-          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-post-response-export-lc-post-shipment-crystallization-or-bill-recovery'
-      description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-POST-RESPONSE
-    export-lc-post-shipment-crystallization-or-bill-recovery-post-response-export-lc-post-shipment-crystallization-or-bill-recovery:
+          $ref: '#/components/schemas/export-lc-post-shipment-crystallization-or-bill-recovery-response-export-lc-post-shipment-crystallization-or-bill-recovery'
+      description: EXPORT-LC-POST-SHIPMENT-CRYSTALLIZATION-OR-BILL-RECOVERY-RESPONSE
+    export-lc-post-shipment-crystallization-or-bill-recovery-response-export-lc-post-shipment-crystallization-or-bill-recovery:
       type: object
       properties:
         crystallization-pos-type:
