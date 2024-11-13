@@ -805,14 +805,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## LC-146 Export LC Bill Payment   
+######## LC-146 Export LC Bill Payment    
   /export-lc-bill-payment:
     post:
       tags:
         - export-lc-bill-payment
-      summary: Export LC Bill Paymen
-      description: Export LC Bill Paymen
-      operationId: Export LC Bill Paymen
+      summary: Export LC Bill Payment
+      description: Export LC Bill Payment
+      operationId: Export LC Bill Payment
       parameters:
         - name: auth-token
           in: header
@@ -1131,7 +1131,7 @@ paths:
           content:
             application/json:
               schema:
-                anyOf:
+                anyOf:                          
                   - $ref: '#/components/schemas/enquire-export-lc-bill-payment-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
