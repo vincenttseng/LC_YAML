@@ -2473,7 +2473,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## LC-261 export-lc-pre-post-shipment-loan-registration POST 
+######## LC-261 ELC Pre Post Shipment Loan Registration
   /letter-of-credit/{lc-reference}/export-lc-pre-post-shipment-loan-registration:
     post:
       tags:
@@ -2628,7 +2628,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request'
+              $ref: '#/components/schemas/elc-pre-post-shipment-loan-registration-request'
       responses:
         '200':
           description: OK
@@ -2636,7 +2636,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-response'
+                  - $ref: '#/components/schemas/elc-pre-post-shipment-loan-registration-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -5135,24 +5135,24 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,PendingAuthorisation:PendingAuthorisation,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Rejected:Rejected,Cancelled:Cancelled,ActModOnHold:ActModOnHold,ActModPendAuth:ActModPendAuth,Active:Active,Close:Close,Executed:Executed,Expired:Expired,Failed:Failed,InActive:InActive,MOnHold:MOnHold,MPendActOnHOld:MPendActOnHOld,MPendActPendingAuth:MPendActPendingAuth,MPendingAuth:MPendingAuth,OnHold:OnHold,Open:Open,PendingActivation:PendingActivation,PendingCancel:PendingCancel,PendingClosure:PendingClosure,Successful:Successful,PendingInactivation:PendingInactivation,PendingPendActiveCancel:PendingPendActiveCancel,PendingReopen:PendingReopen,ReInitiate:ReInitiate,Rejected:Rejected,Impaired:Impaired,Writeoff:Writeoff,NonPrfAsset:NonPrfAsset,WaitingForRate:WaitingForRate,RepairAwaited:RepairAwaited,AuthAwaited:AuthAwaited,PendWriteoff:PendWriteoff,RolloverMergeClosed:RolloverMergeClosed,PendingClosureWaitingForRate:PendingClosureWaitingForRate,PendingClosureAuthAwaited:PendingClosureAuthAwaited,ReschedPendngAuth:ReschedPendngAuth,AuthWtchRjctd:AuthWtchRjctd,PendingReversal:PendingReversal,Reversed:Reversed,Rescinded:Rescinded,IRSCancelled:IRSCancelled,PndngClsrCalcAwatd:PndngClsrCalcAwatd,PndngClsrCalcCompl:PndngClsrCalcCompl,IRSPendingCancel:IRSPendingCancel,PymntInitdFrClsr:PymntInitdFrClsr,Liquidated:Liquidated,PendingClosureInitiated:PendingClosureInitiated,Released:Released,PendingRevert:PendingRevert,Reverted:Reverted,Authorised:Authorised,PendingAuth:PendingAuth,ReversalAuth:ReversalAuth,ReversalRejected:ReversalRejected,Freezed:Freezed,PendingFreeze:PendingFreeze,Utilised:Utilised,Deferred:Deferred,SentBack:SentBack;'
-######## LC-261 export-lc-pre-post-shipment-loan-registration POST
-    export-lc-pre-post-shipment-loan-registration-post-request:
+######## LC-261 ELC Pre Post Shipment Loan Registration
+    elc-pre-post-shipment-loan-registration-request:
       type: object
       properties:
         elc-pre-shipment-loan-amount-details:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-shipment-loan-amount-details'
+          $ref: '#/components/schemas/elc-pre-post-shipment-loan-registration-request-elc-pre-shipment-loan-amount-details'
         elc-post-shipment-loan-n-or-p-or-d-details:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request-elc-post-shipment-loan-n-or-p-or-d-details'
+          $ref: '#/components/schemas/elc-pre-post-shipment-loan-registration-request-elc-post-shipment-loan-n-or-p-or-d-details'
         elc-post-shipment-loan:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request-elc-post-shipment-loan'
+          $ref: '#/components/schemas/elc-pre-post-shipment-loan-registration-request-elc-post-shipment-loan'
         elc-pre-shipment-loan:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-shipment-loan'
+          $ref: '#/components/schemas/elc-pre-post-shipment-loan-registration-request-elc-pre-shipment-loan'
         elc-pre-post-shipment-loan-settlement-details:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-post-shipment-loan-settlement-details'
-      description: EXPORT-LC-PRE-POST-SHIPMENT-LOAN-REGISTRATION-POST-REQUEST
-    export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-shipment-loan-amount-details:
+            $ref: '#/components/schemas/elc-pre-post-shipment-loan-registration-request-elc-pre-post-shipment-loan-settlement-details'
+      description: ELC-PRE-POST-SHIPMENT-LOAN-REGISTRATION-REQUEST
+    elc-pre-post-shipment-loan-registration-request-elc-pre-shipment-loan-amount-details:
       required:
         - fob-value
         - available-balance
@@ -5186,6 +5186,7 @@ components:
         loan-currency-type:
           type: number
           description: Loan Currency Type
+          maxLength: 10
         loan-amount:
           type: string
           description: Loan Amount
@@ -5204,7 +5205,7 @@ components:
         eligible-for-subvention:
           type: number
           description: 'ELIGIBLE-FOR-SUBVENTION Allowed values:Yes:Yes,No:No;'
-    export-lc-pre-post-shipment-loan-registration-post-request-elc-post-shipment-loan-n-or-p-or-d-details:
+    elc-pre-post-shipment-loan-registration-request-elc-post-shipment-loan-n-or-p-or-d-details:
       required:
         - margin-percentage
         - shipment-type
@@ -5241,13 +5242,14 @@ components:
         loan-currency-type:
           type: string
           description: Loan Currency Type
+          maxLength: 10
         n-or-p-or-d-or-aacb-amount:
           type: string
           description: N or P or D or AACB Amount
         msme-customer :
           type: number
           description: 'MSME-CUSTOMER  Allowed values:Yes:Yes,No:No;'
-    export-lc-pre-post-shipment-loan-registration-post-request-elc-post-shipment-loan:
+    elc-pre-post-shipment-loan-registration-request-elc-post-shipment-loan:
       required:
         - bill-reference-external
         - operation-type
@@ -5256,6 +5258,7 @@ components:
         bill-reference-external:
           type: string
           description: Bill Reference External
+          maxLength: 16
         discrepancy-status :
           type: number
           description: 'DISCREPANCY-STATUS  Allowed values:Yes:Yes,No:No;'
@@ -5265,7 +5268,7 @@ components:
         acceptance-status :
           type: number
           description: 'ACCEPTANCE-STATUS  Allowed values:Yes:Yes,No:No;'
-    export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-shipment-loan:
+    elc-pre-post-shipment-loan-registration-request-elc-pre-shipment-loan:
       required:
         - document-type
         - transaction-date
@@ -5290,6 +5293,7 @@ components:
         document-ref-number:
           type: string
           description: Document Ref Number
+          maxLength: 16
         latest-shipment-date:
           type: string
           description: Latest Shipment Date
@@ -5297,7 +5301,7 @@ components:
         shipment-type:
           type: number
           description: 'SHIPMENT-TYPE Allowed values:PreShipment:PreShipment,PostShipment:PostShipment;'
-    export-lc-pre-post-shipment-loan-registration-post-request-elc-pre-post-shipment-loan-settlement-details:
+    elc-pre-post-shipment-loan-registration-request-elc-pre-post-shipment-loan-settlement-details:
       required:
         - deal-type
         - equivalent-amount
@@ -5309,15 +5313,18 @@ components:
         transaction-ccy:
           type: string
           description: Transaction CCY
+          maxLength: 10
         settlement-ccy:
           type: string
           description: Settlement CCY
+          maxLength: 10
         transaction-amount:
           type: number
           description: Transaction Amount
         deal-ref:
           type: string
           description: Deal Ref
+          maxLength: 16
         exchange-rate:
           type: number
           description: Exchange Rate
@@ -5327,13 +5334,13 @@ components:
         remaining-amount:
           type: number
           description: Remaining Amount
-    export-lc-pre-post-shipment-loan-registration-post-response:
+    elc-pre-post-shipment-loan-registration-response:
       type: object
       properties:
         export-lc-pre-post-shipment-loan-registration:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-post-response-export-lc-pre-post-shipment-loan-registration'
-      description: EXPORT-LC-PRE-POST-SHIPMENT-LOAN-REGISTRATION-POST-RESPONSE
-    export-lc-pre-post-shipment-loan-registration-post-response-export-lc-pre-post-shipment-loan-registration:
+          $ref: '#/components/schemas/elc-pre-post-shipment-loan-registration-response-export-lc-pre-post-shipment-loan-registration'
+      description: ELC-PRE-POST-SHIPMENT-LOAN-REGISTRATION-RESPONSE
+    elc-pre-post-shipment-loan-registration-response-export-lc-pre-post-shipment-loan-registration:
       type: object
       properties:
         lc-pos-type:
