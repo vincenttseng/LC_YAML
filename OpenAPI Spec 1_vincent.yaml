@@ -975,7 +975,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## LC-147 export-lc-bill-payment bill-payment-reference GET 
+######## LC-147 Enquire Export LC Bill Payment
   /export-lc-bill-payment/{bill-payment-reference}:
     get:
       tags:
@@ -1132,7 +1132,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response'
+                  - $ref: '#/components/schemas/enquire-export-lc-bill-payment-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -4282,18 +4282,18 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,Released:Released,Verified:Verified,Executed:Executed,Rejected:Rejected,AmndmntInit:AmndmntInit,WaitingForRate:WaitingForRate,Expired:Expired,CnclClosePndng:CnclClosePndng,CnclCloseVerify:CnclCloseVerify,Cancelled:Cancelled,Closed:Closed,ModifyOnHold:ModifyOnHold,ModifyReleased:ModifyReleased,RevivedLCOnHold:RevivedLCOnHold,RevivedLCReleased:RevivedLCReleased,Revived:Revived,SentBack:SentBack,SGPending:SGPending,ComplianceFailed:ComplianceFailed,ComplianceOnHold:ComplianceOnHold,Reject:Reject;'
-######## LC-147 export-lc-bill-payment bill-payment-reference GET 
-    export-lc-bill-payment-get-bill-payment-reference-response:
+######## LC-147 Enquire Export LC Bill Payment
+    enquire-export-lc-bill-payment-response:
       type: object
       properties:
         export-lc-bill-payment:
-          $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-export-lc-bill-payment'
+          $ref: '#/components/schemas/enquire-export-lc-bill-payment-response-export-lc-bill-payment'
         credit-details:
-          $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-credit-details'
+          $ref: '#/components/schemas/enquire-export-lc-bill-payment-response-credit-details'
         payment-details:
-          $ref: '#/components/schemas/export-lc-bill-payment-get-bill-payment-reference-response-payment-details'
-      description: EXPORT-LC-BILL-PAYMENT-GET-BILL-PAYMENT-REFERENCE-RESPONSE
-    export-lc-bill-payment-get-bill-payment-reference-response-export-lc-bill-payment:
+          $ref: '#/components/schemas/enquire-export-lc-bill-payment-response-payment-details'
+      description: ENQUIRE-EXPORT-LC-BILL-PAYMENT-RESPONSE
+    enquire-export-lc-bill-payment-response-export-lc-bill-payment:
       type: object
       properties:
         entity:
@@ -4306,24 +4306,30 @@ components:
         export-lc-advising-reference:
           type: string
           description: Export LC advising Ref
+          maxLength: 16
         correspondence-medium:
           type: number
           description: 'CORRESPONDENCE-MEDIUM Allowed values:Telephone:Telephone,MgmntMandate:MgmntMandate,Telex:Telex,Facsimile:Facsimile,Customer:Customer,InternalOrder:InternalOrder,E_Mail:E_Mail,Teller:Teller,Written:Written,VrbWrtNoSig:VrbWrtNoSig,VrbWrtSig:VrbWrtSig,OthrMechOrElct:OthrMechOrElct,Internet:Internet,Call_Center:Call_Center,Local_Bank:Local_Bank,IVR:IVR,LiffeConnect:LiffeConnect,PSCAN:PSCAN,FBK:FBK,VOCA:VOCA,WBC:WBC,LocalBank:LocalBank,OprtrWrkStnCstm:OprtrWrkStnCstm,OprtrWrkStnFax:OprtrWrkStnFax,OprtrWrkStnPhne:OprtrWrkStnPhne,OprtrWrkStnSMS:OprtrWrkStnSMS,TrdWrkStnCstm:TrdWrkStnCstm,TrdWrkStnFax:TrdWrkStnFax,TrdWrkStnPhne:TrdWrkStnPhne,TrdWrkStnSMS:TrdWrkStnSMS,BaNCS_SP:BaNCS_SP,DLAM:DLAM,E_Finance:E_Finance,UNKNOWN:UNKNOWN,ZVIS_GUI:ZVIS_GUI,TDSYNTH:TDSYNTH,E-Mail:E-Mail,Letter:Letter,SFMS:SFMS,SWIFT:SWIFT,Physical:Physical;'
         bill-reference:
           type: string
           description: Bill Reference
+          maxLength: 16
         sender-reference-number-mt-two-zero-two:
           type: string
           description: Sender Ref No.MT Two Zero Two
+          maxLength: 210
         sender-reference-number-mt-seven-five-four:
           type: string
           description: Sender Ref No.MT Seven Five Four
+          maxLength: 210
         documentary-credit-number:
           type: number
           description: Documentary Credit Number
+          maxLength: 16
         payment-reference-number:
           type: number
           description: Payment Reference Number
+          maxLength: 16
         merchant-trade:
           type: number
           description: 'MERCHANT-TRADE Allowed values:Yes:Yes,No:No;'
@@ -4333,6 +4339,7 @@ components:
         beneficiary-reference:
           type: string
           description: Beneficiary Reference
+          maxLength: 16
         issuing-bank-id:
           type: number
           description: Issuing Bank ID
@@ -4342,21 +4349,27 @@ components:
         beneficiary-name:
           type: string
           description: Beneficiary Name
+          maxLength: 135
         issuing-bank-name:
           type: string
           description: Issuing Bank Name
+          maxLength: 135
         applicant-name:
           type: string
           description: Applicant Name
+          maxLength: 135
         beneficiary-address-line-one:
           type: string
           description: Beneficiary Address Line one
+          maxLength: 135
         issuing-bank-address:
           type: string
           description: Issuing Bank Address
+          maxLength: 135
         applicant-address-line-one:
           type: string
           description: Applicant Address Line One
+          maxLength: 135
         type-of-lc:
           type: number
           description: 'TYPE-OF-LC Allowed values:International:International,Domestic:Domestic;'
@@ -4372,7 +4385,7 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:OnHold:OnHold,Released:Released,Verified:Verified,Executed:Executed,Rejected:Rejected,AmndmntInit:AmndmntInit,WaitingForRate:WaitingForRate,Expired:Expired,CnclClosePndng:CnclClosePndng,CnclCloseVerify:CnclCloseVerify,Cancelled:Cancelled,Closed:Closed,ModifyOnHold:ModifyOnHold,ModifyReleased:ModifyReleased,RevivedLCOnHold:RevivedLCOnHold,RevivedLCReleased:RevivedLCReleased,Revived:Revived,SentBack:SentBack,SGPending:SGPending,ComplianceFailed:ComplianceFailed,ComplianceOnHold:ComplianceOnHold,Reject:Reject;'
-    export-lc-bill-payment-get-bill-payment-reference-response-credit-details:
+    enquire-export-lc-bill-payment-response-credit-details:
       type: object
       properties:
         deal-type:
@@ -4381,6 +4394,7 @@ components:
         deal-reference-number:
           type: string
           description: Deal Reference Number
+          maxLength: 30
         deal-amount-or-available-balance:
           type: number
           description: Deal Amount or Available Balance
@@ -4390,12 +4404,15 @@ components:
         settlement-currency:
           type: string
           description: Settlement Currency
+          maxLength: 10
         settlement-account-number:
           type: string
           description: Settlement Account Number
+          maxLength: 30
         transaction-currency:
           type: string
           description: Transaction Currency
+          maxLength: 10
         transaction-amount:
           type: number
           description: Transaction Amount
@@ -4423,24 +4440,27 @@ components:
         interest-amount:
           type: number
           description: Interest Amount
-    export-lc-bill-payment-get-bill-payment-reference-response-payment-details:
+    enquire-export-lc-bill-payment-response-payment-details:
       type: object
       properties:
         bill-amount-currency:
           type: string
           description: Bill Amount Currency
+          maxLength: 10
         bill-amount:
           type: number
           description: Bill Amount
         total-amount-received-currency:
           type: string
           description: Total Amount Received Currency
+          maxLength: 10
         total-amount-received:
           type: number
           description: Total Amount Received
         amount-currency:
           type: string
           description: Amount Currency
+          maxLength: 10
         amount:
           type: number
           description: Amount
@@ -4476,49 +4496,60 @@ components:
         our-correspondent-bank-name:
           type: string
           description: Our Correspondent Bank Name
+          maxLength: 135
         mode-of-payment:
           type: number
           description: 'MODE-OF-PAYMENT Allowed values:Cheque:Cheque,Clearing:Clearing,Account:Account,Cash:Cash,VoucherSet:VoucherSet,ETFHouseTransfer:ETFHouseTransfer,InwardClearing:InwardClearing,IBTO:IBTO,BankersCheque:BankersCheque;'
         remitter-name:
           type: string
           description: Remitter Name
+          maxLength: 135
         remitting-bank-name:
           type: string
           description: Remitting Bank Name
+          maxLength: 135
         country:
           type: string
           description: Country
+          maxLength: 4
         remitter-address:
           type: string
           description: Remitter Address
+          maxLength: 135
         remitting-bank-country:
           type: string
           description: Remitting Bank Country
+          maxLength: 4
         account-number:
           type: string
           description: Account Number
+          maxLength: 16
         remitter-country:
           type: string
           description: Remitter Country
+          maxLength: 4
         reference-number:
           type: string
           description: Reference Number
+          maxLength: 16
         shortfall-amount-currency:
           type: string
           description: Shortfall Amount Currency
+          maxLength: 10
         shortfall-amount:
           type: number
           description: Shortfall Amount
         excess-amount-currency:
           type: string
           description: Excess Amount Currency
+          maxLength: 10
         excess-amount:
           type: number
           description: Excess Amount
         shortfall-recovery-acct-ref:
           type: string
           description: Shortfall Recovery Acct Ref
-
+          maxLength: 16
 
 ######## LC-148 export-lc-bill-payment PUT
     export-lc-bill-payment-put-request:
