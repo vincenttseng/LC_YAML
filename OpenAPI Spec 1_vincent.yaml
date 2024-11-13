@@ -1146,7 +1146,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## LC-148 export-lc-bill-payment PUT
+######## LC-148 Modify Export LC Bill Payment
     put:
       tags:
         - export-lc-bill-payment
@@ -1299,7 +1299,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/export-lc-bill-payment-put-request'
+              $ref: '#/components/schemas/modify-export-lc-bill-payment-request'
       responses:
         '200':
           description: OK
@@ -1307,7 +1307,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/export-lc-bill-payment-put-response'
+                  - $ref: '#/components/schemas/modify-export-lc-bill-payment-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -4550,21 +4550,20 @@ components:
           type: string
           description: Shortfall Recovery Acct Ref
           maxLength: 16
-
-######## LC-148 export-lc-bill-payment PUT
-    export-lc-bill-payment-put-request:
+######## LC-148 Modify Export LC Bill Payment
+    modify-export-lc-bill-payment-request:
       type: object
       properties:
         export-lc-bill-payment:
-          $ref: '#/components/schemas/export-lc-bill-payment-put-request-export-lc-bill-payment'
+          $ref: '#/components/schemas/modify-export-lc-bill-payment-request-export-lc-bill-payment'
         payment-details:
-          $ref: '#/components/schemas/export-lc-bill-payment-put-request-payment-details'
+          $ref: '#/components/schemas/modify-export-lc-bill-payment-request-payment-details'
         credit-details:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-bill-payment-put-request-credit-details'
-      description: EXPORT-LC-BILL-PAYMENT-PUT-REQUEST
-    export-lc-bill-payment-put-request-export-lc-bill-payment:
+            $ref: '#/components/schemas/modify-export-lc-bill-payment-request-credit-details'
+      description: MODIFY-EXPORT-LC-BILL-PAYMENT-REQUEST
+    modify-export-lc-bill-payment-request-export-lc-bill-payment:
       required:
         - type-of-lc
         - requested-status
@@ -4576,16 +4575,18 @@ components:
         sender-reference-number-mt-two-zero-two:
           type: string
           description: Sender Ref No.MT Two Zero Two
+          maxLength: 210
         sender-reference-number-mt-seven-five-four:
           type: string
           description: Sender Ref No.MT Seven Five Four
+          maxLength: 210
         type-of-lc:
           type: number
           description: 'TYPE-OF-LC Allowed values:International:International,Domestic:Domestic;'
         requested-status:
           type: number
           description: 'REQUESTED-STATUS Allowed values:OnHold:OnHold,Released:Released,Verified:Verified,Executed:Executed,Rejected:Rejected,AmndmntInit:AmndmntInit,WaitingForRate:WaitingForRate,Expired:Expired,CnclClosePndng:CnclClosePndng,CnclCloseVerify:CnclCloseVerify,Cancelled:Cancelled,Closed:Closed,ModifyOnHold:ModifyOnHold,ModifyReleased:ModifyReleased,RevivedLCOnHold:RevivedLCOnHold,RevivedLCReleased:RevivedLCReleased,Revived:Revived,SentBack:SentBack,SGPending:SGPending,ComplianceFailed:ComplianceFailed,ComplianceOnHold:ComplianceOnHold,Reject:Reject;'
-    export-lc-bill-payment-put-request-payment-details:
+    modify-export-lc-bill-payment-request-payment-details:
       type: object
       properties:
         amount:
@@ -4620,34 +4621,43 @@ components:
         our-correspondent-bank-name:
           type: string
           description: Our Correspondent Bank Name
+          maxLength: 135
         mode-of-payment:
           type: number
           description: 'MODE-OF-PAYMENT Allowed values:Cheque:Cheque,Clearing:Clearing,Account:Account,Cash:Cash,VoucherSet:VoucherSet,ETFHouseTransfer:ETFHouseTransfer,InwardClearing:InwardClearing,IBTO:IBTO,BankersCheque:BankersCheque;'
         remitter-name:
           type: string
           description: Remitter Name
+          maxLength: 135
         remitting-bank-name:
           type: string
           description: Remitting Bank Name
+          maxLength: 135
         country:
           type: string
           description: Country
+          maxLength: 4
         remitter-address:
           type: string
           description: Remitter Address
+          maxLength: 135
         remitting-bank-country:
           type: string
           description: Remitting Bank Country
+          maxLength: 4
         account-number:
           type: string
           description: Account Number
+          maxLength: 16
         remitter-country:
           type: string
           description: Remitter Country
+          maxLength: 4
         reference-number:
           type: string
           description: Reference Number
-    export-lc-bill-payment-put-request-credit-details:
+          maxLength: 16
+    modify-export-lc-bill-payment-request-credit-details:
       required:
         - deal-type
         - account-type
@@ -4669,12 +4679,15 @@ components:
         settlement-currency:
           type: string
           description: Settlement Currency
+          maxLength: 10
         settlement-account-number:
           type: string
           description: Settlement Account Number
+          maxLength: 30
         transaction-currency:
           type: string
           description: Transaction Currency
+          maxLength: 10
         transaction-amount:
           type: number
           description: Transaction Amount
@@ -4687,14 +4700,13 @@ components:
         amount-in-bill-currency:
           type: number
           description: Amount In Bill Currency
-
-    export-lc-bill-payment-put-response:
+    modify-export-lc-bill-payment-response:
       type: object
       properties:
         export-lc-bill-payment:
-          $ref: '#/components/schemas/export-lc-bill-payment-put-response-export-lc-bill-payment'
-      description: EXPORT-LC-BILL-PAYMENT-PUT-RESPONSE
-    export-lc-bill-payment-put-response-export-lc-bill-payment:
+          $ref: '#/components/schemas/modify-export-lc-bill-payment-response-export-lc-bill-payment'
+      description: MODIFY-EXPORT-LC-BILL-PAYMENT-RESPONSE
+    modify-export-lc-bill-payment-response-export-lc-bill-payment:
       type: object
       properties:
         bill-payment-pos-type:
