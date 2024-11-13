@@ -2650,7 +2650,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/api-messages'
-######## LC-262 export-lc-pre-post-shipment-loan-registration GET 
+######## LC-262 Enquire ELC Pre Post Shipment Loan Registration
     get:
       tags:
         - export-lc-pre-post-shipment-loan-registration
@@ -2807,7 +2807,7 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-get-response'
+                  - $ref: '#/components/schemas/enquire-elc-pre-post-shipment-loan-registration-response'
                   - $ref: '#/components/schemas/api-messages'
         '400':
           description: INVALID INPUT
@@ -5355,30 +5355,30 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:Discharged:Discharged,FullyDisbursed:FullyDisbursed,FullyRepaid:FullyRepaid,PartlyDisbursed:PartlyDisbursed,Active:Active,Disbursed:Disbursed,Grant:Grant,InProgress:InProgress,LeaseOutInitiated:LeaseOutInitiated,PendingDisbursement:PendingDisbursement,Rejected:Rejected,Cancelled:Cancelled,LeasedOut:LeasedOut,PayOrderCreated:PayOrderCreated,PurchaseInitiated:PurchaseInitiated,PurchasePending:PurchasePending,Onhold:Onhold,DisbursedtoTransit:DisbursedtoTransit,Approved:Approved,PendingClose:PendingClose,Closed:Closed,Frozen:Frozen,PendingWithdrwl:PendingWithdrwl,PendingAuth:PendingAuth,DebitFrozen:DebitFrozen,writtenoff:writtenoff,LPOAccepted:LPOAccepted,LPOIssued:LPOIssued,Expired:Expired,PendingDownPayment:PendingDownPayment,SentBack:SentBack;'
-######## LC-262 export-lc-pre-post-shipment-loan-registration GET 
-    export-lc-pre-post-shipment-loan-registration-get-response:
+######## LC-262 Enquire ELC Pre Post Shipment Loan Registration
+    enquire-elc-pre-post-shipment-loan-registration-response:
       type: object
       properties:
         export-lc-pre-post-shipment-loan-registration:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-get-response-export-lc-pre-post-shipment-loan-registration'
+          $ref: '#/components/schemas/enquire-elc-pre-post-shipment-loan-registration-response-export-lc-pre-post-shipment-loan-registration'
         elc-pre-shipment-loan-amount-details:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-get-response-elc-pre-shipment-loan-amount-details'
+          $ref: '#/components/schemas/enquire-elc-pre-post-shipment-loan-registration-response-elc-pre-shipment-loan-amount-details'
         elc-post-shipment-loan-n-or-p-or-d-details:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-get-response-elc-post-shipment-loan-n-or-p-or-d-details'
+          $ref: '#/components/schemas/enquire-elc-pre-post-shipment-loan-registration-response-elc-post-shipment-loan-n-or-p-or-d-details'
         elc-pre-post-shipment-loan-uploaded-documents:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-get-response-elc-pre-post-shipment-loan-uploaded-documents'
+          $ref: '#/components/schemas/enquire-elc-pre-post-shipment-loan-registration-response-elc-pre-post-shipment-loan-uploaded-documents'
         elc-pre-shipment-loan-party-details:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-get-response-elc-pre-shipment-loan-party-details'
+          $ref: '#/components/schemas/enquire-elc-pre-post-shipment-loan-registration-response-elc-pre-shipment-loan-party-details'
         elc-post-shipment-loan:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-get-response-elc-post-shipment-loan'
+          $ref: '#/components/schemas/enquire-elc-pre-post-shipment-loan-registration-response-elc-post-shipment-loan'
         elc-pre-shipment-loan:
-          $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-get-response-elc-pre-shipment-loan'
+          $ref: '#/components/schemas/enquire-elc-pre-post-shipment-loan-registration-response-elc-pre-shipment-loan'
         elc-pre-post-shipment-loan-settlement-details:
           type: array
           items:
-            $ref: '#/components/schemas/export-lc-pre-post-shipment-loan-registration-get-response-elc-pre-post-shipment-loan-settlement-details'
-      description: EXPORT-LC-PRE-POST-SHIPMENT-LOAN-REGISTRATION-GET-RESPONSE
-    export-lc-pre-post-shipment-loan-registration-get-response-export-lc-pre-post-shipment-loan-registration:
+            $ref: '#/components/schemas/enquire-elc-pre-post-shipment-loan-registration-response-elc-pre-post-shipment-loan-settlement-details'
+      description: ENQUIRE-ELC-PRE-POST-SHIPMENT-LOAN-REGISTRATION-RESPONSE
+    enquire-elc-pre-post-shipment-loan-registration-response-export-lc-pre-post-shipment-loan-registration:
       type: object
       properties:
         entity:
@@ -5390,18 +5390,23 @@ components:
         drawer-name:
           type: string
           description: Drawer Name
+          maxLength: 135
         drawer-address-line-one:
           type: string
           description: Address line 1
+          maxLength: 135
         drawer-address-line-two:
           type: string
           description: Address line 2
+          maxLength: 135
         drawer-address-line-three:
           type: string
           description: Address line 3
+          maxLength: 135
         drawer-country:
           type: string
           description: Drawer Country
+          maxLength: 4
         lc-pos-type:
           type: number
           description: 'LC-POS-TYPE Allowed values:Revaluation:Revaluation,Cash:Cash,Custody:Custody,FXForexDeal:FXForexDeal,FXOTCOptDeal:FXOTCOptDeal,FXRateRequest:FXRateRequest,FXERADeal:FXERADeal,MMDepositDeal:MMDepositDeal,MMFRADeal:MMFRADeal,MMIRSDeal:MMIRSDeal,MMIRODeal:MMIRODeal,CreditAplctn:CreditAplctn,CreditLoan:CreditLoan,NonTrade:NonTrade,CustodyForward:CustodyForward,MMOrder:MMOrder,MMDeal:MMDeal,CurrPositon:CurrPositon,Exchval:Exchval,CurrPosNotes:CurrPosNotes,ExchValNotes:ExchValNotes,Gbt:Gbt,Fatxn:Fatxn,Internal:Internal,OutPymntOrd:OutPymntOrd,OpenDelivery:OpenDelivery,Broker:Broker,Custodian:Custodian,VarMrgn:VarMrgn,InitMrgn:InitMrgn,AcntClsr:AcntClsr,SENetSett:SENetSett,DetCustody:DetCustody,TBill:TBill,RSShipOrd:RSShipOrd,RSTCShipOrd:RSTCShipOrd,RSECBOOrd:RSECBOOrd,RSTCOOrd:RSTCOOrd,RSCBOOrd:RSCBOOrd,RSBCOOrd:RSBCOOrd,RSCRDOOrd:RSCRDOOrd,RSCOWithdrawal:RSCOWithdrawal,RSCCOOrd:RSCCOOrd,RSENCOOrd:RSENCOOrd,RSEXOOrd:RSEXOOrd,RSSROOrd:RSSROOrd,RSSPOOrd:RSSPOOrd,RSVCOOrd:RSVCOOrd,RSCODeposit:RSCODeposit,Entitlement:Entitlement,FXForexOrd:FXForexOrd,FXOTCOptOrd:FXOTCOptOrd,FXERAOrd:FXERAOrd,MMGlobal:MMGlobal,IntrstAppln:IntrstAppln,MMDepositOrd:MMDepositOrd,MMIROOrd:MMIROOrd,IntrstRepoDeal:IntrstRepoDeal,CMOCashFlow:CMOCashFlow,ST_CustOrder:ST_CustOrder,PooledOrder:PooledOrder,ST_TradeOrder:ST_TradeOrder,STDeal:STDeal,ExerciseOrder:ExerciseOrder,Allocation:Allocation,OptionAlloc:OptionAlloc,SA_Order:SA_Order,CA:CA,Certificate:Certificate,RegnDetail:RegnDetail,CM_Order:CM_Order,Coupon:Coupon,ConvOrder:ConvOrder,Eligibility:Eligibility,ICN:ICN,PeriodicCharge:PeriodicCharge,CMO:CMO,TBond:TBond,Repo:Repo,Retail_Order:Retail_Order,EMTNDeal:EMTNDeal,IntrstAcrl:IntrstAcrl,IntrstStBonds:IntrstStBonds,OpenPrtfl:OpenPrtfl,DTA_LSV_Order:DTA_LSV_Order,IntTransfer:IntTransfer,InPymntOrd:InPymntOrd,RcptInstruction:RcptInstruction,StandingOrder:StandingOrder,AssignOrder:AssignOrder,MarginOrder:MarginOrder,SICMessage:SICMessage,SWIFTMessage:SWIFTMessage,PresettledDeal:PresettledDeal,LinkedSAOrder:LinkedSAOrder,TOGroup:TOGroup,DervSett:DervSett,Assignment:Assignment,DsbrmntOrdr:DsbrmntOrdr,DsbrmntPlan:DsbrmntPlan,InvstPlan:InvstPlan,SwitchOrdr:SwitchOrdr,AutoOrdr:AutoOrdr,MFSimple:MFSimple,FAP:FAP,FAPG:FAPG,MemberLoan:MemberLoan,AccountLimit:AccountLimit,Amrtz:Amrtz,ChqPaidOut:ChqPaidOut,ChqPaidIn:ChqPaidIn,DDPaidOut:DDPaidOut,DDPaidIn:DDPaidIn,StpChqPymnt:StpChqPymnt,Mandate:Mandate,OvrDrftLmt:OvrDrftLmt,GlblCA:GlblCA,ConversionOrd:ConversionOrd,CmbntnOrdr:CmbntnOrdr,TrnsfrBlnc:TrnsfrBlnc,InitialiseBlnc:InitialiseBlnc,RprcIntrst:RprcIntrst,Expired_Pos:Expired_Pos,AdhocChrgs:AdhocChrgs,DrvMrgn:DrvMrgn,IBSTxns:IBSTxns,AME:AME,AccountOpening:AccountOpening,AdditionFeeZBA:AdditionFeeZBA,ChqRecon:ChqRecon,ExternalChrg:ExternalChrg,GetTxn:GetTxn,RptChrg:RptChrg,Final102:Final102,RejRet:RejRet,CTI:CTI,Return:Return,940:940,941:941,942:942,BillPaidIn:BillPaidIn,BillPaidOut:BillPaidOut,CTIId:CTIId,ChqPnOrdr:ChqPnOrdr,InvcApplication:InvcApplication,Originator:Originator,RemovalFeeZBA:RemovalFeeZBA,RetOrder:RetOrder,N96:N96,210:210,CnclRqst:CnclRqst,N91:N91,N95:N95,N90:N90,920:920,950:950,StpDDPymnt:StpDDPymnt,ExtAdvice:ExtAdvice,SDD_PDIN:SDD_PDIN,SDD_PDOUT:SDD_PDOUT,SDD_ORIG:SDD_ORIG,SDD_MAN:SDD_MAN,SDD_RTRNPDIN:SDD_RTRNPDIN,SDD_RTRNPDOUT:SDD_RTRNPDOUT,CashConcentration:CashConcentration,InvcAcrl:InvcAcrl,GrpdBook:GrpdBook,BulkPosType:BulkPosType,RspnsReq:RspnsReq,Alctn:Alctn,Alctn_Order:Alctn_Order,BC:BC,BackOfcPstn:BackOfcPstn,BackUpTaxPrdc:BackUpTaxPrdc,Bills:Bills,C21:C21,CCODAcnt:CCODAcnt,CER:CER,CLMOrder:CLMOrder,CPAdjstmnt:CPAdjstmnt,ClrngIn:ClrngIn,ClrngOut:ClrngOut,ConversionOrdr:ConversionOrdr,Current:Current,DD:DD,DIAShadowMvmnts:DIAShadowMvmnts,Deal:Deal,Deel:Deel,DisbrsmentCash:DisbrsmentCash,TrnCrsBsCIEAcnt:TrnCrsBsCIEAcnt,DisbrsmentTrfr:DisbrsmentTrfr,DrvPosnExpry:DrvPosnExpry,ExportBill:ExportBill,ExtLadChk:ExtLadChk,FEDS:FEDS,Flexi:Flexi,FrmVaultTfr:FrmVaultTfr,FxRvltn:FxRvltn,Guarantees:Guarantees,HdTlrTlrTfr:HdTlrTlrTfr,ICAMS:ICAMS,IdvstmntRun:IdvstmntRun,Ijarah:Ijarah,IncomeExpOrder:IncomeExpOrder,IncomeExpOrderDtl:IncomeExpOrderDtl,InvApplication:InvApplication,InwdBtch:InwdBtch,Istisnaa:Istisnaa,LinkedSENetSett:LinkedSENetSett,LmtUpdate:LmtUpdate,LoanActClosure:LoanActClosure,LoyaltySaving:LoyaltySaving,LtrofCredits:LtrofCredits,MLIntAccrual:MLIntAccrual,MLIntAppln:MLIntAppln,MT:MT,MT900:MT900,MT910:MT910,NCS:NCS,Offset:Offset,OpolTrnsfrOrdr:OpolTrnsfrOrdr,OutBtch:OutBtch,PO:PO,PooledSettOrdr:PooledSettOrdr,Pooled_Order:Pooled_Order,RpymntActTrnsfr:RpymntActTrnsfr,RpymntCash:RpymntCash,SCA:SCA,SafeCustody:SafeCustody,SafekpngFee:SafekpngFee,Sbscrptn_Order:Sbscrptn_Order,TT:TT,TaxLot:TaxLot,TcBuy:TcBuy,TcSell:TcSell,TlrToHdTlrTfr:TlrToHdTlrTfr,ToVaultTfr:ToVaultTfr,Trade:Trade,ExtNotionalPool:ExtNotionalPool,ClaimLedgrCharge:ClaimLedgrCharge,Writeoff:Writeoff,SHARETRADE_BatchTxn_BUY:SHARETRADE_BatchTxn_BUY,SHARETRADE_BatchTxn_SELL:SHARETRADE_BatchTxn_SELL,ASBA_FUND_TRANSFER:ASBA_FUND_TRANSFER,FX:FX,FCNR:FCNR,Cards:Cards,CardTransaction:CardTransaction,RDInstlmnt:RDInstlmnt,CltrlAbandn:CltrlAbandn,LoanCncl:LoanCncl,CounterprtyClaim:CounterprtyClaim,TxnBasedSweep:TxnBasedSweep,InterBankClaim:InterBankClaim,ICS:ICS,ICS_INTRST_RECORD:ICS_INTRST_RECORD,Representative:Representative,JointRepresentative:JointRepresentative,CashBlk:CashBlk,OutwardClearing:OutwardClearing,InwardClearing:InwardClearing,StpChq:StpChq,ChqCancel:ChqCancel,BulkBkng:BulkBkng,BulkPosTyp:BulkPosTyp,CrncyBuy:CrncyBuy,CrncySell:CrncySell,CrprtColl:CrprtColl,CrprtPmnt:CrprtPmnt,CstmrReport:CstmrReport,DIA:DIA,FundPlan:FundPlan,GlobalInterest:GlobalInterest,KestRecomp:KestRecomp,MsgQue:MsgQue,NAV:NAV,PayOrder:PayOrder,PrtflEntitlement:PrtflEntitlement,PymtNotification:PymtNotification,RTGS:RTGS,Subscription:Subscription,Unpaid:Unpaid,NotionalPool:NotionalPool,ExtTxnTyp:ExtTxnTyp,ExternalAccount:ExternalAccount,DepositTxn:DepositTxn,DepositOrderTxn:DepositOrderTxn,BGTxn:BGTxn,LCTxn:LCTxn,PreAdvcTxn:PreAdvcTxn,TFBillTxn:TFBillTxn,TFBillPayment:TFBillPayment,TFDC:TFDC,CustNotExch:CustNotExch,FCY_NOTESIN:FCY_NOTESIN,FCY_NOTESOUT:FCY_NOTESOUT,TlrTrnsfer:TlrTrnsfer,CshMachngByEye:CshMachngByEye,TFDCPay:TFDCPay,Salary:Salary,CashConc_Prcng:CashConc_Prcng,CashConc_Prcng_TBS:CashConc_Prcng_TBS,DamagedNotes:DamagedNotes,ELIMINATION_REQUEST:ELIMINATION_REQUEST,LEAF_STAT_UPDATE:LEAF_STAT_UPDATE,AcntDesg:AcntDesg,AddInfo:AddInfo,TFBGClaim:TFBGClaim,TFBGStlmnt:TFBGStlmnt,TFBGContrct:TFBGContrct,TFBGPymnt:TFBGPymnt,FlexiDepTxn:FlexiDepTxn,CARD_FX_SETTLEMENT:CARD_FX_SETTLEMENT,Ext_Sys_Chrg:Ext_Sys_Chrg,SBBTransfer:SBBTransfer,SBBIntrstReversal:SBBIntrstReversal,SBBTaxReversal:SBBTaxReversal,CntrctTrnsfr:CntrctTrnsfr,E_MONEY_BOX_MONTHEND_TXNS:E_MONEY_BOX_MONTHEND_TXNS,LossRecovery:LossRecovery,Business:Business,BusinessBank:BusinessBank,SCNTransfer:SCNTransfer,RSChequeReOrder:RSChequeReOrder,TxnCntMtchng:TxnCntMtchng,SCNAdjustment:SCNAdjustment,BulkCshWdrwl:BulkCshWdrwl,BulkCshDpst:BulkCshDpst,MarkedNotes:MarkedNotes,CHEQUE_BOOK_SUB_ORDER:CHEQUE_BOOK_SUB_ORDER,CHEQUE_INVENTORY_REQUEST:CHEQUE_INVENTORY_REQUEST,CHEQUE_INVENTORY_REQUEST_DTLS:CHEQUE_INVENTORY_REQUEST_DTLS,SCNTxn:SCNTxn,RSFundTrf:RSFundTrf,FakeNotesTxn:FakeNotesTxn,SCNTallyTxn:SCNTallyTxn,LnkgTxn:LnkgTxn,LoanFreezing:LoanFreezing,Report:Report,LoanWriteOff:LoanWriteOff,LoanPartWriteOff:LoanPartWriteOff,LoanReschedule:LoanReschedule,LoanRollover:LoanRollover,LoanForcedIntrstCaptlzt:LoanForcedIntrstCaptlzt,AdvanceRepayment:AdvanceRepayment,CollateralPool:CollateralPool,LoanForcedIntrstCaptlztn:LoanForcedIntrstCaptlztn,AssetTxn:AssetTxn,ConstructionDisb:ConstructionDisb,RetentionPay:RetentionPay,branch_transfer:branch_transfer,LoanAdjustment:LoanAdjustment,FORBEARANCE:FORBEARANCE,Offline_Settlement:Offline_Settlement,LimitRedraw:LimitRedraw,Insurance:Insurance,NegBal:NegBal,AMEStandingOrder:AMEStandingOrder,NPATxn:NPATxn,ShreAppln:ShreAppln,Syndication:Syndication,CollateralRelease:CollateralRelease,Securitization:Securitization,PndngChrgComp:PndngChrgComp,Appraisal:Appraisal,PASSBOOK_ACCOUNT:PASSBOOK_ACCOUNT,AccStmntTxn:AccStmntTxn,KIOSK_DEP_TXN:KIOSK_DEP_TXN,IBT:IBT,Challan:Challan,IBT_Res:IBT_Res,FollowUp:FollowUp,VendorTxn:VendorTxn,FixedAssetPur:FixedAssetPur,FixedAsset:FixedAsset,RfndOfRpymntAdvnc:RfndOfRpymntAdvnc,TopUp:TopUp,DownPayment:DownPayment,RSBillsBatchOrd:RSBillsBatchOrd,RSCashOrd:RSCashOrd,RSDrftSaleOrd:RSDrftSaleOrd,RSTCSaleOrd:RSTCSaleOrd,RSBillsPrchsOrd:RSBillsPrchsOrd,LoanRecall:LoanRecall,SecDeposit:SecDeposit,IntrstSubsidy:IntrstSubsidy,CommdtyPurchase:CommdtyPurchase,CommdtySell:CommdtySell,CommdtyTransfer:CommdtyTransfer,BackValueDtRpymnt:BackValueDtRpymnt,BackValueDtPrePymnt:BackValueDtPrePymnt,DwnpymntSubsidy:DwnpymntSubsidy,LoanCancellation:LoanCancellation,CommImmSell:CommImmSell,RescheduleChrge:RescheduleChrge,DeveloperAccountingTranche:DeveloperAccountingTranche,PurchseOnCompletion:PurchseOnCompletion,Virtual:Virtual,FUNDING_TXN:FUNDING_TXN,FUNDING_BOOKING:FUNDING_BOOKING,PreNotice:PreNotice,SyndicationLoan:SyndicationLoan,LoanPostponement:LoanPostponement,Preclosure:Preclosure,Prepaymnt:Prepaymnt,WriteOffCollection:WriteOffCollection,ComdtyBlockfrRlos:ComdtyBlockfrRlos,ELCTxn:ELCTxn,ELCBillTxn:ELCBillTxn,ELCBillPayTxn:ELCBillPayTxn,EDCBillTxn:EDCBillTxn,LocCrBlncGL:LocCrBlncGL,CryptoWallet:CryptoWallet,RepaySimulExtract:RepaySimulExtract,CryptoStakingTransfer:CryptoStakingTransfer,CryptoExitOrder:CryptoExitOrder,CryptoRebalancing:CryptoRebalancing,ATMBlncInqTxnChrg:ATMBlncInqTxnChrg,ATMDecTxnChrg:ATMDecTxnChrg,Escrow:Escrow,VAM_BKNG:VAM_BKNG,BCStopPymnt:BCStopPymnt,BCRevokeStopPymnt:BCRevokeStopPymnt,CryptoStakingRewards:CryptoStakingRewards,RevOfRepayment:RevOfRepayment,DeathDisability:DeathDisability,EarlyTermDeathdisability:EarlyTermDeathdisability,EarlyTermBuyoutloan:EarlyTermBuyoutloan,EarlyTermStaffloan:EarlyTermStaffloan,EarlyTermPreremidial:EarlyTermPreremidial,SyndicationEvent:SyndicationEvent,AWBEndorsement:AWBEndorsement,IBGPosTyp:IBGPosTyp,CrncySwtch:CrncySwtch,ManualInterestAdjust:ManualInterestAdjust,ChrgSimulator:ChrgSimulator,EDCPurchaseOrder:EDCPurchaseOrder,APAROrigination:APAROrigination,APARResponding:APARResponding,TFIBGContrct:TFIBGContrct,ChngStlmntAcnt:ChngStlmntAcnt,NPDPosTyp:NPDPosTyp,AWBDCPosTyp:AWBDCPosTyp,PDC_TXN:PDC_TXN,UFT_TXN:UFT_TXN,Contingent_Txn:Contingent_Txn,Issuance_SPLetterOfComfort:Issuance_SPLetterOfComfort,Reversal_SPLetterOfComfort:Reversal_SPLetterOfComfort,Forward_FAReceiptLetterOfComfort:Forward_FAReceiptLetterOfComfort,Reversal_FAReceiptLetterOfComfort:Reversal_FAReceiptLetterOfComfort,Issuance_of_Nonfund:Issuance_of_Nonfund,Payment_of_Nonfund:Payment_of_Nonfund,Forward_SFAUtilisation:Forward_SFAUtilisation,Reversal_SFAUtilisation:Reversal_SFAUtilisation,TFCrystallizationLoan:TFCrystallizationLoan,DormancyChrg:DormancyChrg,SalePurchasePosTyp:SalePurchasePosTyp,DpstChrgs:DpstChrgs,Onlinebnkingpymntbkng:Onlinebnkingpymntbkng,Discountingorder:Discountingorder,Product:Product,Nostro:Nostro,LOC:LOC,Savings:Savings,Term Deposit:Term Deposit;'
@@ -5414,7 +5419,7 @@ components:
         status:
           type: number
           description: 'STATUS Allowed values:Discharged:Discharged,FullyDisbursed:FullyDisbursed,FullyRepaid:FullyRepaid,PartlyDisbursed:PartlyDisbursed,Active:Active,Disbursed:Disbursed,Grant:Grant,InProgress:InProgress,LeaseOutInitiated:LeaseOutInitiated,PendingDisbursement:PendingDisbursement,Rejected:Rejected,Cancelled:Cancelled,LeasedOut:LeasedOut,PayOrderCreated:PayOrderCreated,PurchaseInitiated:PurchaseInitiated,PurchasePending:PurchasePending,Onhold:Onhold,DisbursedtoTransit:DisbursedtoTransit,Approved:Approved,PendingClose:PendingClose,Closed:Closed,Frozen:Frozen,PendingWithdrwl:PendingWithdrwl,PendingAuth:PendingAuth,DebitFrozen:DebitFrozen,writtenoff:writtenoff,LPOAccepted:LPOAccepted,LPOIssued:LPOIssued,Expired:Expired,PendingDownPayment:PendingDownPayment,SentBack:SentBack;'
-    export-lc-pre-post-shipment-loan-registration-get-response-elc-pre-shipment-loan-amount-details:
+    enquire-elc-pre-post-shipment-loan-registration-response-elc-pre-shipment-loan-amount-details:
       type: object
       properties:
         fob-value:
@@ -5439,6 +5444,7 @@ components:
         loan-currency-type:
           type: number
           description: Loan Currency Type
+          maxLength: 10
         loan-amount:
           type: string
           description: Loan Amount
@@ -5457,7 +5463,7 @@ components:
         eligible-for-subvention:
           type: number
           description: 'ELIGIBLE-FOR-SUBVENTION Allowed values:Yes:Yes,No:No;'
-    export-lc-pre-post-shipment-loan-registration-get-response-elc-post-shipment-loan-n-or-p-or-d-details:
+    enquire-elc-pre-post-shipment-loan-registration-response-elc-post-shipment-loan-n-or-p-or-d-details:
       type: object
       properties:
         risk-at :
@@ -5488,13 +5494,14 @@ components:
         loan-currency-type:
           type: string
           description: Loan Currency Type
+          maxLength: 10
         n-or-p-or-d-or-aacb-amount:
           type: string
           description: N or P or D or AACB Amount
         msme-customer :
           type: number
           description: 'MSME-CUSTOMER  Allowed values:Yes:Yes,No:No;'
-    export-lc-pre-post-shipment-loan-registration-get-response-elc-pre-post-shipment-loan-uploaded-documents:
+    enquire-elc-pre-post-shipment-loan-registration-response-elc-pre-post-shipment-loan-uploaded-documents:
       type: object
       properties:
         business-area:
@@ -5503,10 +5510,11 @@ components:
         reference :
           type: string
           description: Reference 
+          maxLength: 20
         document:
           type: string
           description: Document
-    export-lc-pre-post-shipment-loan-registration-get-response-elc-pre-shipment-loan-party-details:
+    enquire-elc-pre-post-shipment-loan-registration-response-elc-pre-shipment-loan-party-details:
       type: object
       properties:
         buyer-within-or-outside-bank:
@@ -5518,24 +5526,30 @@ components:
         counter-party-name:
           type: string
           description: Counter Party Name
+          maxLength: 135
         counter-party-address-line-one:
           type: string
           description: Counter Party Address line One
+          maxLength: 135
         counter-party-address-line-two:
           type: string
           description: Counter Party Address line Two
+          maxLength: 135
         counter-party-address-line-three:
           type: string
           description: Counter Party Address line Three
+          maxLength: 135
         counter-party-country:
           type: string
           description: Counter Party Country
-    export-lc-pre-post-shipment-loan-registration-get-response-elc-post-shipment-loan:
+          maxLength: 4
+    enquire-elc-pre-post-shipment-loan-registration-response-elc-post-shipment-loan:
       type: object
       properties:
         bill-reference-external:
           type: string
           description: Bill Reference External
+          maxLength: 16
         bill-maturity-date:
           type: string
           description: Bill Maturity date
@@ -5553,6 +5567,7 @@ components:
         bill-amount-currency:
           type: string
           description: Bill Amount
+          maxLength: 10
         bill-amount:
           type: number
           description: Bill Amount
@@ -5562,21 +5577,27 @@ components:
         drawee-id:
           type: string
           description: Drawee ID
+          maxLength: 16
         drawee-name:
           type: string
           description: Drawee Name
+          maxLength: 135
         drawee-address-line-one:
           type: string
           description: Address line 1
+          maxLength: 135
         drawee-address-line-two:
           type: string
           description: Address line 2
+          maxLength: 135
         drawee-address-line-three:
           type: string
           description: Address line 3
+          maxLength: 135
         drawee-country:
           type: string
           description: Drawee Country
+          maxLength: 4
         operation-type:
           type: string
           description: Operation Type
@@ -5590,7 +5611,7 @@ components:
         acceptance-status :
           type: number
           description: 'ACCEPTANCE-STATUS  Allowed values:Yes:Yes,No:No;'
-    export-lc-pre-post-shipment-loan-registration-get-response-elc-pre-shipment-loan:
+    enquire-elc-pre-post-shipment-loan-registration-response-elc-pre-shipment-loan:
       type: object
       properties:
         document-type:
@@ -5610,6 +5631,7 @@ components:
         document-ref-number:
           type: string
           description: Document Ref Number
+          maxLength: 16
         latest-shipment-date:
           type: string
           description: Latest Shipment Date
@@ -5617,7 +5639,7 @@ components:
         shipment-type:
           type: number
           description: 'SHIPMENT-TYPE Allowed values:PreShipment:PreShipment,PostShipment:PostShipment;'
-    export-lc-pre-post-shipment-loan-registration-get-response-elc-pre-post-shipment-loan-settlement-details:
+    enquire-elc-pre-post-shipment-loan-registration-response-elc-pre-post-shipment-loan-settlement-details:
       type: object
       properties:
         deal-type:
@@ -5626,15 +5648,18 @@ components:
         transaction-ccy:
           type: string
           description: Transaction CCY
+          maxLength: 10
         settlement-ccy:
           type: string
           description: Settlement CCY
+          maxLength: 10
         transaction-amount:
           type: number
           description: Transaction Amount
         deal-ref:
           type: string
           description: Deal Ref
+          maxLength: 16
         exchange-rate:
           type: number
           description: Exchange Rate
@@ -5653,6 +5678,9 @@ components:
         net-fx-rate:
           type: number
           description: Net FX Rate
+
+
+
 ######## LC-263 export-lc-pre-post-shipment-loan-registration PUT 
     export-lc-pre-post-shipment-loan-registration-put-request:
       type: object
