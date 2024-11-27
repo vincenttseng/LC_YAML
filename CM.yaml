@@ -15780,6 +15780,37 @@ components:
           type: number
           description: Unit price - presumption
           format: float
+        twct-total-vat:
+          maxLength: 17
+          type: number
+          description: Total VAT
+          format: float
+        twct-secured-loan-value:
+          maxLength: 17
+          type: number
+          description: Secured loan value
+          format: float
+        twct-stall-area:
+          maxLength: 17
+          type: number
+          description: Stall area
+          format: float
+        twct-net-loan-value-percentage:
+          maxLength: 6
+          type: number
+          description: Net loan value percentage
+          format: float
+        twct-increased-percentage:
+          maxLength: 6
+          type: number
+          description: Increased percentage
+          format: float
+        twct-reduced-percentage:
+          maxLength: 6
+          type: number
+          description: Reduced percentage
+          format: float
+
     MO_INP_CLTRL_VALUATION_DTLS_TO:
       type: object
       properties:
