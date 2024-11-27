@@ -15750,6 +15750,36 @@ components:
           type: number
           description: Stall Price
           format: float
+        twct-n-story-building:
+          maxLength: 3
+          type: number
+          description: n-story buliding
+          format: integer
+        twct-collateral-floor:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: 'Collateral Floor'
+        twct-override-reason:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: 'Override reason'
+        twct-building-area-with-stall:
+          maxLength: 17
+          type: number
+          description: Building area-with stall
+          format: float
+        twct-unit-price-reference:
+          maxLength: 17
+          type: number
+          description: Unit price - reference
+          format: float
+        twct-unit-price-presumption:
+          maxLength: 17
+          type: number
+          description: Unit price - presumption
+          format: float
     MO_INP_CLTRL_VALUATION_DTLS_TO:
       type: object
       properties:
