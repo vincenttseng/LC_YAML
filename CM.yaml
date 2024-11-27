@@ -15810,7 +15810,31 @@ components:
           type: number
           description: Reduced percentage
           format: float
-
+        twct-building-status:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'Possible values are:01-Owned02-Personal use03-Rent04-Empty House05-Warehouse06-Borrow to others for use07-Transfer in progress99-Others'
+        twct-stall-type:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'Possible values are:1-no parking space2-Ramp parking space3-Mechanical flat parking space4-Ramp mechanical parking space5-Mechanical parking space6-yard parking space'
+        twct-building-category:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'Possible values are:1. Apartment2. Elevator Building3. suite4. Villa5. Toutiancuo6. Building within a building7. Office8. Store9. factory building10. parking space11. Others12. Land'
+        twct-building-location:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'Possible values are:01-A level area02-B level area03-C level area04-D Class Area05-A+ level area'
+        twct-damaged-by-earthquake:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'twct-damaged-by-earthquake Allowed values:Yes:Yes,No:No;'
     MO_INP_CLTRL_VALUATION_DTLS_TO:
       type: object
       properties:
