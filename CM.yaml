@@ -19775,6 +19775,47 @@ components:
           type: string
           description: Border South
           example: string
+    MO_INP_CLTRL_BUILDING_DTLS_TO:
+      required:
+        - twct-building-serial-no
+      type: object
+      properties:
+        twct-building-serial-no:
+          maxLength: 9
+          type: number
+          description: Building serial no
+          format: int32
+        twct-building-purpose:
+          maxLength: 2
+          minLength: 0
+          type: string
+          description: 'Possible values are:01-Main building02-Balcony03-Flower stand04-Parking space05-Terrace06-Platform07-basement08-Postulate09-Others10-Rain cover'
+          example: '01'
+        twct-building-area:
+          maxLength: 17
+          type: number
+          description: Building area
+          format: float
+        twct-square-meter:
+          maxLength: 17
+          type: number
+          description: Square meter
+          format: float
+        twct-scope-of-ownership-denominator:
+          maxLength: 8
+          type: number
+          description: Scope of ownership denominator
+          format: int32
+        twct-scope-of-ownership-numerator:
+          maxLength: 8
+          type: number
+          description: Scope of ownership -numerator
+          format: int32
+        twct-ownership-portion-of-building-area:
+          maxLength: 17
+          type: number
+          description: Ownership portion of buildingarea
+          format: float
     MO_INP_CLTRL_OWNER_DTLS_TO:
       required:
         - collateral-owner-ref
@@ -20629,6 +20670,8 @@ components:
           $ref: '#/components/schemas/MO_INP_CLTRL_ADDITIONAL_DTLS_TO'
         location:
           $ref: '#/components/schemas/MO_INP_CLTRL_LOCATION_DTLS_TO'
+        building-details:
+          $ref: '#/components/schemas/MO_INP_CLTRL_BUILDING_DTLS_TO'
       description: Create Collateral Req
     MO_OUT_CTRL_ID_DTLS_TO:
       type: object
