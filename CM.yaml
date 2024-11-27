@@ -15711,6 +15711,45 @@ components:
           type: integer
           description: Agreement Validity Day
           format: int32
+        twct-purpose-of-building-registration:
+          maxLength: 2
+          minLength: 0
+          type: string
+          description: 'Possible values are:1-For home use2-Residential and commercial use3-Shop4-Industrial use5-Commercial use6-Other'
+        twct-land-city:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: Land City
+        twct-land-office:
+          maxLength: 30
+          minLength: 0
+          type: string
+          description: Land Office
+        twct-surrounding:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'Possible values are:1 Not filled in2 Residential area3 Business area (shop)4 Mixed residential and commercialarea5 Industrial Zone (Factory)'
+        twct-main-material:
+          maxLength: 2
+          minLength: 0
+          type: string
+          description: 'Possible values are:01~20,99For now, define as1: Material 12: Material 23: Material 3'
+        twct-building-finish-date:
+          type: string
+          description: Land Office
+          format: Date
+        twct-purchase-price:
+          maxLength: 17
+          type: number
+          description: Purchase Price
+          format: float
+        twct-stall-price:
+          maxLength: 17
+          type: number
+          description: Stall Price
+          format: float
     MO_INP_CLTRL_VALUATION_DTLS_TO:
       type: object
       properties:
