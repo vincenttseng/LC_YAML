@@ -15815,26 +15815,31 @@ components:
           minLength: 0
           type: string
           description: 'Possible values are:01-Owned02-Personal use03-Rent04-Empty House05-Warehouse06-Borrow to others for use07-Transfer in progress99-Others'
+          example: 'abc'
         twct-stall-type:
           maxLength: 3
           minLength: 0
           type: string
           description: 'Possible values are:1-no parking space2-Ramp parking space3-Mechanical flat parking space4-Ramp mechanical parking space5-Mechanical parking space6-yard parking space'
+          example: 'abc'
         twct-building-category:
           maxLength: 3
           minLength: 0
           type: string
           description: 'Possible values are:1. Apartment2. Elevator Building3. suite4. Villa5. Toutiancuo6. Building within a building7. Office8. Store9. factory building10. parking space11. Others12. Land'
+          example: 'abc'
         twct-building-location:
           maxLength: 3
           minLength: 0
           type: string
           description: 'Possible values are:01-A level area02-B level area03-C level area04-D Class Area05-A+ level area'
+          example: 'abc'
         twct-damaged-by-earthquake:
           maxLength: 3
           minLength: 0
           type: string
           description: 'twct-damaged-by-earthquake Allowed values:Yes:Yes,No:No;'
+          example: 'Yes'
     MO_INP_CLTRL_VALUATION_DTLS_TO:
       type: object
       properties:
@@ -25505,6 +25510,138 @@ components:
           type: integer
           description: Agreement Validity Day(Mandatory if Ownership type is Lease)
           format: int32
+        twct-purpose-of-building-registration:
+          maxLength: 2
+          minLength: 0
+          type: string
+          description: 'Possible values are:1-For home use2-Residential and commercial use3-Shop4-Industrial use5-Commercial use6-Other'
+          example: 'xx'
+        twct-land-city:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: 'Land City'
+        twct-land-office:
+          maxLength: 30
+          minLength: 0
+          type: string
+          description: 'Land Office'
+        twct-surrounding:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'Possible values are:1 Not filled in2 Residential area3 Business area (shop)4 Mixed residential and commercialarea5 Industrial Zone (Factory)'
+          example: 'abc'
+        twct-main-material:
+          maxLength: 2
+          minLength: 0
+          type: string
+          description: 'Possible values are:01~20,99For now, define as1: Material 12: Material 23: Material 3'
+          example: '01'
+        twct-building-finish-date:
+          type: string
+          description: 'Building finished date'
+          format: Date
+        twct-purchase-price:
+          maxLength: 17
+          type: number
+          description: 'Purchase Price'
+          format: float
+        twct-stall-price:
+          maxLength: 17
+          type: number
+          description: 'tall Price'
+          format: float
+        twct-n-story-building:
+          maxLength: 3
+          type: number
+          description: 'n-story buliding'
+          format: int32
+        twct-collateral-floor:
+          maxLength: 10
+          minLength: 0
+          type: string
+          description: 'Collateral Floor'
+        twct-override-reason:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: 'Override reason'
+        twct-building-area-with stall:
+          maxLength: 17
+          type: number
+          description: 'Building area-with stall'
+          format: float
+        twct-unit-price-reference:
+          maxLength: 17
+          type: number
+          description: 'Unit price - reference'
+          format: float
+        twct-unit-price-presumption:
+          maxLength: 17
+          type: number
+          description: 'Unit price - presumption'
+          format: float
+        twct-total-vat:
+          maxLength: 17
+          type: number
+          description: 'Total VAT'
+          format: float
+        wct-secured-loan-value:
+          maxLength: 17
+          type: number
+          description: 'Secured loan value'
+          format: float
+        twct-stall-area:
+          maxLength: 17
+          type: number
+          description: 'Stall area'
+          format: float
+        twct-net-loan-value-percentage:
+          maxLength: 5
+          type: number
+          description: 'Net loan value percentage'
+          format: int32
+        twct-increased-percentage:
+          maxLength: 5
+          type: number
+          description: 'Increased percentage'
+          format: int32
+        twct-reduced-percentage:
+          maxLength: 3
+          type: number
+          description: 'Reduced percentage'
+          format: int32    
+        twct-building-status:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'Possible values are:01-Owned02-Personal use03-Rent04-Empty House05-Warehouse06-Borrow to others for use07-Transfer in progress99-Others'
+          example: 'abc'
+        twct-stall-type:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'Possible values are:1-no parking space2-Ramp parking space3-Mechanical flat parking space4-Ramp mechanical parking space5-Mechanical parking space6-yard parking space'
+          example: 'abc'
+        twct-building-category:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'Possible values are:1. Apartment2. Elevator Building3. suite4. Villa5. Toutiancuo6. Building within a building7. Office8. Store9. factory building10. parking space11. Others12. Land'
+          example: 'abc'
+        twct-building-location:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'Possible values are:01-A level area02-B level area03-C level area04-D Class Area05-A+ level area'
+          example: 'abc'
+        twct-damaged-by-earthquake:
+          maxLength: 3
+          minLength: 0
+          type: string
+          description: 'twct-damaged-by-earthquake Allowed values:Yes:Yes,No:No;'
+          example: 'Yes'
       description: Property Details
     get-property-details-response:
       type: object
