@@ -15388,7 +15388,7 @@ paths:
   '/v2/collateral-management/collateral/{collateral-ref}/building-details':
     post:
       tags:
-        - serial number details
+        - collateral
       summary: Building serial number details
       description: Building serial number details
       parameters:
@@ -15585,7 +15585,7 @@ paths:
                 $ref: '#/components/schemas/api-messages'
     get:
       tags:
-        - serial number details
+        - collateral
       summary: Building serial number details
       description: Building serial number details
       parameters:
@@ -15772,6 +15772,205 @@ paths:
           schema:
             type: number
           description: PAGE_SIZE
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/get-building-serial-number-detail-response'
+                  - $ref: '#/components/schemas/api-messages'
+        '400':
+          description: INVALID INPUT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api-messages'
+        '500':
+          description: FAILURE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api-messages'
+  '/v2/collateral-management/collateral/{collateral-ref}/land-details':
+    post:
+      tags:
+        - collateral
+      summary: Maintain Land Serial Number Details
+      description: Maintain Land Serial Number Details
+      parameters:
+        - name: auth-token
+          in: header
+          description: Authentication token to validate the caller
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: access-token
+          in: header
+          description: Authorization token to validate the caller
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: initiating-system-id
+          in: header
+          description: Identifier for the initiating system
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: external-user-ref
+          in: header
+          description: Identifier for the external system user
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: user-id
+          in: header
+          description: Identifier for the BaNCS user
+          required: false
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: channel-type
+          in: header
+          description: >-
+            Identifier for the channel from where the transaction has originated
+            (Internet, Mobile, ATM, Branch Channel). 1:Web,
+            2:Mobile,3:ATM,4:Branch-Channel 
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: uuid
+          in: header
+          description: 'Unique identifier for the transaction, set by the invoking system'
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: uuid-seq-no
+          in: header
+          description: >-
+            Indicates the sequence in which the API is invoked under a single
+            UUID scope, set by the invoking system
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+          example: 1
+        - name: entity
+          in: header
+          description: Identifier for the entity under which the transaction is originated
+          required: true
+          schema:
+            maxLength: 15
+            minLength: 0
+            type: string
+          example: GBANKOU001
+        - name: language-code
+          in: header
+          description: >-
+            Language in which the message should be returned (Error or Success)
+            1:English(Default)
+          required: false
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: run-mode
+          in: header
+          description: >-
+            Indicates the execution context of API invocation, like
+            Online/Batch/SI. 1:Online, 2:Batch, 4:SI-Interface
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: branch-no
+          in: header
+          description: Identifier for transacting branch
+          required: false
+          schema:
+            maxLength: 15
+            minLength: 0
+            type: string
+        - name: service-mode
+          in: header
+          description: >-
+            Identifier for the mode of service to customer when initiated from
+            TCS BaNCS branch channel
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: api-version
+          in: header
+          description: Identifier for API version
+          required: false
+          schema:
+            type: integer
+            format: int32
+          example: 1
+        - name: internal-transaction-ref
+          in: header
+          description: >-
+            BaNCS internal reference number for the transaction. In the request,
+            the value will be blank. This will be generated by BaNCS and will be
+            sent as part of the response.
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: trace-id
+          in: header
+          description: Unique request identifier for distributed tracing
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: span-id
+          in: header
+          description: Unique identifier for the segment under a given trace id
+          required: false
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: im-req-id
+          in: header
+          description: >-
+            Unique identifier for Intermicroservice calls; will be used as an
+            idempotent key along with UUID; UUID_SEQ_NO
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: collateral-ref
+          in: path
+          required: true
+          schema:
+            type: string
+          description: COLLATERAL REF
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/maintain-land-serial-numberd-details-req'
+        required: true
       responses:
         '200':
           description: OK
@@ -24241,6 +24440,18 @@ components:
         building-details:
           $ref: '#/components/schemas/MO_COLLATERA_BUILDING_DETAILS_TO'
       description: Create Collatera Building Details Request
+    get-building-serial-number-detail-response:
+      type: object
+      properties:
+        building-details:
+          $ref: '#/components/schemas/MO_BUILDING_SERIAL_NUMBER_DETAIL_TO'
+      description: Create Collatera Building Details Request
+    maintain-land-serial-numberd-details-req:
+      type: object
+      properties:
+        building-details:
+          $ref: '#/components/schemas/MO_MAINTAIN-LAND-SERIAL-NUMBERD-DETAILS_TO'
+      description: Maintain Land Serial Numberd Dtails Request
     MO_OUT_CTRL_PROPERTY_SETUP_TO:
       type: object
       properties:
@@ -29995,6 +30206,127 @@ components:
           description: 'Ownership portion of buildingarea'
           format: float
       description: Create Collatera Building Details Request
+    MO_BUILDING_SERIAL_NUMBER_DETAIL_TO:
+      type: object
+      properties:
+        twct-building-serial-no:
+          maxLength: 9
+          type: number
+          format: int32
+          description: 'Building serial no'
+        twct-building-purpose:
+          maxLength: 2
+          type: string
+          description: 'Possible values are:01-Main building02-Balcony03-Flower stand04-Parking space05-Terrace06-Platform07-basement08-Postulate09-Others10-Rain cover'
+          example: '02'
+        twct-building-area:
+          maxLength: 17
+          type: number
+          description: 'Building area'
+          format: float
+        twct-square-meter:
+          maxLength: 17
+          type: number
+          description: 'Can be mapped to existing "square-meter-area *" field'
+          format: float
+        twct-scope-of-ownership-denominator:
+          maxLength: 8
+          type: number
+          description: 'Scope of ownership denominator'
+          format: int32
+        twct-scope-of-ownership-numerator:
+          maxLength: 8
+          type: number
+          description: 'Scope of ownership -numerator'
+          format: int32
+        twct-ownership-portion-of-building-area:
+          maxLength: 17
+          type: number
+          description: 'Ownership portion of buildingarea'
+          format: float
+      description: Create Collatera Building Details Request
+    MO_MAINTAIN-LAND-SERIAL-NUMBERD-DETAILS_TO:
+      type: object
+      properties:
+        twct-post-code:
+          maxLength: 35
+          minLength: 0
+          type: string
+          description: 'Post Code'
+        twct-subsection-code:
+          maxLength: 4
+          minLength: 0
+          type: string
+          description: 'Subsection code'
+        twct-land-section:
+          maxLength: 26
+          minLength: 0
+          type: string
+          description: 'Land section'
+        twct-land-compartment-1:
+          maxLength: 1
+          minLength: 0
+          type: string
+          description: 'Possible values are:A~ZFor now, define as below: 1: Option 12: Option 2'
+          example: 1
+        twct-land-compartment-2:
+          maxLength: 2
+          minLength: 0
+          type: string
+          description: 'Possible values are:A~ZFor now, define as below: 1: Option 12: Option 2'
+        twct-land-subsection:
+          maxLength: 26
+          minLength: 0
+          type: string
+          description: 'Land subsection'
+          example: 1
+        twct-announced-current-land-value:
+          maxLength: 17
+          type: number
+          description: 'Announced current land value'
+          format: float
+        twct-land-serial-no:
+          maxLength: 13
+          minLength: 0
+          type: string
+          description: 'Land serial no'
+        twct-YYYYMM-of-announcedcurrent-land-value:
+          maxLength: 6
+          type: number
+          description: 'Announced current land value'
+          format: int32
+        twct-total-area:
+          maxLength: 17
+          type: number
+          description: 'Total area'
+          format: float
+        twct-square-meter:
+          maxLength: 17
+          type: number
+          description: 'Square meter'
+          format: float
+        twct-scope-of-ownership-denominator:
+          maxLength: 8
+          type: number
+          description: 'Scope of ownership denominator'
+          format: int32
+        twct-scope-of-ownership-numerator:
+          maxLength: 8
+          type: number
+          description: 'Scope of ownership -numerator'
+          format: int32
+        twct-ownership-portion-of-building-area:
+          maxLength: 17
+          type: number
+          description: 'Ownership portion of land'
+          format: float
+        twct-land-category:
+          maxLength: 2
+          minLength: 0
+          type: string
+          description: 'Possible values are:01~1121~71For now, define as:1. Category 12. Category 2'
+          example: '12'
+      description: Maintain Land Serial Numberd Details Request
   links: {}
   callbacks: {}
 security: []
