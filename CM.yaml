@@ -24244,6 +24244,7 @@ components:
     MO_INP_MAINTAIN_GUARANTEE_TO:
       required:
         - requested-status
+        - twct-exposur-limit-id
       type: object
       properties:
         requested-status:
@@ -24266,6 +24267,11 @@ components:
             43:Rejected; 44:Released; 45:RepairAwaited; 46:ReschedPendngAuth;
             47:Rescinded; 48:Reversed; 49:RolloverMergeClosed; 50:Successful;
             51:WaitingForRate; 52:Writeoff
+          format: int32
+        twct-exposur-limit-id:
+          maxLength: 8
+          type: integer
+          description: Exposure limit id that must be taggedto the guarantee collateral
           format: int32
       description: Collateral Request
     maintain-guarantee-details-input:
