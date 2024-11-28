@@ -15551,11 +15551,17 @@ paths:
             type: integer
             format: int64
           example: 1
+        - name: collateral-ref
+          in: path
+          required: true
+          schema:
+            type: string
+          description: COLLATERAL REF
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/create-global_instance_linkage-req'
+              $ref: '#/components/schemas/create-collatera-building-details-req'
         required: true
       responses:
         '200':
@@ -24020,6 +24026,12 @@ components:
         collateral-property:
           $ref: '#/components/schemas/MO_GLOBAL_INSTANCE_LINKAGE_TO'
       description: Create GLOBAL INSTANCE LINKAGE Request
+    create-collatera-building-details-req:
+      type: object
+      properties:
+        building-details:
+          $ref: '#/components/schemas/MO_COLLATERA_BUILDING_DETAILS_TO'
+      description: Create Collatera Building Details Request
     MO_OUT_CTRL_PROPERTY_SETUP_TO:
       type: object
       properties:
@@ -29735,6 +29747,45 @@ components:
           maxLength: 2
           description: Currency of collateral valuation
       description: The initial request global_instance_linkage
+    MO_COLLATERA_BUILDING_DETAILS_TO:
+      type: object
+      properties:
+        twct-building-serial-no:
+          maxLength: 9
+          type: number
+          format: int32
+          description: 'Building serial no'
+        twct-building-purpose:
+          maxLength: 2
+          type: string
+          description: 'Possible values are:01-Main building02-Balcony03-Flower stand04-Parking space05-Terrace06-Platform07-basement08-Postulate09-Others10-Rain cover'
+          example: '02'
+        twct-building-area:
+          maxLength: 17
+          type: number
+          description: Building area
+          format: float
+        twct-square-meter:
+          maxLength: 17
+          type: number
+          description: Can be mapped to existing "square-meter-area *" field'
+          format: float
+        twct-scope-of-ownership-denominator:
+          maxLength: 8
+          type: number
+          description: 'Scope of ownership denominator'
+          format: int32
+        twct-scope-of-ownership-numerator:
+          maxLength: 8
+          type: number
+          description: 'Scope of ownership -numerator'
+          format: int32
+        twct-ownership-portion-of-building-area:
+          maxLength: 17
+          type: number
+          description: 'Ownership portion of buildingarea'
+          format: float
+      description: Create Collatera Building Details Request
   links: {}
   callbacks: {}
 security: []
