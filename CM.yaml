@@ -21132,6 +21132,14 @@ components:
           type: number
           description: Rental
           format: float
+    MO_INP_CLTRL_EXPOSURE_TO:
+      type: object
+      properties:
+        twct-exposur-limit-id:
+          maxLength: 8
+          type: number
+          description: 'Exposure limit id that must be taggedto the guarantee collateral'
+          format: int32
     MO_INP_CLTRL_OWNER_DTLS_TO:
       required:
         - collateral-owner-ref
@@ -21992,6 +22000,8 @@ components:
           $ref: '#/components/schemas/MO_INP_CLTRL_LAND-DETAILS_TO'
         lease-details:
           $ref: '#/components/schemas/MO_INP_CLTRL_LEASE-DETAILS_TO'
+        exposure:
+          $ref: '#/components/schemas/MO_INP_CLTRL_EXPOSURE_TO'
       description: Create Collateral Req
     MO_OUT_CTRL_ID_DTLS_TO:
       type: object
@@ -25520,6 +25530,7 @@ components:
     MO_INP_CLTRL_DISCHARGE_TO:
       required:
         - requested-status
+        - twct-exposur-limit-id
       type: object
       properties:
         requested-status:
@@ -25542,6 +25553,11 @@ components:
             43:Rejected; 44:Released; 45:RepairAwaited; 46:ReschedPendngAuth;
             47:Rescinded; 48:Reversed; 49:RolloverMergeClosed; 50:Successful;
             51:WaitingForRate; 52:Writeoff
+          format: int32
+        twct-exposur-limit-id:
+          maxLength: 8
+          type: number
+          description: 'Exposure limit id that must be taggedto the guarantee collateral'
           format: int32
     discharge-collateral-req:
       type: object
@@ -28298,6 +28314,8 @@ components:
           format: int32
       description: Insurance History Response
     MO_OUT_GET_GUARANTEE_DETAILS_TO:
+      required:
+        - twct-exposur-limit-id
       type: object
       properties:
         cltrl-ref:
@@ -28547,6 +28565,11 @@ components:
           maxLength: 9
           type: integer
           description: Number Of Share Pledge
+          format: int32
+        twct-exposur-limit-id:
+          maxLength: 8
+          type: number
+          description: 'Exposure limit id that must be taggedto the guarantee collateral'
           format: int32
       description: Guarantee Details
     get-guarantee-details-response:
