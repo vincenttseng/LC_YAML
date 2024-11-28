@@ -21722,6 +21722,8 @@ components:
           type: number
           description: Assigned Value
     MO_INP_SHARES_AND_BONDS_TO:
+      required:
+        - twct-share-bond-detail-capture
       type: object
       properties:
         script:
@@ -21811,6 +21813,21 @@ components:
           type: string
           description: 'Depository Bank Name '
           example: string
+        twct-share-bond-detail-capture:
+          maxLength: 3
+          type: string
+          description: 'twct-share-bond-detail-capture Allowed values:Yes:Yes,No:No;'
+          example: 'Yes'
+        twct-total-market-value-of-collateral:
+          maxLength: 21
+          type: number
+          description: 'Total market value of the collateral.'
+          format: float
+        twct-total-collateral-to-value:
+          maxLength: 21
+          type: number
+          description: 'The total collateral to value amount or the lendable amount of the collateral record.'
+          format: float
     MO_INP_VAL_DOC_DTLS_TO:
       type: object
       properties:
@@ -22275,6 +22292,7 @@ components:
         - unit-market-value
         - unit-market-value-currency
         - units
+        - twct-share-bond-detail-capture 
       type: object
       properties:
         script-ref:
@@ -22377,6 +22395,21 @@ components:
             7:Blank; 1:Created; 5:Deleted; 2:Modified; 6:New; 4:NewRecord; 3:No
             Change; 8:NoRecord
           format: int32
+        twct-share-bond-detail-capture:
+          maxLength: 3
+          type: string
+          description: 'twct-share-bond-detail-capture Allowed values:Yes:Yes,No:No;'
+          example: 'Yes'
+        twct-total-market-value-of-collateral:
+          maxLength: 21
+          type: number
+          description: 'Total market value of the collateral.'
+          format: float
+        twct-total-collateral-to-value:
+          maxLength: 21
+          type: number
+          description: 'The total collateral to value amount or the lendable amount of the collateral record.'
+          format: float
     MO_INP_MAINTAIN_SHARE_BOND_TO:
       required:
         - requested-status
@@ -26686,6 +26719,8 @@ components:
           $ref: '#/components/schemas/api-messages'
       description: Share and Bond Return
     MO_OUT_GET_SHARE_BOND_DTLS_TO:
+      required:
+        - twct-share-bond-detail-capture
       type: object
       properties:
         ou-id:
@@ -26791,6 +26826,21 @@ components:
           type: integer
           description: Shares Bond Ref
           format: int32
+        twct-share-bond-detail-capture:
+          maxLength: 3
+          type: string
+          description: 'twct-share-bond-detail-capture Allowed values:Yes:Yes,No:No;'
+          example: 'Yes'
+        twct-total-market-value-of-collateral:
+          maxLength: 21
+          type: number
+          description: 'Total market value of the collateral.'
+          format: float
+        twct-total-collateral-to-value:
+          maxLength: 21
+          type: number
+          description: 'The total collateral to value amount or the lendable amount of the collateral record.'
+          format: float
       description: Shares And Bonds
     MO_GET_OUT_PROPTY_DTLS_TO:
       type: object
