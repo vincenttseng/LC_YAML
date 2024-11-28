@@ -21240,6 +21240,10 @@ components:
           type: number
           description: 'New Field to capture the collateral IDthat shares the insurance policy.MIS Field'
           format: int32
+        twct-policy-type:
+          maxLength: 2
+          type: string
+          description: "'Indicates the type of policy like fireinsurance, earthquake insurance, all perilinsurance etc.Mapped to new system code‘d_CollInsPolicyType’"
     MO_INP_CLTRL_INVOICES_TO:
       type: object
       properties:
