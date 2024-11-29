@@ -21244,6 +21244,11 @@ components:
           maxLength: 2
           type: string
           description: "'Indicates the type of policy like fireinsurance, earthquake insurance, all perilinsurance etc.Mapped to new system code‘d_CollInsPolicyType’"
+        twct-premium-deduction-account:
+          maxLength: 19
+          type: number
+          description: 'CASA account from which the premiummust be deducted, wherever applicable.The mechanism for using this accountnumber for premium deduction in a file-based interface during insurance policyrenewal will be handled in the interfacesstream.Note that there will be no systemvalidation that the CIFs of the CASAaccount and the collateral are the same.'
+          format: int32
     MO_INP_CLTRL_INVOICES_TO:
       type: object
       properties:
