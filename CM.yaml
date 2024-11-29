@@ -20389,6 +20389,10 @@ components:
             47:Rescinded; 48:Reversed; 49:RolloverMergeClosed; 50:Successful;
             51:WaitingForRate; 52:Writeoff
           format: int32
+        twct-personal-guarantee:
+          maxLength: 1
+          type: number
+          description: 'Indicates whether thecollaterals created will be of a‘Personal Guarantee’ type ornot.Can be mapped to“d_YesNoFlg” with valid valuesas “Yes” and “No”.No: default value. Indicatesthat collaterals will not be of aPersonal Guarantee type.Yes: Indicates that thecollaterals created will be ofthea personal guarantee type'
       description: Modify Collateral Parameter Request
     collateral-parameter:
       type: object
@@ -25871,6 +25875,10 @@ components:
             47:Rescinded; 48:Reversed; 49:RolloverMergeClosed; 50:Successful;
             51:WaitingForRate; 52:Writeoff
           format: int32
+        twct-personal-guarantee:
+          maxLength: 1
+          type: number
+          description: 'Indicates whether thecollaterals created will be of a‘Personal Guarantee’ type ornot.Can be mapped to“d_YesNoFlg” with valid valuesas “Yes” and “No”.No: default value. Indicatesthat collaterals will not be of aPersonal Guarantee type.Yes: Indicates that thecollaterals created will be ofthea personal guarantee type'
     create-collateral-parameter-request:
       type: object
       properties:
@@ -30609,6 +30617,10 @@ components:
             47:Rescinded; 48:Reversed; 49:RolloverMergeClosed; 50:Successful;
             51:WaitingForRate; 52:Writeoff
           format: int32
+        twct-personal-guarantee:
+          maxLength: 1
+          type: number
+          description: 'Indicates whether thecollaterals created will be of a‘Personal Guarantee’ type ornot.Can be mapped to“d_YesNoFlg” with valid valuesas “Yes” and “No”.No: default value. Indicatesthat collaterals will not be of aPersonal Guarantee type.Yes: Indicates that thecollaterals created will be ofthea personal guarantee type'
     get-collateral-parameter-details-response:
       type: object
       properties:
