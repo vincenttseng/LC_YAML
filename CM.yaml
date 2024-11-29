@@ -13245,6 +13245,20 @@ paths:
           schema:
             type: integer
             format: int32
+        - name: twct-third-party-collaterals-only
+          in: query
+          description: Existing system code“d_YesNoFlg” can be usedwith valid values “Yes”and “No”
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: twct-exclude-personal-guarantees
+          in: query
+          description: 'Existing system code“d_YesNoFlg” can be usedwith valid values “Yes”and “No”.Yes = do not includeCollateral type =“Guarantee” collateralswhere the collateral type– group – subgroupparameter setup has“personal guarantee” flagset to “Yes”.Spaces / No = personalguarantee filtration is notrequired. This is thedefault value.O Varchar2(1)It is expected that guarantors / personal guarantee collaterals will be setup under aunique Collateral Type – Collateral Group – Collateral Subgroup combination.For example:Collateral Type = GuaranteeCollateral Group = Personal and Other GuaranteesCollateral Subgroup = Personal GuaranteeFor this combination in parameters, the “Personal Guarantee” field (#1) will be kept as“Yes”.A specific search using the above attributes will only return personal guaranteecollaterals of the customer.A generic search using the customer number will return all collaterals of the customer,including personal guarantees.A generic search using the customer number but with “exclude personal guarantee =yes” will return all collaterals of the customer except the “personal guarantee” ones.'
+          required: false
+          schema:
+            type: integer
+            format: int32
       responses:
         '200':
           description: OK
@@ -24263,6 +24277,10 @@ components:
             7:Blank; 1:Created; 5:Deleted; 2:Modified; 6:New; 4:NewRecord; 3:No
             Change; 8:NoRecord
           format: int32
+        twct-guarantor-identification-type:
+          maxLength: 2
+          type: string
+          description: 'User input Guarantoridentification Type'
       description: Guarantee Details Request
     MO_INP_MAINTAIN_GUARANTEE_TO:
       required:
@@ -29111,6 +29129,10 @@ components:
           type: number
           description: 'Exposure limit id that must be taggedto the guarantee collateral'
           format: int32
+        twct-guarantor-identification-type:
+          maxLength: 2
+          type: string
+          description: 'User input Guarantoridentification Type'
       description: Guarantee Details
     get-guarantee-details-response:
       type: object
