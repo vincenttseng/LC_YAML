@@ -30363,6 +30363,10 @@ components:
             47:Rescinded; 48:Reversed; 49:RolloverMergeClosed; 50:Successful;
             51:WaitingForRate; 52:Writeoff
           format: int32
+        twct-personal-guarantee:
+          maxLength: 1
+          type: number
+          description: 'Indicates whether thecollaterals created will be of a‘Personal Guarantee’ type ornot.Can be mapped to“d_YesNoFlg” with valid valuesas “Yes” and “No”.No: default value. Indicatesthat collaterals will not be of aPersonal Guarantee type.Yes: Indicates that thecollaterals created will be ofthea personal guarantee type'
       description: Collateral Parameter
     MO_OUT_GET_COLLATERAL_PARAM_TO:
       type: object
