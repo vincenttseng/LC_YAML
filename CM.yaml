@@ -18273,6 +18273,10 @@ components:
             7:Blank; 1:Created; 5:Deleted; 2:Modified; 6:New; 4:NewRecord; 3:No
             Change; 8:NoRecord
           format: int32
+        twct-guarantor-identification-type:
+          maxLength: 2
+          type: string
+          description: 'User input Guarantoridentification Type'
     MO_INP_MAINTAIN_INVOICES_TO:
       type: object
       properties:
@@ -21092,6 +21096,12 @@ components:
           type: integer
           description: Number of Share Pledge
           format: int32
+        twct-guarantor-identification-type:
+          maxLength: 2
+          minLength: 0
+          type: string
+          description: 'User input Guarantoridentification Type'
+          example: string
     MO_INP_CLTRL_INSURANCE_DTLS_TO:
       type: object
       properties:
